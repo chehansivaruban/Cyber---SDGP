@@ -13,40 +13,45 @@ app = Flask(__name__)
 api = Api(app)
 
 response = ''
-
-class HelloWorld(Resource):
-    def post(self):
-        request_data = request.data
-        request_data = json.loads(request_data.decode('utf-8'))
-        name = request_data['name']
-        response = f'HI{name}! this is python'
-
-    def get(self):
-        return {'name': response}
-
-class Multi(Resource):
-    def get(self,num):
-        return {'result':num*10}
-
-api.add_resource(HelloWorld,'/')
-api.add_resource(Multi,'/multi/<int:num>')
-
-
-
-
-
-# @app.route('/api', methods=['GET', 'POST'])
-# def hello_world():
-#     global response
 #
-#     if request.method == 'POST':
+# class HelloWorld(Resource):
+#     def post(self):
 #         request_data = request.data
 #         request_data = json.loads(request_data.decode('utf-8'))
 #         name = request_data['name']
-#         response = f'HI{name}! this is python'
-#         return " "
-#     else:
-#         return jsonify({'name': response})
+#         date = request_data['date']
+#         time = request_data['time']
+#         response = f'HI{time}! this is python'
+#         return response
+#
+#     def get(self):
+#         return {'name': response}
+#
+# class Multi(Resource):
+#     def get(self,num):
+#         return {'result':num*10}
+#
+# api.add_resource(HelloWorld,'/api')
+# api.add_resource(Multi,'/multi/<int:num>')
+
+
+
+
+
+@app.route('/api', methods=['GET', 'POST'])
+def hello_world():
+    global response
+
+    if request.method == 'POST':
+        request_data = request.data
+        request_data = json.loads(request_data.decode('utf-8'))
+        name = request_data['name']
+        date = request_data['date']
+        time = request_data['time']
+        response = f'HI{name}! this is python'
+        return " "
+    else:
+        return jsonify({'name': response})
 
 
 if __name__ == '__main__':
