@@ -35,11 +35,6 @@ response = ''
 #
 # api.add_resource(HelloWorld,'/api')
 # api.add_resource(Multi,'/multi/<int:num>')
-
-
-
-
-
 @app.route('/api', methods=['GET', 'POST'])
 def hello_world():
     global response
