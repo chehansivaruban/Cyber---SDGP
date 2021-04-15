@@ -1,8 +1,11 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
+import 'package:date_format/date_format.dart';
+import 'package:intl/intl.dart';
 
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -17,9 +20,17 @@ class With_Shading extends StatefulWidget {
 
 class _With_ShadingState extends State<With_Shading> {
 
-  
-List<Marker> solarpanel_LatLan_list = [];
-List<Marker> object_list = [];
+  DateTime _chosenDateTime = DateTime.now();
+
+  DateTime date = DateTime.now();
+  static final DateFormat formatter = DateFormat('yyyy-MM-dd');
+   static final DateFormat timeFormatter = DateFormat.Hm();
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now();
+
+
+  List<Marker> solarpanel_LatLan_list = [];
+  List<Marker> object_list = [];
   bool solar_panel_button = true ;
 
 
@@ -160,6 +171,7 @@ List<Marker> object_list = [];
 
     bool withOrWithoutShadingBtn = widget.withShading;
     final TextEditingController _textEditingController = TextEditingController();
+    
 
     return Scaffold(
      // appBar: AppBar(),
@@ -293,6 +305,35 @@ List<Marker> object_list = [];
                           ),
 
                           //add date and time gap 
+                          Container(
+                            
+                            child: Column(
+                              children: <Widget>[
+                                // getDatePicker(),
+                                // SizedBox(height: 50,),
+                                ElevatedButton(onPressed: (){
+                                  _showDatePicker(context,constraints);
+                                  }, child: Text('Date'),
+                                ),
+                               
+                                ElevatedButton(onPressed: (){
+                                  _showTimePicker(context,constraints,startTime);  
+                                  }, child: Text('Time'),
+                                ),
+
+                                ElevatedButton(onPressed: (){
+                                  _showTimePicker(context,constraints,endTime);  
+                                  }, child: Text('End Time'),
+                                )
+
+                                
+                                
+                                 
+                              ],
+                            )
+                          ),
+                          
+                          
 
                         ]
                       )
@@ -306,11 +347,109 @@ List<Marker> object_list = [];
       ),
     ); 
 
-
+  
 
     
   }
 
+// Widget getTimePicker () => CupertinoDatePicker(
+//                               initialDateTime: date,
+//                               mode: CupertinoDatePickerMode.time,
+//                               onDateTimeChanged: (date) =>
+//                               setState(() => this.date = (date)),
+//                             );
 
+
+//   Widget getDatePicker () => CupertinoDatePicker(
+//                               initialDateTime: startTime,
+//                               mode: CupertinoDatePickerMode.date,
+//                               onDateTimeChanged: (startTime) =>
+//                               setState(() => this.startTime = startTime),
+//                             );
+   
+  void _showDatePicker(ctx,BoxConstraints constraints) {
+    // showCupertinoModalPopup is a built-in function of the cupertino library
+    showCupertinoModalPopup(
+        context: ctx,
+        builder: (_) => Container(
+          height: constraints.maxHeight*0.4 ,
+          color: Color.fromARGB(255, 255, 255, 255),
+          child: Column(
+            children: [
+              Container(
+                height: constraints.maxHeight*0.3,
+                child: CupertinoDatePicker(
+                    initialDateTime: DateTime.now(),
+                     mode: CupertinoDatePickerMode.date,
+                    onDateTimeChanged: (val) {
+                      setState(() {
+                        _chosenDateTime = val;
+                      });
+                    }),
+              ),
+
+              // Close the modal
+              Container(
+                height: 50,
+                child: CupertinoButton(
+                  color: Colors.red,
+                  child: Text('Select'),                
+                    onPressed: () {
+                        final String formatted = formatter.format(_chosenDateTime);
+                        print(formatted);
+                        Navigator.of(ctx).pop();
+                    } 
+                ),
+              )
+              
+            ],
+          ),
+        ));
+
+        
+  }
+
+   void _showTimePicker(ctx,BoxConstraints constraints,DateTime time) {
+    // showCupertinoModalPopup is a built-in function of the cupertino library
+    showCupertinoModalPopup(
+        context: ctx,
+        builder: (_) => Container(
+          height: constraints.maxHeight*0.4 ,
+          color: Color.fromARGB(255, 255, 255, 255),
+          child: Column(
+            children: [
+              Container(
+                height: constraints.maxHeight*0.3,
+                child: CupertinoDatePicker(
+                    initialDateTime: DateTime.now(),
+                     mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (val) {
+                      setState(() {
+                        time = val;
+                      });
+                    }),
+              ),
+
+              // Close the modal
+              Container(
+                height: 50,
+                child: CupertinoButton(
+                  color: Colors.red,
+                  child: Text('Select'),                
+                    onPressed: () {
+                      
+                        final String formatted = timeFormatter.format(time);
+                        print(formatted);
+                        Navigator.of(ctx).pop();
+                    } 
+                ),
+              )
+              
+            ],
+          ),
+        ));
+
+        
+  }
   
 }

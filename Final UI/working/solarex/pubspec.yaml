@@ -47,6 +47,7 @@ dependencies:
 
   provider: 
   flutter_datetime_picker:
+  date_format:
 
 
 
