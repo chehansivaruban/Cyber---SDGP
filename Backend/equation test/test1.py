@@ -81,13 +81,21 @@ for x in cordinates:
     #lon2 = cordinates[x][1]
 
 print(lat1)'''
+cordinates = [(6.809394580706211, 79.92064782328283), (6.795789340844343, 79.94080492622855), (6.780275490642937, 79.93703636735303), (6.801908856122825, 79.91689147646231)]
 
-lat1 = float(6.800004211518115)
-lat2 = float(6.800084858068125)
-lat3 = float(6.79982501408799)
-lon1 = float(79.92120970395462)
-lon2 = float(79.92163862107593)
-lon3 = float(79.92125024607584)
+lat1 = cordinates[0]
+lat2 = cordinates[2]
+lat3 = cordinates[4]
+lon1 = cordinates[1]
+lon2 = cordinates[3]
+lon3 = cordinates[5 ]
+
+for i in range(len(cordinates)):
+    print(i)
+
+
+
+
 
 
 R = float(6371e3)  #metres
