@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>714974753473-8u6lajd2k28qkgj6rj76oo1nbjtnr39c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.714974753473-8u6lajd2k28qkgj6rj76oo1nbjtnr39c</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>714974753473-enqfrm7crosm9t6im3pqefhvant4jde6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAhjl4m6oQ-Je45W4iB2RNJKKq2jR_QDXQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>714974753473</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.solarex</string>
+	<key>PROJECT_ID</key>
+	<string>solarex-auth</string>
+	<key>STORAGE_BUCKET</key>
+	<string>solarex-auth.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:714974753473:ios:2647803d20e72a6ce4da40</string>
+</dict>
+</plist>
