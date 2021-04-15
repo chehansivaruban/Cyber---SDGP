@@ -4,6 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
 class With_Shading extends StatefulWidget {
   final bool withShading;
   With_Shading(this.withShading);
@@ -152,150 +154,163 @@ List<Marker> object_list = [];
 //////////////////////////////////////////////////////////////
 
 
+
   @override
   Widget build(BuildContext context) {
 
     bool withOrWithoutShadingBtn = widget.withShading;
+    final TextEditingController _textEditingController = TextEditingController();
 
     return Scaffold(
-      appBar:AppBar(title: Text('SolareX'),) ,
-
-        body: SingleChildScrollView(
-        child: Stack(
-
-          children :<Widget>[
-            Align(
-              alignment: Alignment.center,
+     // appBar: AppBar(),
+      body: Column(
+        children: <Widget>[
+          Flexible(
+            child:FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 1.0,
               child: Container(
-                  margin: const EdgeInsets.only(top: 50.0),
-                  width: 400,
-                  height: 400,
-                  child: Center(
-                    child:Scaffold(
+                color: Colors.amber,
+                child: LayoutBuilder(
+                  builder: (context, constraints){
+                    final height = constraints.maxHeight - kToolbarHeight;
+                    final width = constraints.maxWidth;
 
-                        body: GoogleMap(
-                          mapType: MapType.hybrid,
-                          initialCameraPosition: _startCamPosition,
-                          onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                          },
-                        onTap: _check_location_type(),
-                        markers: Set.from(solarpanel_LatLan_list),
-
-                        ),
-                      floatingActionButton: Container(
-                        margin: const EdgeInsets.only(right: 50.0),
-                        width: 50.0,
-                        height: 50.0,
-                        child: FloatingActionButton(
-                          onPressed: _goToCurrentLocation,
-                            child: Image.asset('images/gps.png'),
-                        ),
-                      )
-                  ),
-
-
-
-
-                  )
-              ),
-            ),
-
-            Container(
-                margin: const EdgeInsets.only(top: 470.0),
-                height: 50,
-                
-
-                child: Row(
-                children: <Widget>[
-
-                  Container(
-                    margin: const EdgeInsets.only(left: 10.0,right: 5.0),
-                   
-
-                    child:ElevatedButton(
-                      onPressed: () {
-                        solar_panel_button = true;
-                       },//this
-                      child: Row(
-                      
-
+                    return SingleChildScrollView(
+                      child:Column(
                         children: <Widget>[
-                          Container(
-                            child: !widget.withShading ? Container(
-                              width: 340,
-                  
-                              child:  Column(
-                                children: <Widget>[
-
-                                    Image.asset('images/roof.png'),
-                                    Text('Add Solar Panel Location')
-
-                                ],
-                                )
-                            ):Container(
-                              width: 160.0,
-                              child:  Column(
-                                children: <Widget>[
-
-                                    Image.asset('images/roof.png'),
-                                    Text('Add Solar Panel Location')
-
-                                ],
-                                )
-                            ),
-                          )
-                        
-
-                        
-                          
-                        ],
-                        
-                      )
-                    ),
-                  ),
-
-                  Container(
-                   
-                    child: !widget.withShading ? null : ElevatedButton(
-                      onPressed: () {
-                        solar_panel_button = false;
-                      },
-                      child:  Container(
-                         width: 150.0,
-                        child: Column(
-                        children: <Widget>[
-                          Image.asset('images/tree.png'),
-                          Text('Add Shading Objects')
-
-                        ],
-                      )
                        
+                          Container(
+                            margin: EdgeInsets.only(top: kToolbarHeight),
+                            height: constraints.maxWidth*0.96,
+                            width: constraints.maxWidth*0.96,
+                            //color: Colors.red,
+                            child: Card(
+                            
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => With_Shading(true)));
+                                },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        height: constraints.maxWidth*0.9378,
+                                        width: constraints.maxWidth*0.96,
+                                        child: GoogleMap(
+                                          mapType: MapType.hybrid,
+                                          initialCameraPosition: _startCamPosition,
+                                          onMapCreated: (GoogleMapController controller) {
+                                            _controller.complete(controller);
+                                          },
+                                          onTap: _check_location_type(),
+                                          markers: Set.from(solarpanel_LatLan_list),
+                                        ),
+                                      ),
 
+                              
+                                      Container(
+                                        margin:EdgeInsets.only(left:width*0.65,top: width*0.78),
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: FloatingActionButton(
+                                          onPressed: _goToCurrentLocation,
+                                          child: Image.asset('images/gps.png'),
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                ],
+                              ),
+                            )
+                            )
+                          ),
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(left: 10.0,right: 5.0),                  
+                                  child:ElevatedButton(
+                                    onPressed: () {
+                                      solar_panel_button = true;
+                                    },//this
+                                  child: Row(                      
+                                    children: <Widget>[
+                                      Container(
+                                        child: !widget.withShading ? Container(
+                                          width: width*0.861,                
+                                          child:  Column(
+                                            children: <Widget>[
+                                              Image.asset('images/roof.png'),
+                                              Text('Add Solar Panel Location', 
+                                              style: TextStyle( fontSize: width*0.035)
+                                              ,),
+                                              SizedBox(height: 6)
+                                            ],
+                                          )
+                                        ):Container(
+                                            width: width*0.44,
+                                            child:  Column(
+                                              children: <Widget>[
+                                                Image.asset('images/roof.png'),
+                                                Text('Add Solar Panel Location', 
+                                                style: TextStyle( fontSize: width*0.035)
+                                                ,),
+                                                SizedBox(height: 6)
+                                              ],
+                                            )
+                                          ),
+                                      ),
+                                      
+                                    ],
+                                  )
+                                ),
+                                ),
+                                Container(                  
+                                  child: !widget.withShading ? null : ElevatedButton(
+                                    onPressed: () {
+                                      solar_panel_button = false;
+                                    },
+                                    child:  Container(
+                                      width: width*0.334,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Image.asset('images/tree.png'),
+                                          Text('Add Shading Objects', 
+                                                style: TextStyle( fontSize: width*0.035)
+                                          ),
+                                          SizedBox(height: 6)
+                                        ],
+                                      )
+                                    )
+                                  ),
+                                )
+                              ],
+                            )
+                          ),
+
+                          //add date and time gap 
+
+                        ]
                       )
-                    ),
-                  ),
-                  
-                  
-                ]
-
-
-              )
-            ),
-            Container(
-                   child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter a search term'
-                    ),
-                  )
+                    ); 
+                  },
+                ),
+              ) 
             )
+          )
+        ],
+      ),
+    ); 
 
-            
-            
-          ]
-          ),
-        )
-    );
+
+
+    
   }
+
+
+  
 }
