@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
-import 'package:date_format/date_format.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
+
 import 'package:intl/intl.dart';
 
-//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class With_Shading extends StatefulWidget {
   final bool withShading;
@@ -291,9 +292,12 @@ class _With_ShadingState extends State<With_Shading> {
                                       child: Column(
                                         children: <Widget>[
                                           Image.asset('images/tree.png'),
-                                          Text('Add Shading Objects', 
-                                                style: TextStyle( fontSize: width*0.035)
+                                          AutoSizeText(
+                                            'Add Shading Objects', 
+                                                style: TextStyle( fontSize: width*0.035),
+                                                maxLines: 1,
                                           ),
+                                          
                                           SizedBox(height: 6)
                                         ],
                                       )
@@ -322,7 +326,7 @@ class _With_ShadingState extends State<With_Shading> {
                                 ),
 
                                 ElevatedButton(onPressed: (){
-                                  _showTimePicker(context,constraints,endTime);  
+                                  _showTimePicker(context,constraints,endTime); 
                                   }, child: Text('End Time'),
                                 )
 
@@ -350,25 +354,9 @@ class _With_ShadingState extends State<With_Shading> {
   
 
     
-  }
-
-// Widget getTimePicker () => CupertinoDatePicker(
-//                               initialDateTime: date,
-//                               mode: CupertinoDatePickerMode.time,
-//                               onDateTimeChanged: (date) =>
-//                               setState(() => this.date = (date)),
-//                             );
-
-
-//   Widget getDatePicker () => CupertinoDatePicker(
-//                               initialDateTime: startTime,
-//                               mode: CupertinoDatePickerMode.date,
-//                               onDateTimeChanged: (startTime) =>
-//                               setState(() => this.startTime = startTime),
-//                             );
+  }             
    
   void _showDatePicker(ctx,BoxConstraints constraints) {
-    // showCupertinoModalPopup is a built-in function of the cupertino library
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
@@ -451,5 +439,7 @@ class _With_ShadingState extends State<With_Shading> {
 
         
   }
+
+
   
 }
