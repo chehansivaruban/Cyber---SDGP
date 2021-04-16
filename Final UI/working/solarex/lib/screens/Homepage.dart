@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
                             child: InkWell(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => With_Shading(true)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => WithShading(true)));
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
                             child: InkWell(
                               onTap: (){
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) => With_Shading(false)));
+                                 Navigator.push(context, MaterialPageRoute(builder: (context) => WithShading(false)));
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,

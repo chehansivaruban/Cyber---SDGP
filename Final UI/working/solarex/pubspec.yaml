@@ -37,7 +37,8 @@ dependencies:
   google_sign_in: 
   flutter_signin_button: 
   cloud_firestore: 
-  firebase_storage: 
+  firebase_storage:
+  http: 
 
   font_awesome_flutter: 
 

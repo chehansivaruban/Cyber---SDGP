@@ -1,37 +1,47 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:http/http.dart' as http;
+
 
 
 import 'package:intl/intl.dart';
 
 
-class With_Shading extends StatefulWidget {
+class WithShading extends StatefulWidget {
   final bool withShading;
-  With_Shading(this.withShading);
+  WithShading(this.withShading);
   
   @override
-  _With_ShadingState createState() => _With_ShadingState();
+  _WithShadingState createState() => _WithShadingState();
 
 }
 
-class _With_ShadingState extends State<With_Shading> {
+class _WithShadingState extends State<WithShading> {
 
   DateTime _chosenDateTime = DateTime.now();
 
   DateTime date = DateTime.now();
   static final DateFormat formatter = DateFormat('yyyy-MM-dd');
-   static final DateFormat timeFormatter = DateFormat.Hm();
+  static final DateFormat timeFormatter = DateFormat.Hms();
+  String formattedEndTime = "00:00:00";
+  String formattedStartTime = "00:00:00";
+  String formattedDate = "0000-00-00";
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
 
+  bool startTimeClicked = false;
+  bool endTimeClicked = false;
 
-  List<Marker> solarpanel_LatLan_list = [];
-  List<Marker> object_list = [];
+
+  List<Marker> solarpanelLatLanList = [];
+  List<Marker> objectList = [];
   bool solar_panel_button = true ;
 
 
@@ -46,8 +56,8 @@ class _With_ShadingState extends State<With_Shading> {
     print(onTap_LatLang);
     setState(() {
      // with_shading_solarpanel_list = [];
-     if(solarpanel_LatLan_list.length < 4){
-       solarpanel_LatLan_list.add(
+     if(solarpanelLatLanList.length < 4){
+       solarpanelLatLanList.add(
         Marker(
           markerId: MarkerId(onTap_LatLang.toString()),
           position: onTap_LatLang,
@@ -68,10 +78,10 @@ class _With_ShadingState extends State<With_Shading> {
 
 
   _remove_marker_solar_pannel(String latlang){
-    for(Marker marker in solarpanel_LatLan_list){
+    for(Marker marker in solarpanelLatLanList){
       print('working1');
       if(marker.markerId.toString() == latlang){
-        solarpanel_LatLan_list.remove(marker);
+        solarpanelLatLanList.remove(marker);
         print('Removed location');
       }
     }
@@ -81,7 +91,7 @@ class _With_ShadingState extends State<With_Shading> {
     print(onTap_LatLang);
     setState(() {
       // with_shading_solarpanel_list = [];
-      solarpanel_LatLan_list.add(
+      solarpanelLatLanList.add(
           Marker(
               markerId: MarkerId(onTap_LatLang.toString()),
               position: onTap_LatLang,
@@ -163,6 +173,20 @@ class _With_ShadingState extends State<With_Shading> {
     controller.animateCamera(CameraUpdate.newCameraPosition(_currentLocationCam));
   }
 
+//////////////////////////////////////////////////////////////API
+ Future<http.Response> calculate() {
+  return http.post(
+    Uri.https('cybersolarex.herokuapp.com','//api'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+       "date": formattedDate,
+       "time": formattedStartTime
+    }),
+  );
+}
+
 //////////////////////////////////////////////////////////////
 
 
@@ -203,7 +227,7 @@ class _With_ShadingState extends State<With_Shading> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
                               child: InkWell(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => With_Shading(true)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WithShading(true)));
                                 },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -220,7 +244,7 @@ class _With_ShadingState extends State<With_Shading> {
                                             _controller.complete(controller);
                                           },
                                           onTap: _check_location_type(),
-                                          markers: Set.from(solarpanel_LatLan_list),
+                                          markers: Set.from(solarpanelLatLanList),
                                         ),
                                       ),
 
@@ -307,6 +331,36 @@ class _With_ShadingState extends State<With_Shading> {
                               ],
                             )
                           ),
+                          //list of solar panel markers in  widgets
+                          Container(
+                              width: width,
+                              height: 200,
+                              child: solarpanelLatLanList.length > 0
+                                  ? ListView.separated(
+                                      itemCount: solarpanelLatLanList.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                          child: Row(children: [
+                                            Text("Marker " + index.toString()),
+                                            Spacer(),
+                                            IconButton(
+                                                icon: Icon(Icons.delete),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    solarpanelLatLanList.removeAt(index);
+                                                    print("Removed Marker " + index.toString());
+                                                  });
+                                                }),
+                                          ]),
+                                          color: Colors.white,
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return Divider();
+                                      },
+                                    )
+                                  : null),
 
                           //add date and time gap 
                           Container(
@@ -321,13 +375,31 @@ class _With_ShadingState extends State<With_Shading> {
                                 ),
                                
                                 ElevatedButton(onPressed: (){
-                                  _showTimePicker(context,constraints,startTime);  
+                                  startTimeClicked = true;
+                                  _showTimePicker(context,constraints,startTime);
+                                  // formattedStartTime = timeFormatter.format(startTime);
+                                  // print(formattedStartTime);  
                                   }, child: Text('Time'),
                                 ),
 
                                 ElevatedButton(onPressed: (){
-                                  _showTimePicker(context,constraints,endTime); 
+                                   endTimeClicked = true;
+                                  _showTimePicker(context,constraints,endTime);
+                                  // formattedEndTime = timeFormatter.format(endTime);
+                                  // print(formattedEndTime); 
+                                  
                                   }, child: Text('End Time'),
+                                ),
+                                ElevatedButton(onPressed: () async {
+                                  // _showTimePicker(context,constraints,endTime);
+                                  http.Response response = await calculate();
+                                  if (response.statusCode == 200) {
+                                    print("SUCCESS: " + response.body);
+                                  } else {
+                                    print("REQUEST FAILED" + "STARTUS_CODE: " + response.statusCode.toString());
+                                  }
+                                },
+                               child: Text('Calculate'),
                                 )
 
                                 
@@ -383,8 +455,8 @@ class _With_ShadingState extends State<With_Shading> {
                   color: Colors.red,
                   child: Text('Select'),                
                     onPressed: () {
-                        final String formatted = formatter.format(_chosenDateTime);
-                        print(formatted);
+                         formattedDate = formatter.format(_chosenDateTime);
+                         print(formattedDate);
                         Navigator.of(ctx).pop();
                     } 
                 ),
@@ -425,13 +497,26 @@ class _With_ShadingState extends State<With_Shading> {
                   color: Colors.red,
                   child: Text('Select'),                
                     onPressed: () {
+                                  
+                      if( startTimeClicked == true){
+                          formattedStartTime = timeFormatter.format(time);
+                          print(formattedStartTime);  
+                          startTimeClicked = false;
+
+                      }else if( endTimeClicked == true){
+                        formattedEndTime = timeFormatter.format(time);
+                        print(formattedEndTime); 
+                        endTimeClicked = false;
+                      }
                       
-                        final String formatted = timeFormatter.format(time);
-                        print(formatted);
+                      
+                        // formatted = timeFormatter.format(time);
+                        // print(formatted);
                         Navigator.of(ctx).pop();
                     } 
                 ),
-              )
+              ),
+              
               
             ],
           ),
@@ -439,7 +524,5 @@ class _With_ShadingState extends State<With_Shading> {
 
         
   }
-
-
   
 }
