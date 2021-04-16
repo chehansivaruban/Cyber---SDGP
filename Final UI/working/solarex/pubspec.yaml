@@ -78,6 +78,8 @@ flutter:
     - images/roof.png
     - images/tree.png
     - images/Logo.png
+    - images/Withshading.jpg
+    - images/Withoutshading.jpg
 
   #   - images/a_dot_ham.jpeg
 
