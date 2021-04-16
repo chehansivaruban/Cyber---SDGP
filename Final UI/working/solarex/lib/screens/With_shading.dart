@@ -501,11 +501,13 @@ class _WithShadingState extends State<WithShading> {
                                   
                       if( startTimeClicked == true){
                           formattedStartTime = timeFormatter.format(time);
+                          print('start time');
                           print(formattedStartTime);  
                           startTimeClicked = false;
 
                       }else if( endTimeClicked == true){
                         formattedEndTime = timeFormatter.format(time);
+                         print('end time');
                         print(formattedEndTime); 
                         endTimeClicked = false;
                       }

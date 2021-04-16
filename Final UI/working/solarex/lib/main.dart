@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/Start.dart';
+
+import 'screens/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.blue
       ),
-      home: Start(),
+      home: SplashScreen(),
     );
   }
 }
