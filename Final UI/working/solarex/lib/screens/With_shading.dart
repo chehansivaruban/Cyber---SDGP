@@ -182,7 +182,8 @@ class _WithShadingState extends State<WithShading> {
     },
     body: jsonEncode(<String, String>{
        "date": formattedDate,
-       "time": formattedStartTime
+       "startTime": formattedStartTime,
+       'endTime': formattedEndTime
     }),
   );
 }
