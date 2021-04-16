@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:solarex/provider/google_sign_in.dart';
-import 'package:provider/provider.dart';
+//import 'package:flutter_signin_button/flutter_signin_button.dart';
+//import 'package:solarex/provider/google_sign_in.dart';
+//import 'package:provider/provider.dart';
 import 'package:solarex/widget/google_sign_up_button.dart';
 
 

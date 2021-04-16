@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
                 child: LayoutBuilder(
                   builder: (context, constraints){
                     final height = constraints.maxHeight - kToolbarHeight;
-                    final width = constraints.minWidth;
+                    // final width = constraints.minWidth;
                     return Column(
                       children: <Widget>[
                         // Container(

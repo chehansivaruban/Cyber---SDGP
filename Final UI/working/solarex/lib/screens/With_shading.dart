@@ -42,7 +42,7 @@ class _WithShadingState extends State<WithShading> {
 
   List<Marker> solarpanelLatLanList = [];
   List<Marker> objectList = [];
-  bool solar_panel_button = true ;
+  bool solarPanelButton = true ;
 
 
   Completer<GoogleMapController> _controller = Completer();
@@ -52,17 +52,17 @@ class _WithShadingState extends State<WithShading> {
     zoom: 14.4746,
   );
 
-  _onTap_map_true(LatLng onTap_LatLang){
-    print(onTap_LatLang);
+  onTapMapTrue(LatLng onTapLatLang){
+    print(onTapLatLang);
     setState(() {
      // with_shading_solarpanel_list = [];
      if(solarpanelLatLanList.length < 4){
        solarpanelLatLanList.add(
         Marker(
-          markerId: MarkerId(onTap_LatLang.toString()),
-          position: onTap_LatLang,
+          markerId: MarkerId(onTapLatLang.toString()),
+          position: onTapLatLang,
           draggable: true,
-          onTap: _remove_marker_solar_pannel(onTap_LatLang.toString()),
+          onTap: removeMarkerSolarPannel(onTapLatLang.toString()),
           onDragEnd: (dragEndPoint){
             print(dragEndPoint);
           }
@@ -77,7 +77,7 @@ class _WithShadingState extends State<WithShading> {
 
 
 
-  _remove_marker_solar_pannel(String latlang){
+  removeMarkerSolarPannel(String latlang){
     for(Marker marker in solarpanelLatLanList){
       print('working1');
       if(marker.markerId.toString() == latlang){
@@ -87,14 +87,14 @@ class _WithShadingState extends State<WithShading> {
     }
   }
 
-  _onTap_map_false(LatLng onTap_LatLang){
-    print(onTap_LatLang);
+  onTapMapFalse(LatLng onTapLatLang){
+    print(onTapLatLang);
     setState(() {
       // with_shading_solarpanel_list = [];
       solarpanelLatLanList.add(
           Marker(
-              markerId: MarkerId(onTap_LatLang.toString()),
-              position: onTap_LatLang,
+              markerId: MarkerId(onTapLatLang.toString()),
+              position: onTapLatLang,
               draggable: true,
               icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
               onDragEnd: (dragEndPoint){
@@ -108,16 +108,16 @@ class _WithShadingState extends State<WithShading> {
 
   //solar pannel location in with shading button
 
-  _sloar_panel_bool(bool bool){
-    solar_panel_button = bool;
+  sloarPanelBool(bool bool){
+    solarPanelButton = bool;
   }
 
-   _check_location_type(){
-    if(solar_panel_button == true){
-      return _onTap_map_true;
+   checkLocationType(){
+    if(solarPanelButton == true){
+      return onTapMapTrue;
     }
-    else if(solar_panel_button == false){
-      return _onTap_map_false;
+    else if(solarPanelButton == false){
+      return onTapMapFalse;
     }
   }
 
@@ -194,8 +194,8 @@ class _WithShadingState extends State<WithShading> {
   @override
   Widget build(BuildContext context) {
 
-    bool withOrWithoutShadingBtn = widget.withShading;
-    final TextEditingController _textEditingController = TextEditingController();
+    //bool withOrWithoutShadingBtn = widget.withShading;
+    //final TextEditingController _textEditingController = TextEditingController();
     
 
     return Scaffold(
@@ -210,7 +210,7 @@ class _WithShadingState extends State<WithShading> {
                 color: Colors.amber,
                 child: LayoutBuilder(
                   builder: (context, constraints){
-                    final height = constraints.maxHeight - kToolbarHeight;
+                    //final height = constraints.maxHeight - kToolbarHeight;
                     final width = constraints.maxWidth;
 
                     return SingleChildScrollView(
@@ -243,7 +243,7 @@ class _WithShadingState extends State<WithShading> {
                                           onMapCreated: (GoogleMapController controller) {
                                             _controller.complete(controller);
                                           },
-                                          onTap: _check_location_type(),
+                                          onTap: checkLocationType(),
                                           markers: Set.from(solarpanelLatLanList),
                                         ),
                                       ),
@@ -272,7 +272,7 @@ class _WithShadingState extends State<WithShading> {
                                   margin: const EdgeInsets.only(left: 10.0,right: 5.0),                  
                                   child:ElevatedButton(
                                     onPressed: () {
-                                      solar_panel_button = true;
+                                      solarPanelButton = true;
                                     },//this
                                   child: Row(                      
                                     children: <Widget>[
@@ -309,7 +309,7 @@ class _WithShadingState extends State<WithShading> {
                                 Container(                  
                                   child: !widget.withShading ? null : ElevatedButton(
                                     onPressed: () {
-                                      solar_panel_button = false;
+                                      solarPanelButton = false;
                                     },
                                     child:  Container(
                                       width: width*0.334,
