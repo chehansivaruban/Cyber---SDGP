@@ -74,10 +74,10 @@ class _HomePageState extends State<HomePage> {
                               
                               ),
                               SizedBox(height: 10,),
-                              Text('The power output of a particular given time can be calculated according to the roof area of the solar energy system on a particular day.',
-                              style: TextStyle(fontSize: 15, color: Colors.white),
+                              // Text('The power output of a particular given time can be calculated according to the roof area of the solar energy system on a particular day.',
+                              // style: TextStyle(fontSize: 15, color: Colors.white),
                               
-                              )
+                              // )
                             ],
                           ),
                           )

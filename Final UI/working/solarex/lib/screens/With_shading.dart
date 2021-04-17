@@ -26,6 +26,7 @@ class WithShading extends StatefulWidget {
 class _WithShadingState extends State<WithShading> {
 
   DateTime _chosenDateTime = DateTime.now();
+  final capacityTxtField = TextEditingController();
 
   DateTime date = DateTime.now();
   static final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -185,7 +186,8 @@ class _WithShadingState extends State<WithShading> {
     body: jsonEncode(<String, String>{
        "date": formattedDate,
        "startTime": formattedStartTime,
-       'endTime': formattedEndTime
+       'endTime': formattedEndTime,
+       'capacity': capacityTxtField.text.toString()
     }),
   );
 }
@@ -407,8 +409,14 @@ class _WithShadingState extends State<WithShading> {
                                     child: Text('Date'),
                                   ),
                                 ),
-                               
-                                ElevatedButton(onPressed: (){
+
+                                Container(
+                                  width: width*0.9,
+                                  alignment: Alignment.center,
+
+                                  child: Row(
+                                    children: <Widget>[
+                                      ElevatedButton(onPressed: (){
                                   startTimeClicked = true;
                                   _showTimePicker(context,constraints,startTime);
                                   // formattedStartTime = timeFormatter.format(startTime);
@@ -420,8 +428,10 @@ class _WithShadingState extends State<WithShading> {
                                     child: Text('Start Time'),
                                   ),
                                 ),
+                                SizedBox(width: constraints.maxWidth*0.12,),
 
                                 ElevatedButton(onPressed: (){
+                                 // margin: EdgeInsets.only(left: constraints.maxWidth*0.28);
                                    endTimeClicked = true;
                                   _showTimePicker(context,constraints,endTime);
                                   // formattedEndTime = timeFormatter.format(endTime);
@@ -429,12 +439,66 @@ class _WithShadingState extends State<WithShading> {
                                   
                                   }, child: Container(
                                     width: constraints.maxWidth*0.3,
+                                    
                                     alignment: Alignment.center,
                                     
                                     child: Text('End Time'),
                                   ),
                                   
                                 ),
+
+                                    ],
+                                  ),
+
+
+                                ),
+
+                                Container(
+                                  width: width*0.9,
+                                  alignment: Alignment.center,
+
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(height: 20,),
+                                      Text('Total Solar pannel Capacity',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04),
+                                    ),
+                                    TextField(
+                  
+                                      controller: capacityTxtField,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Enter Solar Panel Capacity in Kilo watt'
+                                      ),
+                                    )
+
+
+                                    ]
+                                  )
+                                ),
+
+
+
+
+
+                              //   ElevatedButton(onPressed: (){
+                              //     _showCapacity(context,constraints);
+                               
+
+                              //  ///////////////////************************************* */
+                              //     }, child: Container(
+                              //       width: constraints.maxWidth*0.9,
+                              //       height: 50,
+                              //       alignment: Alignment.center,
+                                    
+                              //       child: Text('Total Solar pannel Capacity',
+                              //       style: TextStyle(fontSize: constraints.maxWidth*0.035),
+                              //       ),
+                              //     ),
+                                  
+                              //   ),
+                               
+                                
                                 ElevatedButton(onPressed: () async {
                                   resultbool = true;
                                   // _showTimePicker(context,constraints,endTime);
@@ -460,10 +524,11 @@ class _WithShadingState extends State<WithShading> {
                                     child: Text('Calculate'),
                                   ),
                                 ),
+                                
 
                                 Container(
                                   width: width*0.9,
-                                  height: 180,
+                                  height: 300,
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.blueAccent,width: 3)
                                   ),
@@ -471,7 +536,7 @@ class _WithShadingState extends State<WithShading> {
                                     children: <Widget>[
                                       //irradiance 
                                       SizedBox(height: 10),
-                                      Text('Irradiance during time gap..',
+                                      Text('Productivity during time gap..',
                                       style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold ),
                                       ),
                                       SizedBox(height: 20),
@@ -484,10 +549,15 @@ class _WithShadingState extends State<WithShading> {
                                       Text('End time : ' + formattedEndTime,
                                       style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),
                                       ),
-                                      SizedBox(height: 10,),
-                                      Text('Irradiance : ' + finalResult,
-                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold ),
+                                      Text('Solar Panel Capacity : ' + capacityTxtField.text.toString() + " kWh",
+                                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),
                                       ),
+                                      SizedBox(height: 10,),
+                                      Text('Productivity (kWh): ' + finalResult ,
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold ),
+                            
+                                      ),
+                                      
                                     ],
                                   ),
                                 )
@@ -624,9 +694,10 @@ class _WithShadingState extends State<WithShading> {
               
             ],
           ),
-        ));
-
-        
+        ));     
   }
+
+  
+  
   
 }
