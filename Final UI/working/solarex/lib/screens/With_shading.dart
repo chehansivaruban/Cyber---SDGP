@@ -230,11 +230,9 @@ class _WithShadingState extends State<WithShading> {
                     bool resultbool = false;
                     final width = constraints.maxWidth;
 
-                    return SingleChildScrollView(
-                      child:Column(
-                        children: <Widget>[
-                       
-                          Container(
+                    return Column(
+                      children: <Widget>[
+                        Container(
                             margin: EdgeInsets.only(top: kToolbarHeight),
                             height: constraints.maxWidth*0.96,
                             width: constraints.maxWidth*0.96,
@@ -282,6 +280,22 @@ class _WithShadingState extends State<WithShading> {
                             )
                             )
                           ),
+                          Flexible(
+            child:FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 1.0,
+              child: Container(
+                //color: Colors.amber,
+                child: LayoutBuilder(
+                  builder: (context, constraints){
+                    //final height = constraints.maxHeight - kToolbarHeight;
+                    bool resultbool = false;
+                    final width = constraints.maxWidth;
+                    return SingleChildScrollView(
+                      child:Column(
+                        children: <Widget>[
+                       
+                          
                           Container(
                             child: Row(
                               children: <Widget>[
@@ -574,7 +588,18 @@ class _WithShadingState extends State<WithShading> {
 
                         ]
                       )
-                    ); 
+                    );
+                }
+                ),
+                )
+            ),
+            )
+                        
+
+                      ],
+                    );
+                    
+                     
                   },
                 ),
               ) 
@@ -595,7 +620,7 @@ class _WithShadingState extends State<WithShading> {
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-          height: constraints.maxHeight*0.4 ,
+          height: constraints.maxHeight*0.5 ,
           color: Color.fromARGB(255, 255, 255, 255),
           child: Column(
             children: [
@@ -640,7 +665,7 @@ class _WithShadingState extends State<WithShading> {
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-          height: constraints.maxHeight*0.4 ,
+          height: constraints.maxHeight*0.5 ,
           color: Color.fromARGB(255, 255, 255, 255),
           child: Column(
             children: [
