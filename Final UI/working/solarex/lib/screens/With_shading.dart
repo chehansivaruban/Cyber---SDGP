@@ -39,6 +39,8 @@ class _WithShadingState extends State<WithShading> {
   bool startTimeClicked = false;
   bool endTimeClicked = false;
 
+  String finalResult = "";
+
 
   List<Marker> solarpanelLatLanList = [];
   List<Marker> objectList = [];
@@ -201,17 +203,29 @@ class _WithShadingState extends State<WithShading> {
 
     return Scaffold(
      // appBar: AppBar(),
-      body: Column(
+      body: Material(
+        type: MaterialType.transparency,
+        child:
+        Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color.fromARGB(255, 0, 148, 255), Color.fromARGB(255, 0, 255, 163)] //top bottom color
+          )
+      ),
+      child:Column(
         children: <Widget>[
           Flexible(
             child:FractionallySizedBox(
               heightFactor: 1.0,
               widthFactor: 1.0,
               child: Container(
-                color: Colors.amber,
+                //color: Colors.amber,
                 child: LayoutBuilder(
                   builder: (context, constraints){
                     //final height = constraints.maxHeight - kToolbarHeight;
+                    bool resultbool = false;
                     final width = constraints.maxWidth;
 
                     return SingleChildScrollView(
@@ -332,10 +346,23 @@ class _WithShadingState extends State<WithShading> {
                               ],
                             )
                           ),
+
+                          Container(
+                             margin: EdgeInsets.only(top: 20),
+                            child: Text('Location point table',
+                            style: TextStyle(fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                            ),
+                          ),
                           //list of solar panel markers in  widgets
                           Container(
-                              width: width,
+                           
+                              width: width*0.9,
                               height: 200,
+                               decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.blueAccent,width: 3)
+                      
+                                ),
                               child: solarpanelLatLanList.length > 0
                                   ? ListView.separated(
                                       itemCount: solarpanelLatLanList.length,
@@ -343,7 +370,8 @@ class _WithShadingState extends State<WithShading> {
                                         return Container(
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Row(children: [
-                                            Text("Marker " + index.toString()),
+                                            Text("Marker " + index.toString(),
+                                            style: TextStyle(fontWeight: FontWeight.bold),),
                                             Spacer(),
                                             IconButton(
                                                 icon: Icon(Icons.delete),
@@ -372,7 +400,12 @@ class _WithShadingState extends State<WithShading> {
                                 // SizedBox(height: 50,),
                                 ElevatedButton(onPressed: (){
                                   _showDatePicker(context,constraints);
-                                  }, child: Text('Date'),
+                                  }, child: Container(
+                                    width: constraints.maxWidth*0.3,
+                                    alignment: Alignment.center,
+                                    
+                                    child: Text('Date'),
+                                  ),
                                 ),
                                
                                 ElevatedButton(onPressed: (){
@@ -380,7 +413,12 @@ class _WithShadingState extends State<WithShading> {
                                   _showTimePicker(context,constraints,startTime);
                                   // formattedStartTime = timeFormatter.format(startTime);
                                   // print(formattedStartTime);  
-                                  }, child: Text('Time'),
+                                  }, child: Container(
+                                    width: constraints.maxWidth*0.3,
+                                    alignment: Alignment.center,
+                                    
+                                    child: Text('Start Time'),
+                                  ),
                                 ),
 
                                 ElevatedButton(onPressed: (){
@@ -389,19 +427,71 @@ class _WithShadingState extends State<WithShading> {
                                   // formattedEndTime = timeFormatter.format(endTime);
                                   // print(formattedEndTime); 
                                   
-                                  }, child: Text('End Time'),
+                                  }, child: Container(
+                                    width: constraints.maxWidth*0.3,
+                                    alignment: Alignment.center,
+                                    
+                                    child: Text('End Time'),
+                                  ),
+                                  
                                 ),
                                 ElevatedButton(onPressed: () async {
+                                  resultbool = true;
                                   // _showTimePicker(context,constraints,endTime);
                                   http.Response response = await calculate();
                                   if (response.statusCode == 200) {
-                                    print("SUCCESS: " + response.body);
+                                    setState(() {
+                                        finalResult = response.body.toString();
+                                    });
+                                    
+                                    print("SUCCESS: " + finalResult);
                                   } else {
-                                    print("REQUEST FAILED" + "STARTUS_CODE: " + response.statusCode.toString());
+                                    
+                                     // finalResult = response.statusCode.toString();  
+                                    
+                                    
+                                    print("REQUEST FAILED" + "STARTUS_CODE: " + finalResult);
                                   }
                                 },
-                               child: Text('Calculate'),
+                               child: Container(
+                                    width: constraints.maxWidth*0.3,
+                                    alignment: Alignment.center,
+                                    
+                                    child: Text('Calculate'),
+                                  ),
+                                ),
+
+                                Container(
+                                  width: width*0.9,
+                                  height: 180,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.blueAccent,width: 3)
+                                  ),
+                                  child:  Column(
+                                    children: <Widget>[
+                                      //irradiance 
+                                      SizedBox(height: 10),
+                                      Text('Irradiance during time gap..',
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Text('Date : ' + formattedDate,
+                                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),
+                                      ),
+                                      Text('Start Time : ' + formattedStartTime,
+                                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),
+                                      ),
+                                      Text('End time : ' + formattedEndTime,
+                                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Text('Irradiance : ' + finalResult,
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold ),
+                                      ),
+                                    ],
+                                  ),
                                 )
+
 
                                 
                                 
@@ -422,6 +512,8 @@ class _WithShadingState extends State<WithShading> {
           )
         ],
       ),
+        )
+      )
     ); 
 
   
@@ -456,7 +548,10 @@ class _WithShadingState extends State<WithShading> {
                   color: Colors.red,
                   child: Text('Select'),                
                     onPressed: () {
-                         formattedDate = formatter.format(_chosenDateTime);
+                      setState(() {
+                        formattedDate = formatter.format(_chosenDateTime);
+                      });
+                         
                          print(formattedDate);
                         Navigator.of(ctx).pop();
                     } 
@@ -500,13 +595,19 @@ class _WithShadingState extends State<WithShading> {
                     onPressed: () {
                                   
                       if( startTimeClicked == true){
+                        setState(() {
                           formattedStartTime = timeFormatter.format(time);
+                        });
+                          
                           print('start time');
                           print(formattedStartTime);  
                           startTimeClicked = false;
 
                       }else if( endTimeClicked == true){
-                        formattedEndTime = timeFormatter.format(time);
+                        setState(() {
+                          formattedEndTime = timeFormatter.format(time);                          
+                        });
+                        
                          print('end time');
                         print(formattedEndTime); 
                         endTimeClicked = false;
