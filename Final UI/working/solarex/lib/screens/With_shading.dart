@@ -25,6 +25,7 @@ class WithShading extends StatefulWidget {
 
 class _WithShadingState extends State<WithShading> {
   bool mapViewisOn = false;
+  bool calculatiOnReady = false;
 
   DateTime _chosenDateTime = DateTime.now();
   final capacityTxtField = TextEditingController();
@@ -238,36 +239,47 @@ class _WithShadingState extends State<WithShading> {
                           visible: mapViewisOn,
 
 
-                          child:  Column(
+                          child:Container(
+                            alignment: Alignment.center,
+                            child:  Column(
                             children: <Widget>[
                               Container(
                             margin: EdgeInsets.only(top: kToolbarHeight),
-                            height: constraints.maxWidth*0.96,
+                            height: constraints.maxWidth*0.97,
                             width: constraints.maxWidth*0.96,
+                            
                             //color: Colors.red,
                             child: Card(
                             
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              color: Colors.black,
                               child: InkWell(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => WithShading(true)));
                                 },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                              
                                 children: <Widget>[
                                   Stack(
                                     children: <Widget>[
                                       Container(
-                                        alignment: Alignment.center
-                                        ,
-                                        height: constraints.maxWidth*0.92,
+                                        alignment: Alignment.center,
+                                        margin:EdgeInsets.only(top: constraints.maxHeight*0.005) ,
+                                        height: constraints.maxWidth*0.93,
                                         width: constraints.maxWidth*0.92,
                                         child: Center(
                                           child: GoogleMap(
                                           mapType: MapType.hybrid,
                                           initialCameraPosition: _startCamPosition,
                                           onMapCreated: (GoogleMapController controller) {
-                                            _controller.complete(controller);
+                                             if (!_controller.isCompleted) {
+                                                _controller.complete(controller);
+                                             }
+                                             else{}
+                                            
                                           },
                                           onTap: checkLocationType(),
                                           markers: Set.from(solarpanelLatLanList),
@@ -278,8 +290,8 @@ class _WithShadingState extends State<WithShading> {
                               
                                       Container(
                                         margin:EdgeInsets.only(left:width*0.65,top: width*0.78),
-                                        width: 50.0,
-                                        height: 50.0,
+                                        width: 45.0,
+                                        height: 45.0,
                                         child: FloatingActionButton(
                                           onPressed: _goToCurrentLocation,
                                           child: Image.asset('images/gps.png'),
@@ -289,15 +301,19 @@ class _WithShadingState extends State<WithShading> {
                                   ),
                                 ],
                               ),
+                              )
                             )
-                            )
+                            ),
+                              
+                            
                           ),
+                            
 
                           Container(
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  margin: const EdgeInsets.only(left: 10.0,right: 5.0),                  
+                                  margin: EdgeInsets.only(left: constraints.maxWidth*0.02,right: 5.0),                  
                                   child:ElevatedButton(
                                     onPressed: () {
                                       solarPanelButton = true;
@@ -364,6 +380,7 @@ class _WithShadingState extends State<WithShading> {
 
 
                             ],
+                          ),
                           )
                           
                           
@@ -383,9 +400,11 @@ class _WithShadingState extends State<WithShading> {
                     final width = constraints.maxWidth;
                     return SingleChildScrollView(
                       child:Column(
-                        children: <Widget>[
+                        children: <Widget>[ 
+                          Visibility(
+                          visible: !mapViewisOn,
 
-                          Container(
+                          child:Container(
                             margin: EdgeInsets.only(top: kToolbarHeight),
                             child: ElevatedButton(
                               onPressed: (){
@@ -395,6 +414,7 @@ class _WithShadingState extends State<WithShading> {
                                 
                               },
                              child: Text("Select Solar panel Location")),
+                          ),
                           ),
                        
                           
@@ -557,8 +577,10 @@ class _WithShadingState extends State<WithShading> {
                                 
                                 ElevatedButton(onPressed: () async {
                                   setState(() {                                 
-                                    mapViewisOn = false;               
+                                    mapViewisOn = false;    
+                                      
                                   });
+                                  
                                   resultbool = true;
                                   // _showTimePicker(context,constraints,endTime);
                                   http.Response response = await calculate();
@@ -575,6 +597,10 @@ class _WithShadingState extends State<WithShading> {
                                     
                                     print("REQUEST FAILED" + "STARTUS_CODE: " + finalResult);
                                   }
+                                  setState(() {
+                                     calculatiOnReady = true;                                             
+                                  });
+                                 
                                 },
                                child: Container(
                                     width: constraints.maxWidth*0.3,
@@ -585,6 +611,9 @@ class _WithShadingState extends State<WithShading> {
                                 ),
                                 
 
+                                Visibility(
+                                  visible: calculatiOnReady,
+                                  child: 
                                 Container(
                                   width: width*0.9,
                                   height: 300,
@@ -619,6 +648,7 @@ class _WithShadingState extends State<WithShading> {
                                       
                                     ],
                                   ),
+                                ),
                                 )
 
 
@@ -662,7 +692,7 @@ class _WithShadingState extends State<WithShading> {
   }             
    
   void _showDatePicker(ctx,BoxConstraints constraints) {
-    double showDatePickerHieght =  constraints.maxHeight*0.9;
+    double showDatePickerHieght =  constraints.maxHeight;
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
@@ -685,10 +715,12 @@ class _WithShadingState extends State<WithShading> {
 
               // Close the modal
               Container(
-                height: showDatePickerHieght*0.3,
+                height: (constraints.maxHeight < 150) ? constraints.maxHeight*0.299: 50,
                 child: CupertinoButton(
                   color: Colors.red,
-                  child: Text('Select'),                
+                  child: Text('Select',
+                    style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.minHeight*0.01:20)),
+                  ),                
                     onPressed: () {
                       setState(() {
                         formattedDate = formatter.format(_chosenDateTime);
@@ -709,7 +741,7 @@ class _WithShadingState extends State<WithShading> {
 
    void _showTimePicker(ctx,BoxConstraints constraints,DateTime time) {
     // showCupertinoModalPopup is a built-in function of the cupertino library
-    double showTimePickerHeight = constraints.maxHeight*0.8 ;
+    double showTimePickerHeight = constraints.maxHeight ;
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
@@ -731,11 +763,13 @@ class _WithShadingState extends State<WithShading> {
 
               // Close the modal
               Container(
-                height: showTimePickerHeight*0.3,
+                height:  (constraints.maxHeight < 150) ? constraints.maxHeight*0.299: 100,
                 child: CupertinoButton(
                   
                   color: Colors.red,
-                  child: Text('Select'),                
+                  child: Text('Select',
+                  style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.maxHeight*0.299*0.5:20)),
+                  ),                
                     onPressed: () {
                                   
                       if( startTimeClicked == true){
