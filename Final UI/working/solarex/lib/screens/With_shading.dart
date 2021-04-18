@@ -24,6 +24,7 @@ class WithShading extends StatefulWidget {
 }
 
 class _WithShadingState extends State<WithShading> {
+  bool mapViewisOn = false;
 
   DateTime _chosenDateTime = DateTime.now();
   final capacityTxtField = TextEditingController();
@@ -231,8 +232,15 @@ class _WithShadingState extends State<WithShading> {
                     final width = constraints.maxWidth;
 
                     return Column(
+                      
                       children: <Widget>[
-                        Container(
+                        Visibility(
+                          visible: mapViewisOn,
+
+
+                          child:  Column(
+                            children: <Widget>[
+                              Container(
                             margin: EdgeInsets.only(top: kToolbarHeight),
                             height: constraints.maxWidth*0.96,
                             width: constraints.maxWidth*0.96,
@@ -250,9 +258,12 @@ class _WithShadingState extends State<WithShading> {
                                   Stack(
                                     children: <Widget>[
                                       Container(
-                                        height: constraints.maxWidth*0.9378,
-                                        width: constraints.maxWidth*0.96,
-                                        child: GoogleMap(
+                                        alignment: Alignment.center
+                                        ,
+                                        height: constraints.maxWidth*0.92,
+                                        width: constraints.maxWidth*0.92,
+                                        child: Center(
+                                          child: GoogleMap(
                                           mapType: MapType.hybrid,
                                           initialCameraPosition: _startCamPosition,
                                           onMapCreated: (GoogleMapController controller) {
@@ -261,6 +272,7 @@ class _WithShadingState extends State<WithShading> {
                                           onTap: checkLocationType(),
                                           markers: Set.from(solarpanelLatLanList),
                                         ),
+                                        )
                                       ),
 
                               
@@ -280,22 +292,7 @@ class _WithShadingState extends State<WithShading> {
                             )
                             )
                           ),
-                          Flexible(
-            child:FractionallySizedBox(
-              heightFactor: 1.0,
-              widthFactor: 1.0,
-              child: Container(
-                //color: Colors.amber,
-                child: LayoutBuilder(
-                  builder: (context, constraints){
-                    //final height = constraints.maxHeight - kToolbarHeight;
-                    bool resultbool = false;
-                    final width = constraints.maxWidth;
-                    return SingleChildScrollView(
-                      child:Column(
-                        children: <Widget>[
-                       
-                          
+
                           Container(
                             child: Row(
                               children: <Widget>[
@@ -363,6 +360,46 @@ class _WithShadingState extends State<WithShading> {
                             )
                           ),
 
+                          
+
+
+                            ],
+                          )
+                          
+                          
+                          
+                        ),
+                       
+                        Flexible(
+                          child:FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 1.0,
+              child: Container(
+                //color: Colors.amber,
+                child: LayoutBuilder(
+                  builder: (context, constraints){
+                    //final height = constraints.maxHeight - kToolbarHeight;
+                    bool resultbool = false;
+                    final width = constraints.maxWidth;
+                    return SingleChildScrollView(
+                      child:Column(
+                        children: <Widget>[
+
+                          Container(
+                            margin: EdgeInsets.only(top: kToolbarHeight),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {                                 
+                                  mapViewisOn = true;               
+                                });
+                                
+                              },
+                             child: Text("Select Solar panel Location")),
+                          ),
+                       
+                          
+                          
+
                           Container(
                              margin: EdgeInsets.only(top: 20),
                             child: Text('Location point table',
@@ -416,6 +453,9 @@ class _WithShadingState extends State<WithShading> {
                                 // SizedBox(height: 50,),
                                 ElevatedButton(onPressed: (){
                                   _showDatePicker(context,constraints);
+                                  setState(() {                                 
+                                    mapViewisOn = false;               
+                                  });
                                   }, child: Container(
                                     width: constraints.maxWidth*0.3,
                                     alignment: Alignment.center,
@@ -433,8 +473,9 @@ class _WithShadingState extends State<WithShading> {
                                       ElevatedButton(onPressed: (){
                                   startTimeClicked = true;
                                   _showTimePicker(context,constraints,startTime);
-                                  // formattedStartTime = timeFormatter.format(startTime);
-                                  // print(formattedStartTime);  
+                                  setState(() {                                 
+                                    mapViewisOn = false;               
+                                  });  
                                   }, child: Container(
                                     width: constraints.maxWidth*0.3,
                                     alignment: Alignment.center,
@@ -448,8 +489,9 @@ class _WithShadingState extends State<WithShading> {
                                  // margin: EdgeInsets.only(left: constraints.maxWidth*0.28);
                                    endTimeClicked = true;
                                   _showTimePicker(context,constraints,endTime);
-                                  // formattedEndTime = timeFormatter.format(endTime);
-                                  // print(formattedEndTime); 
+                                  setState(() {                                 
+                                    mapViewisOn = false;               
+                                  });
                                   
                                   }, child: Container(
                                     width: constraints.maxWidth*0.3,
@@ -514,6 +556,9 @@ class _WithShadingState extends State<WithShading> {
                                
                                 
                                 ElevatedButton(onPressed: () async {
+                                  setState(() {                                 
+                                    mapViewisOn = false;               
+                                  });
                                   resultbool = true;
                                   // _showTimePicker(context,constraints,endTime);
                                   http.Response response = await calculate();
@@ -617,15 +662,17 @@ class _WithShadingState extends State<WithShading> {
   }             
    
   void _showDatePicker(ctx,BoxConstraints constraints) {
+    double showDatePickerHieght =  constraints.maxHeight*0.9;
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-          height: constraints.maxHeight*0.5 ,
+          height: showDatePickerHieght,
           color: Color.fromARGB(255, 255, 255, 255),
           child: Column(
             children: [
               Container(
-                height: constraints.maxHeight*0.3,
+                margin: EdgeInsets.only(top: showDatePickerHieght*0.1 ),
+                height: showDatePickerHieght*0.6,
                 child: CupertinoDatePicker(
                     initialDateTime: DateTime.now(),
                      mode: CupertinoDatePickerMode.date,
@@ -638,7 +685,7 @@ class _WithShadingState extends State<WithShading> {
 
               // Close the modal
               Container(
-                height: 50,
+                height: showDatePickerHieght*0.3,
                 child: CupertinoButton(
                   color: Colors.red,
                   child: Text('Select'),                
@@ -662,15 +709,16 @@ class _WithShadingState extends State<WithShading> {
 
    void _showTimePicker(ctx,BoxConstraints constraints,DateTime time) {
     // showCupertinoModalPopup is a built-in function of the cupertino library
+    double showTimePickerHeight = constraints.maxHeight*0.8 ;
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-          height: constraints.maxHeight*0.5 ,
+          height: showTimePickerHeight ,
           color: Color.fromARGB(255, 255, 255, 255),
           child: Column(
             children: [
               Container(
-                height: constraints.maxHeight*0.3,
+                height: showTimePickerHeight*0.7,
                 child: CupertinoDatePicker(
                     initialDateTime: DateTime.now(),
                      mode: CupertinoDatePickerMode.time,
@@ -683,8 +731,9 @@ class _WithShadingState extends State<WithShading> {
 
               // Close the modal
               Container(
-                height: 50,
+                height: showTimePickerHeight*0.3,
                 child: CupertinoButton(
+                  
                   color: Colors.red,
                   child: Text('Select'),                
                     onPressed: () {

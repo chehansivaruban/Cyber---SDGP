@@ -70,10 +70,10 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                             children: <Widget>[
                               Text('Find the power output of your solar energy system',
-                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(fontSize: constraints.maxHeight*0.05, fontWeight: FontWeight.bold, color: Colors.white),
                               
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(height: constraints.maxHeight*0.01,),
                               // Text('The power output of a particular given time can be calculated according to the roof area of the solar energy system on a particular day.',
                               // style: TextStyle(fontSize: 15, color: Colors.white),
                               
@@ -115,9 +115,10 @@ class _HomePageState extends State<HomePage> {
                         Container(
                          // margin: EdgeInsets.only(top: kToolbarHeight + 50),
                           margin: EdgeInsets.only(top: 20),
-                          height: height*0.3,
+                          height: height*0.302,
                           width: constraints.maxWidth*0.83,
                           child: Card(
+            
                           
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                             child: InkWell(
@@ -127,7 +128,8 @@ class _HomePageState extends State<HomePage> {
                               child: Stack(
                                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Column(
+                                  Container(
+                                    child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -138,13 +140,20 @@ class _HomePageState extends State<HomePage> {
                                           bottomLeft: Radius.circular(20.0),
                                           bottomRight: Radius.circular(20.0),
                                         ),
-                                        child: Image.asset('images/Withshading.jpg' ,
-                                          height: height*0.285,
-                                          fit:BoxFit.fill
-                                        ),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(20),
+                                            child: Image.asset(
+                                              'images/Withshading.jpg',
+                                               height: height*0.285,
+                                              fit: BoxFit.cover,
+                                            ),
+                                        )
+
                                       ),
                                     ]
                                   ),
+                                  ),
+                                  
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -192,7 +201,7 @@ class _HomePageState extends State<HomePage> {
 
                         Container(
                           margin: EdgeInsets.only(top: 30),
-                          height: height*0.3,
+                          height: height*0.302,
                           width: constraints.maxWidth*0.83,
                           child: Card(
                           
