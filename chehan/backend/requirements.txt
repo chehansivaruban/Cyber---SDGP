@@ -1,9 +1,7 @@
-flask==1.1.2
-flask_restful==0.3.8
-flask_script==2.0.6
-flask_migrate==2.1.1
-marshmallow==2.14.0
-flask_sqlalchemy==2.3.2
-flask_marshmallow==0.8.0
-marshmallow-sqlalchemy==0.13.2
-psycopg2== 2.8.6
+numpy==1.20.2
+Flask_RESTful==0.3.8
+Flask==1.1.2
+pysolar==0.9
+utm==0.7.0
+pyproj==3.0.1
+Shapely==1.7.1
