@@ -70,7 +70,7 @@ percentage = ( (h - h1 - (d * a1) ) * a2 ) / ( (a1 + a2) * ( h2 - h1) )
 
 print(percentage, "%")'''
 import math
-from math import sin, cos, sqrt, atan2, radians
+from math import radians
 #-----------------------------------------
 '''cordinates = [(6.809394580706211, 79.92064782328283), (6.795789340844343, 79.94080492622855), (6.780275490642937, 79.93703636735303), (6.801908856122825, 79.91689147646231)]
 
@@ -144,16 +144,27 @@ for i in range(len(cordinates)-2):
     print("area of ", i+1, "is ", area)
     Area = Area + area
 
-print("\nTotal area is ", Area)
+roundedArea = round(Area, 2)
+print("\nTotal area is ", roundedArea, "m^2")
 
 
 areaOfOnePanel = float(40.0)    # 40.0 m^2
 capacityOfOnePanel = float(400.0)  # 400W
-systemCapacity = ((Area / areaOfOnePanel) * capacityOfOnePanel) / 1000
+
+systemCapacity = ((roundedArea / areaOfOnePanel) * capacityOfOnePanel) / 1000
 roundedSystemCapacity = round(systemCapacity, 2)
 
 
 print("Total system capacity is ", roundedSystemCapacity, "kW")
+
+
+irr = 1000.0
+hours = 1
+eff = round((1.6924 * math.log(irr)) + 4.0725)
+Energy = 2 * eff * hours * 0.75
+
+print(Energy)
+
 
 
 
