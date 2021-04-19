@@ -24,6 +24,8 @@ class WithShading extends StatefulWidget {
 }
 
 class _WithShadingState extends State<WithShading> {
+
+  bool solarPannelViewOn = true;
   bool mapViewisOn = false;
   bool calculatiOnReady = false;
 
@@ -128,10 +130,6 @@ class _WithShadingState extends State<WithShading> {
 
   Future<void> _goToCurrentLocation() async {
 
-    //------------------------
-
-
-
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -164,17 +162,18 @@ class _WithShadingState extends State<WithShading> {
       }
     }
 
-    final position = await Geolocator.getCurrentPosition(
+    var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
-    //------------------------
+        print("test");
+    print(position);
 
-    final CameraPosition _currentLocationCam = CameraPosition(
+    CameraPosition _currentLocationCam = CameraPosition(
         target: LatLng(position.latitude,position.longitude),
         zoom: 19.151926040649414
     );
 
 
-    final GoogleMapController controller = await _controller.future;
+    GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_currentLocationCam));
   }
 
@@ -278,7 +277,9 @@ class _WithShadingState extends State<WithShading> {
                                              if (!_controller.isCompleted) {
                                                 _controller.complete(controller);
                                              }
-                                             else{}
+                                             else{
+                                              
+                                             }
                                             
                                           },
                                           onTap: checkLocationType(),
@@ -429,18 +430,55 @@ class _WithShadingState extends State<WithShading> {
                           ),
                           //list of solar panel markers in  widgets
                           Container(
+                            width: constraints.maxWidth*0.9,
+                            
+                            margin: EdgeInsets.only(top: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(onPressed: (){
+                                  setState(() {
+                                                             solarPannelViewOn = true;          
+                                                                    });
+                                                                    print(solarPannelViewOn);
+                                 
+                                }, child: Text("Solar Pannel")),
+                                SizedBox(width: constraints.maxWidth*0.01,),
+                                ElevatedButton(onPressed: (){
+                                  setState(() {
+                                                                    solarPannelViewOn = false;   
+                                                                    });
+                                                                    print(solarPannelViewOn);
+                                 
+                                }, child: Text("Shading Objects")),
+                              ],
+                            ),
+                          ),
+
+                          // solar pannel location in tabel
+                          Visibility(
+                            visible: solarPannelViewOn,
+                            child:
+                          
+                          Container(
                            
                               width: width*0.9,
                               height: 200,
+                              
                                decoration: BoxDecoration(
                                   border: Border.all(color: Colors.blueAccent,width: 3)
                       
                                 ),
-                              child: solarpanelLatLanList.length > 0
+                              child: Visibility(
+                                visible: !solarPannelViewOn,
+                                child:  Container(
+                                  ///color: Colors.red,
+                                child: solarpanelLatLanList.length > 0
                                   ? ListView.separated(
                                       itemCount: solarpanelLatLanList.length,
                                       itemBuilder: (context, index) {
                                         return Container(
+                                          height: 40,
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Row(children: [
                                             Text("Marker " + index.toString(),
@@ -463,6 +501,59 @@ class _WithShadingState extends State<WithShading> {
                                       },
                                     )
                                   : null),
+                              ), 
+                          ),
+                          ),
+
+
+                          // object list view
+                          Visibility(
+                            visible: !solarPannelViewOn,
+                            
+                            child: 
+                          Container(
+                           
+                              width: width*0.9,
+                              height: 200,
+                               decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.red,width: 3)
+                      
+                                ),
+                              child: Visibility(
+                                visible: solarPannelViewOn,
+                                child:  Container(
+                                //  color: Colors.blue,
+                                child: objectList.length > 0
+                                  ? ListView.separated(
+                                      itemCount: objectList.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          height: 40,
+                                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                          child: Row(children: [
+                                            Text("Marker " + index.toString(),
+                                            style: TextStyle(fontWeight: FontWeight.bold),),
+                                            Spacer(),
+                                            IconButton(
+                                                icon: Icon(Icons.delete),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    objectList.removeAt(index);
+                                                    print("Removed Marker " + index.toString());
+                                                  });
+                                                }),
+                                          ]),
+                                          color: Colors.white,
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return Divider();
+                                      },
+                                    )
+                                  : null),
+                              ), 
+                          ),
+                          ),
 
                           //add date and time gap 
                           Container(
@@ -719,7 +810,7 @@ class _WithShadingState extends State<WithShading> {
                 child: CupertinoButton(
                   color: Colors.red,
                   child: Text('Select',
-                    style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.minHeight*0.01:20)),
+                    style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.minHeight*0.1:14)),
                   ),                
                     onPressed: () {
                       setState(() {
@@ -741,7 +832,7 @@ class _WithShadingState extends State<WithShading> {
 
    void _showTimePicker(ctx,BoxConstraints constraints,DateTime time) {
     // showCupertinoModalPopup is a built-in function of the cupertino library
-    double showTimePickerHeight = constraints.maxHeight ;
+    double showTimePickerHeight = constraints.maxHeight;
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
@@ -763,12 +854,12 @@ class _WithShadingState extends State<WithShading> {
 
               // Close the modal
               Container(
-                height:  (constraints.maxHeight < 150) ? constraints.maxHeight*0.299: 100,
+                height:  (constraints.maxHeight < 150) ? constraints.maxHeight*0.299: 50,
                 child: CupertinoButton(
                   
                   color: Colors.red,
                   child: Text('Select',
-                  style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.maxHeight*0.299*0.5:20)),
+                  style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.minHeight*0.1:14)),
                   ),                
                     onPressed: () {
                                   

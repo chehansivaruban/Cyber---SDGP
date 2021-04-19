@@ -42,7 +42,7 @@ dependencies:
 
   font_awesome_flutter: 
 
-  google_maps_flutter: 
+  google_maps_flutter: ^2.0.3
   location: 
   geolocator: 
   
