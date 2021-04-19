@@ -147,6 +147,15 @@ for i in range(len(cordinates)-2):
 print("\nTotal area is ", Area)
 
 
+areaOfOnePanel = float(40.0)    # 40.0 m^2
+capacityOfOnePanel = float(400.0)  # 400W
+systemCapacity = ((Area / areaOfOnePanel) * capacityOfOnePanel) / 1000
+roundedSystemCapacity = round(systemCapacity, 2)
+
+
+print("Total system capacity is ", roundedSystemCapacity, "kW")
+
+
 
 
 
