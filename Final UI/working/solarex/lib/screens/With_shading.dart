@@ -8,6 +8,7 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:solarex/widget/Marker.dart';
 
 
 
@@ -40,6 +41,7 @@ class _WithShadingState extends State<WithShading> {
   String formattedDate = "0000-00-00";
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
+  
 
   bool startTimeClicked = false;
   bool endTimeClicked = false;
@@ -50,6 +52,7 @@ class _WithShadingState extends State<WithShading> {
   List<Marker> solarpanelLatLanList = [];
   List<Marker> objectList = [];
   List<Marker> allMarkers = [];
+  List<ObjectMarker> objectMarkeListWithDetails = [];
   bool solarPanelButton = true ;
 
 
@@ -63,14 +66,14 @@ class _WithShadingState extends State<WithShading> {
   onTapMapTrue(LatLng onTapLatLang){
     print(onTapLatLang);
     setState(() {
-     // with_shading_solarpanel_list = [];
+     
      if(solarpanelLatLanList.length < 4){
+       
        solarpanelLatLanList.add(
         Marker(
           markerId: MarkerId(onTapLatLang.toString()),
           position: onTapLatLang,
           draggable: true,
-          //onTap: removeMarkerSolarPannel(onTapLatLang.toString()),
           onDragEnd: (dragEndPoint){
             print(dragEndPoint);
           }
@@ -78,18 +81,15 @@ class _WithShadingState extends State<WithShading> {
       );
 
      }
+     
 
     allMarkers.clear();
-
       for (Marker marker in solarpanelLatLanList) {
           allMarkers.add(marker);
       }
-      
       for (Marker marker in objectList) {
           allMarkers.add(marker);
       }
-      
-      
     });
   }
 
@@ -108,18 +108,23 @@ class _WithShadingState extends State<WithShading> {
   onTapMapFalse(LatLng onTapLatLang){
     print(onTapLatLang);
     setState(() {
+      ObjectMarker marker = new ObjectMarker(); 
+      Marker newMarker = marker.marker(onTapLatLang);
       // with_shading_solarpanel_list = [];
       objectList.add(
-          Marker(
-              markerId: MarkerId(onTapLatLang.toString()),
-              position: onTapLatLang,
-              draggable: true,
-              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-              onDragEnd: (dragEndPoint){
-                print(dragEndPoint);
-              }
-          )
+        newMarker
+          // Marker(
+          //     markerId: MarkerId(onTapLatLang.toString()),
+          //     position: onTapLatLang,
+          //     draggable: true,
+          //     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          //     onDragEnd: (dragEndPoint){
+          //       print(dragEndPoint);
+          //     }
+          // )
       );
+
+      objectMarkeListWithDetails.add(marker);
 
       allMarkers.clear();
 
@@ -256,20 +261,46 @@ class _WithShadingState extends State<WithShading> {
                     bool resultbool = false;
                     final width = constraints.maxWidth;
 
-                    return Column(
+                    return 
+                    
+                    Column(
                       
                       children: <Widget>[
+
                         Visibility(
                           visible: mapViewisOn,
+                          child:
+                        Container(
+                          height: constraints.maxHeight*0.6,
+                          child:
+
+                        Flexible(
+                          child:FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 1.0,
+              child: Container(
+                //color: Colors.amber,
+                child: LayoutBuilder(
+                  builder: (context, constraints){
+                    //final height = constraints.maxHeight - kToolbarHeight;
+                    bool resultbool = false;
+                    final width = constraints.maxWidth;
+                    return SingleChildScrollView(
+                     
+
+                        
 
 
                           child:Container(
+                           
+                            height: constraints.maxWidth*1,
+                            
                             alignment: Alignment.center,
                             child:  Column(
                             children: <Widget>[
                               Container(
                             margin: EdgeInsets.only(top: kToolbarHeight),
-                            height: constraints.maxWidth*0.97,
+                            height: constraints.maxWidth*0.55,
                             width: constraints.maxWidth*0.96,
                             
                             //color: Colors.red,
@@ -292,7 +323,7 @@ class _WithShadingState extends State<WithShading> {
                                       Container(
                                         alignment: Alignment.center,
                                         margin:EdgeInsets.only(top: constraints.maxHeight*0.005) ,
-                                        height: constraints.maxWidth*0.93,
+                                        height: constraints.maxWidth*0.5,
                                         width: constraints.maxWidth*0.92,
                                         child: Center(
                                           child: GoogleMap(
@@ -315,7 +346,7 @@ class _WithShadingState extends State<WithShading> {
 
                               
                                       Container(
-                                        margin:EdgeInsets.only(left:width*0.65,top: width*0.78),
+                                        margin:EdgeInsets.only(left:width*0.65,top: width*0.38),
                                         width: 45.0,
                                         height: 45.0,
                                         child: FloatingActionButton(
@@ -407,6 +438,20 @@ class _WithShadingState extends State<WithShading> {
                               ],
                             )
                           ),
+                          // mapViewisOn = false;    
+                           ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        mapViewisOn = false;         
+                                      });
+                                     
+                                    },
+                                    child:  Container(
+                                      alignment: Alignment.center,
+                                      width: width*0.8,
+                                      child: Text('Done'),
+                                    )
+                                  ),  
 
                           
 
@@ -417,7 +462,17 @@ class _WithShadingState extends State<WithShading> {
                           
                           
                           
+                        );
+                  }
+                    )
+                 
+                ),
+              ),
+              ),
+              ),
                         ),
+
+//************************************************************* */
                        
                         Flexible(
                           child:FractionallySizedBox(
@@ -520,6 +575,7 @@ class _WithShadingState extends State<WithShading> {
                                                 onPressed: () {
                                                   setState(() {
                                                     solarpanelLatLanList.removeAt(index);
+                                                   
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
 
@@ -613,6 +669,7 @@ class _WithShadingState extends State<WithShading> {
                                                 onPressed: () {
                                                   setState(() {
                                                     objectList.removeAt(index);
+                                                    objectMarkeListWithDetails.removeAt(index);
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
 
