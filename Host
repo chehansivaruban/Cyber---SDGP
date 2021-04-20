@@ -1,0 +1,177 @@
+from flask import Flask
+from flask import Flask, request, jsonify
+import json
+from flask_restful import Resource,Api
+
+from Prerdiction import Prediction
+from Productivity import Productivity
+
+app = Flask(__name__)
+api = Api(app)
+
+class Api(Resource):
+    def get(self):
+        request_data = request.data
+        request_data = json.loads(request_data.decode('utf-8'))
+        return request_data
+
+    def post(self):
+        request_data = request.data
+        request_data = json.loads(request_data.decode('utf-8'))
+        date = request_data['date']
+        startTime = request_data['startTime']
+        print(type(startTime))
+        endTime = request_data['endTime']
+        capacity = request_data['capacity']
+        p1 = Prediction(date, startTime,endTime)
+        irr = p1.getIrradiance()
+        e1 = Productivity(irr,1,capacity)
+        pro = e1.getUnits()
+        return round(pro,2)
+
+api.add_resource(Api,"/api")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+import utm
+
+coordinate_1 = (6.799876461577403, 79.92079429796134)
+
+coordinate_2 = (6.79987785154483, 79.9208432496612)
+coordinate_3 = (6.799818120361846, 79.92085590900636)
+coordinate_4 = (6.799802845588296, 79.92080696323306)
+
+utm_conversion = utm.from_latlon(coordinate_1[0],coordinate_1[1])
+
+utm_conversion2 = utm.from_latlon(coordinate_2[0],coordinate_2[1])
+utm_conversion3 = utm.from_latlon(coordinate_3[0],coordinate_3[1])
+utm_conversion4 = utm.from_latlon(coordinate_4[0],coordinate_4[1])
+print(utm_conversion)
+
+print(utm_conversion2)
+print(utm_conversion3)
+print(utm_conversion4)
+
+def PolygonArea(corners):
+    n = len(corners) # of corners
+    area = 0.0
+    for i in range(n):
+        j = (i + 1) % n
+        area += corners[i][0] * corners[j][1]
+        area -= corners[j][0] * corners[i][1]
+    area = abs(area) / 2.0
+    return area
+
+# examples
+corners = [(utm_conversion[0], utm_conversion[1]), (utm_conversion2[0],utm_conversion2[1]), (utm_conversion3[0], utm_conversion3[1]),(utm_conversion4[0], utm_conversion4[1])]
+print(PolygonArea(corners))
+
+
+import pickle
+import numpy as np
+from datetime import datetime
+
+
+class Prediction:
+    def __init__(self, date, time,endTime):
+        self.date = date
+        self.time = time
+        self.endTime = endTime
+
+    def getIrradiance(self):
+        date_time_obj = datetime.strptime(self.time, '%H:%M:%S')
+        hour = date_time_obj.hour
+        changetime = "05:30:00"
+        change_date_time_obj = datetime.strptime(changetime, '%H:%M:%S')
+        hour = hour-change_date_time_obj.hour
+        if hour<0:
+            hour = 0
+        print("new time",hour)
+        end_date_time_obj = datetime.strptime(self.endTime, '%H:%M:%S')
+        endHour = end_date_time_obj.hour
+        change_date_time_obj = datetime.strptime(changetime, '%H:%M:%S')
+        endHour = endHour - change_date_time_obj.hour
+        if endHour<0:
+            endHour = 0
+        print("new end time", endHour)
+        # print(hour)
+        date_obj = datetime.strptime(self.date, '%Y-%m-%d')
+
+        day_of_month = date_obj.day
+        # print(day_of_month)
+
+        day_of_week = date_obj.weekday()
+        # print(day_of_week)
+
+        month = date_obj.month
+        # print(month)
+
+        year = date_obj.year
+        # print(year)
+        with open('final_decision_Tree_model.pkl', 'rb') as f:
+            model = pickle.load(f)
+
+        numHour = endHour - hour
+        predIrr = 0
+        irradianceArray=[]
+        for i in range(numHour):
+            test_data = np.array([hour, day_of_month, day_of_week, month, year])
+            irradaiance = model.predict(test_data.reshape(1, 5))
+            print(i,irradaiance)
+            hour = hour + 1
+            predIrr= predIrr + irradaiance[0]
+            irradianceArray.insert(i,irradaiance[0])
+            print(predIrr)
+            print(irradianceArray)
+        return irradianceArray
+
+# x = Prediction("2005-04-01", "6:00:00","7:00:00")
+# x.getIrradiance()
+
+
+
+
+
+
+
+
+
+
+
+# with open('final_decision_Tree_model', 'rb') as f:
+#     model = pickle.load(f)
+#
+# test_data = np.array([16, 2, 5, 1, 2021])
+# answer =model.predict(test_data.reshape(1, 5))
+# print(answer)
+# list = answer.tolist()
+# print(list[0])
+
+
+web: gunicorn app:app
+
+
+class Productivity:
+    def __init__(self, irradiance, hours,capacity):
+        self.irradiance = irradiance
+        self.hours = hours
+        self.capacity = capacity
+
+    def getUnits(self):
+        print(self.irradiance)
+        totalpower = 0
+        print(totalpower)
+        for i in self.irradiance:
+            power = int(self.capacity) * int(i) /1000
+            totalpower = totalpower+power
+        # units= (self.irradiance*self.area*self.hours)/1000
+        print(totalpower)
+        return totalpower
+
+numpy==1.20.2
+utm==0.7.0
+Flask==1.1.2
+Flask_RESTful==0.3.8
+gunicorn
+scikit-learn
