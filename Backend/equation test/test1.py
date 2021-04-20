@@ -104,11 +104,16 @@ roundedSystemCapacity = round(systemCapacity, 2)
 
 irr = 100.0
 hours = 1
-eff = round((11.092 * math.log(irr)) + 23.38, 2)
-Energy = 2 * eff * hours
 
-print(eff)
-print(Energy)
+# Equation of solar panel efficiency vs irradiance graph is y = 11.092*ln(x) + 23.38
+eff = round((11.092 * math.log(irr)) + 23.38, 2)
+print('Efficiency of solar panel ', f"{eff}%")
+
+# Energy = Capacity x hours x efficiency (kWh)
+Energy = round(2 * hours * eff / 100, 2)
+
+print('Produced energy ', f"{Energy}kWh")
+
 
 
 
