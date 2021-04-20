@@ -3,9 +3,9 @@ name: Python application
 
 on:
   push:
-    branches: [ master ]
+    branches: [ backend_host ]
   pull_request:
-    branches: [ master ]
+    branches: [ backend_host ]
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
       env:
         HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
        # HEROKU_APP_NAME: ${{ cybersolarex }}
-      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      if: github.ref == 'refs/heads/backend_host' && job.status == 'success'
       run: |
         git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/cybersolarex.git
         git push heroku HEAD:master -f
