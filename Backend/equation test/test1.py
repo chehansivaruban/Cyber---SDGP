@@ -1,60 +1,4 @@
-'''import kwargs as kwargs
-import pyproj
-import shapely
-import shapely.ops as ops
-from shapely.geometry.polygon import Polygon
-from functools import partial
 
-from pyproj import CRS
-crs = CRS.from_epsg(4326)
-crs.to_epsg()
-4326
-crs.to_authority()
-('EPSG', '4326')
-crs = CRS.from_string("epsg:4326")
-crs = CRS.from_proj4("+proj=latlon")
-#crs = CRS.from_user_input(4326)
-
-
-geom = Polygon([(0, 0), (0, 10), (10, 10), (10, 0), (0, 0)])
-geom_area = ops.transform(
-    partial(
-        pyproj.transform,
-        pyproj.Proj(init='EPSG:4326'),
-        pyproj.Proj(
-            proj='aea',
-            lat1=geom.bounds[1],
-            lat2=geom.bounds[3])),
-    geom)
-
-# Print the area in m^2
-print(geom_area.area)
-
-
-'''
-from math import tan
-
-cordinates = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-for i in cordinates:
-    
-    (x1,y2) = i
-    (x2,y2) = i
-    print(x1 , x2)
-
-#without shading equation
-'''
-x - irradiance ( W/m*m )
-a - solar panel area ( m/m )
-h - hours ( h )'''
-
-x = float(600)   #just gave some nuumbers to check this
-#a = geom_area.area    # x is from data science
-h = int (2)      # a and h is from front end, user inputs
-
-#units = (x * a * h) / 1000
-
-#print (units)
 '''
 h = float(20.0)
 h1 = float(8.0)
@@ -158,11 +102,12 @@ roundedSystemCapacity = round(systemCapacity, 2)
 #print("Total system capacity is ", roundedSystemCapacity, "kW")
 
 
-irr = 1000.0
+irr = 100.0
 hours = 1
-eff = round((1.6924 * math.log(irr)) + 4.0725)
-Energy = 2 * eff * hours * 0.75
+eff = round((11.092 * math.log(irr)) + 23.38, 2)
+Energy = 2 * eff * hours
 
+print(eff)
 print(Energy)
 
 
