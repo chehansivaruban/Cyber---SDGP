@@ -158,11 +158,12 @@ roundedSystemCapacity = round(systemCapacity, 2)
 #print("Total system capacity is ", roundedSystemCapacity, "kW")
 
 
-irr = 1000.0
+irr = 0.2
 hours = 1
-eff = round((1.6924 * math.log(irr)) + 4.0725)
-Energy = 2 * eff * hours * 0.75
+eff = round((11.092 * math.log(irr)) + 23.38, 2)
+Energy = 5 * (eff/100) * hours
 
+print(eff)
 print(Energy)
 
 
