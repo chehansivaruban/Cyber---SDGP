@@ -49,6 +49,7 @@ class _WithShadingState extends State<WithShading> {
 
   List<Marker> solarpanelLatLanList = [];
   List<Marker> objectList = [];
+  List<Marker> allMarkers = [];
   bool solarPanelButton = true ;
 
 
@@ -69,7 +70,7 @@ class _WithShadingState extends State<WithShading> {
           markerId: MarkerId(onTapLatLang.toString()),
           position: onTapLatLang,
           draggable: true,
-          onTap: removeMarkerSolarPannel(onTapLatLang.toString()),
+          //onTap: removeMarkerSolarPannel(onTapLatLang.toString()),
           onDragEnd: (dragEndPoint){
             print(dragEndPoint);
           }
@@ -77,6 +78,16 @@ class _WithShadingState extends State<WithShading> {
       );
 
      }
+
+    allMarkers.clear();
+
+      for (Marker marker in solarpanelLatLanList) {
+          allMarkers.add(marker);
+      }
+      
+      for (Marker marker in objectList) {
+          allMarkers.add(marker);
+      }
       
       
     });
@@ -84,21 +95,21 @@ class _WithShadingState extends State<WithShading> {
 
 
 
-  removeMarkerSolarPannel(String latlang){
-    for(Marker marker in solarpanelLatLanList){
-      print('working1');
-      if(marker.markerId.toString() == latlang){
-        solarpanelLatLanList.remove(marker);
-        print('Removed location');
-      }
-    }
-  }
+  // removeMarkerSolarPannel(String latlang){
+  //   for(Marker marker in solarpanelLatLanList){
+  //     print('working1');
+  //     if(marker.markerId.toString() == latlang){
+  //       solarpanelLatLanList.remove(marker);
+  //       print('Removed location');
+  //     }
+  //   }
+  // }
 
   onTapMapFalse(LatLng onTapLatLang){
     print(onTapLatLang);
     setState(() {
       // with_shading_solarpanel_list = [];
-      solarpanelLatLanList.add(
+      objectList.add(
           Marker(
               markerId: MarkerId(onTapLatLang.toString()),
               position: onTapLatLang,
@@ -110,13 +121,27 @@ class _WithShadingState extends State<WithShading> {
           )
       );
 
+      allMarkers.clear();
+
+      for (Marker marker in solarpanelLatLanList) {
+          allMarkers.add(marker);
+      }
+      
+      for (Marker marker in objectList) {
+          allMarkers.add(marker);
+      }
+      
+
     });
   }
 
   //solar pannel location in with shading button
 
   sloarPanelBool(bool bool){
-    solarPanelButton = bool;
+    setState(() {
+          solarPanelButton = bool;
+        });
+    
   }
 
    checkLocationType(){
@@ -283,7 +308,7 @@ class _WithShadingState extends State<WithShading> {
                                             
                                           },
                                           onTap: checkLocationType(),
-                                          markers: Set.from(solarpanelLatLanList),
+                                          markers: Set.from(allMarkers ),
                                         ),
                                         )
                                       ),
@@ -317,7 +342,10 @@ class _WithShadingState extends State<WithShading> {
                                   margin: EdgeInsets.only(left: constraints.maxWidth*0.02,right: 5.0),                  
                                   child:ElevatedButton(
                                     onPressed: () {
-                                      solarPanelButton = true;
+                                      setState(() {
+                                        solarPanelButton = true;                     
+                                      });
+                                      
                                     },//this
                                   child: Row(                      
                                     children: <Widget>[
@@ -354,7 +382,10 @@ class _WithShadingState extends State<WithShading> {
                                 Container(                  
                                   child: !widget.withShading ? null : ElevatedButton(
                                     onPressed: () {
-                                      solarPanelButton = false;
+                                      setState(() {
+                                        solarPanelButton = false;        
+                                      });
+                                     
                                     },
                                     child:  Container(
                                       width: width*0.334,
@@ -438,17 +469,17 @@ class _WithShadingState extends State<WithShading> {
                               children: [
                                 ElevatedButton(onPressed: (){
                                   setState(() {
-                                                             solarPannelViewOn = true;          
-                                                                    });
-                                                                    print(solarPannelViewOn);
+                                    solarPannelViewOn = true;          
+                                  });
+                                  //print(solarPannelViewOn);
                                  
                                 }, child: Text("Solar Pannel")),
                                 SizedBox(width: constraints.maxWidth*0.01,),
                                 ElevatedButton(onPressed: (){
                                   setState(() {
-                                                                    solarPannelViewOn = false;   
-                                                                    });
-                                                                    print(solarPannelViewOn);
+                                  solarPannelViewOn = false;   
+                                  });
+                                 // print(solarPannelViewOn);
                                  
                                 }, child: Text("Shading Objects")),
                               ],
@@ -470,7 +501,7 @@ class _WithShadingState extends State<WithShading> {
                       
                                 ),
                               child: Visibility(
-                                visible: !solarPannelViewOn,
+                                visible: solarPannelViewOn,
                                 child:  Container(
                                   ///color: Colors.red,
                                 child: solarpanelLatLanList.length > 0
@@ -490,6 +521,15 @@ class _WithShadingState extends State<WithShading> {
                                                   setState(() {
                                                     solarpanelLatLanList.removeAt(index);
                                                     print("Removed Marker " + index.toString());
+                                                    allMarkers.clear();
+
+                                                    for (Marker marker in solarpanelLatLanList) {
+                                                      allMarkers.add(marker);
+                                                    }
+      
+                                                    for (Marker marker in objectList) {
+                                                      allMarkers.add(marker);
+                                                    }
                                                   });
                                                 }),
                                           ]),
@@ -520,19 +560,53 @@ class _WithShadingState extends State<WithShading> {
                       
                                 ),
                               child: Visibility(
-                                visible: solarPannelViewOn,
+                                visible: !solarPannelViewOn,
                                 child:  Container(
-                                //  color: Colors.blue,
+                                  
                                 child: objectList.length > 0
                                   ? ListView.separated(
                                       itemCount: objectList.length,
                                       itemBuilder: (context, index) {
                                         return Container(
+                                          color: Colors.blue,
                                           height: 40,
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Row(children: [
                                             Text("Marker " + index.toString(),
                                             style: TextStyle(fontWeight: FontWeight.bold),),
+                                            Row(children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.only(left: width*0.9*0.02),
+                                                width:  width*0.9*0.25,
+                                                child:
+                                                  TextField(
+                                                    controller: capacityTxtField,
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(),
+                                                      hintText: 'Height',
+                                                      // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
+                                                    )
+                                                  ),
+                                              ),
+                                              
+                                              Container(
+                                                margin: EdgeInsets.only(left: width*0.9*0.05),
+                                                width:  width*0.9*0.25,
+                                                child:
+                                                  TextField(
+                                                    controller: capacityTxtField,
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(),
+                                                      hintText: 'width',
+                                                      // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
+                                                    )
+                                                  ),
+                                              ),
+
+
+                                            ] ),
+
+                                            
                                             Spacer(),
                                             IconButton(
                                                 icon: Icon(Icons.delete),
@@ -540,10 +614,19 @@ class _WithShadingState extends State<WithShading> {
                                                   setState(() {
                                                     objectList.removeAt(index);
                                                     print("Removed Marker " + index.toString());
+                                                    allMarkers.clear();
+
+                                                    for (Marker marker in solarpanelLatLanList) {
+                                                      allMarkers.add(marker);
+                                                    }
+      
+                                                    for (Marker marker in objectList) {
+                                                      allMarkers.add(marker);
+                                                    }
                                                   });
                                                 }),
                                           ]),
-                                          color: Colors.white,
+                                          
                                         );
                                       },
                                       separatorBuilder: (context, index) {
