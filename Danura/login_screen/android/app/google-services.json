@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "363263592876",
+    "project_id": "solarex-1f7d4",
+    "storage_bucket": "solarex-1f7d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363263592876:android:0713da38f5e61402971209",
+        "android_client_info": {
+          "package_name": "com.example.login_screen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363263592876-pld0dcfdplvp68ubgbett5d6ivj0lan4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbVt7c_80l_ShABumCXevMjhwR8wdT3cE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363263592876-pld0dcfdplvp68ubgbett5d6ivj0lan4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
