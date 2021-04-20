@@ -155,7 +155,7 @@ systemCapacity = ((roundedArea / areaOfOnePanel) * capacityOfOnePanel) / 1000
 roundedSystemCapacity = round(systemCapacity, 2)
 
 
-print("Total system capacity is ", roundedSystemCapacity, "kW")
+#print("Total system capacity is ", roundedSystemCapacity, "kW")
 
 
 irr = 1000.0
