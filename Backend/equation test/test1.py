@@ -102,7 +102,19 @@ roundedSystemCapacity = round(systemCapacity, 2)
 #print("Total system capacity is ", roundedSystemCapacity, "kW")
 
 
-irr = 100.0
+clientCapacity = bool(True)
+inputCapacity = 5
+inputTotalArea = 40
+inputOnePanelArea = 2
+inputOnePanelCapacity = 250
+
+if clientCapacity:
+    capacity = inputCapacity
+else:
+    capacity = (inputTotalArea / inputOnePanelArea ) * inputOnePanelCapacity / 1000
+
+
+irr = 1000.0
 hours = 1
 
 # Equation of solar panel efficiency vs irradiance graph is y = 11.092*ln(x) + 23.38
@@ -110,7 +122,8 @@ eff = round((11.092 * math.log(irr)) + 23.38, 2)
 print('Efficiency of solar panel ', f"{eff}%")
 
 # Energy = Capacity x hours x efficiency (kWh)
-Energy = round(2 * hours * eff / 100, 2)
+Energy = round(capacity * hours * eff / 100, 2)
+
 
 print('Produced energy ', f"{Energy}kWh")
 
