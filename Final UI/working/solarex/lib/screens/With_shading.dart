@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
@@ -32,6 +33,10 @@ class _WithShadingState extends State<WithShading> {
 
   DateTime _chosenDateTime = DateTime.now();
   final capacityTxtField = TextEditingController();
+  final hightTxtField = TextEditingController();
+  final widthTxtField = TextEditingController();
+  final pannelAreaTxtField = TextEditingController();
+  //final pannelAreaTxtField = TextEditingController();
 
   DateTime date = DateTime.now();
   static final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -206,6 +211,10 @@ class _WithShadingState extends State<WithShading> {
     GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_currentLocationCam));
   }
+  // bool checkDataType(TextEditingController controller){
+   
+  //   if(controller.value is double){}
+  // }
 
 //////////////////////////////////////////////////////////////API
  Future<http.Response> calculate() {
@@ -229,8 +238,9 @@ class _WithShadingState extends State<WithShading> {
 
   @override
   Widget build(BuildContext context) {
+      _controller = Completer();
 
-    //bool withOrWithoutShadingBtn = widget.withShading;
+    bool withOrWithoutShadingBtn = widget.withShading; // from home page true or false
     //final TextEditingController _textEditingController = TextEditingController();
     
 
@@ -521,7 +531,7 @@ class _WithShadingState extends State<WithShading> {
                             margin: EdgeInsets.only(top: 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: <Widget>[
                                 ElevatedButton(onPressed: (){
                                   setState(() {
                                     solarPannelViewOn = true;          
@@ -530,13 +540,17 @@ class _WithShadingState extends State<WithShading> {
                                  
                                 }, child: Text("Solar Pannel")),
                                 SizedBox(width: constraints.maxWidth*0.01,),
+                                Visibility(
+                                  visible: withOrWithoutShadingBtn,
+                                  child: 
                                 ElevatedButton(onPressed: (){
                                   setState(() {
                                   solarPannelViewOn = false;   
                                   });
                                  // print(solarPannelViewOn);
                                  
-                                }, child: Text("Shading Objects")),
+                                  }, child: Text("Shading Objects")),
+                                )
                               ],
                             ),
                           ),
@@ -567,7 +581,7 @@ class _WithShadingState extends State<WithShading> {
                                           height: 40,
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Row(children: [
-                                            Text("Marker " + index.toString(),
+                                            Text("Point" + (index + 1).toString(),
                                             style: TextStyle(fontWeight: FontWeight.bold),),
                                             Spacer(),
                                             IconButton(
@@ -628,42 +642,63 @@ class _WithShadingState extends State<WithShading> {
                                           height: 40,
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Row(children: [
-                                            Text("Marker " + index.toString(),
+                                            Text("Obj. " + (index + 1).toString(),
                                             style: TextStyle(fontWeight: FontWeight.bold),),
                                             Row(children: <Widget>[
                                               Container(
-                                                margin: EdgeInsets.only(left: width*0.9*0.02),
+                                                margin: EdgeInsets.only(left: width*0.9*0.01),
                                                 width:  width*0.9*0.25,
                                                 child:
+                                                
                                                   TextField(
-                                                    controller: capacityTxtField,
+                                                    
+                                                    controller: hightTxtField,
                                                     decoration: InputDecoration(
                                                       border: OutlineInputBorder(),
                                                       hintText: 'Height',
+                                                      
                                                       // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
-                                                    )
+                                                    ),
+                                                    keyboardType: TextInputType.number,
+                                                    inputFormatters: <TextInputFormatter>[
+                                                        FilteringTextInputFormatter.digitsOnly
+                                                    ], // Only numbers can be entered
+                                                    
+
+                                                    
                                                   ),
                                               ),
                                               
                                               Container(
-                                                margin: EdgeInsets.only(left: width*0.9*0.05),
+                                                margin: EdgeInsets.only(left: width*0.9*0.01),
                                                 width:  width*0.9*0.25,
                                                 child:
                                                   TextField(
-                                                    controller: capacityTxtField,
+                                                    controller: widthTxtField,
                                                     decoration: InputDecoration(
                                                       border: OutlineInputBorder(),
                                                       hintText: 'width',
                                                       // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
-                                                    )
+                                                    ),
+                                                     keyboardType: TextInputType.number,
+                                                    inputFormatters: <TextInputFormatter>[
+                                                        FilteringTextInputFormatter.digitsOnly
+                                                    ],
                                                   ),
                                               ),
+                                              Container(
+                                                width: width*0.123,
+                                                alignment: Alignment.center,
+                                                
+                                                child:ElevatedButton(onPressed: null, 
+                                              child: Icon(Icons.beenhere_sharp,color: Colors.grey,))
+                                              )
 
 
                                             ] ),
 
                                             
-                                            Spacer(),
+                                            
                                             IconButton(
                                                 icon: Icon(Icons.delete),
                                                 onPressed: () {
@@ -777,6 +812,10 @@ class _WithShadingState extends State<WithShading> {
                                         border: OutlineInputBorder(),
                                         hintText: 'Enter Solar Panel Capacity in Kilo watt'
                                       ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     )
 
 
