@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:solarex/provider/google_sign_in.dart';
+import 'package:provider/provider.dart';
+
 
 import 'package:solarex/screens/With_shading.dart';
 
@@ -62,26 +65,29 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(bottom: 30),
-                          //color: Colors.red,
-                          height: constraints.maxHeight*0.2,
-                          child: Container(
-                            width: constraints.maxWidth*0.9,
-                            child: Column(
-                            children: <Widget>[
-                              Text('Find the power output of your solar energy system',
-                              style: TextStyle(fontSize: constraints.maxHeight*0.05, fontWeight: FontWeight.bold, color: Colors.white),
+                            //child:  SingleChildScrollView(
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 39),
+
+                                height: constraints.maxHeight*0.2,
+                                child: Container(
+                                  width: constraints.maxWidth*0.9,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text('Find the power output of your solar energy system',
+                                        style: TextStyle(fontSize: constraints.maxHeight*0.05, fontWeight: FontWeight.bold, color: Colors.white),
                               
+                                      ),
+                                      SizedBox(height: constraints.maxHeight*0.01,),
+
+                                    ],
+                                  ),
+                                )
                               ),
-                              SizedBox(height: constraints.maxHeight*0.01,),
-                              // Text('The power output of a particular given time can be calculated according to the roof area of the solar energy system on a particular day.',
-                              // style: TextStyle(fontSize: 15, color: Colors.white),
                               
-                              // )
-                            ],
-                          ),
-                          )
-                        ),
+                            ),
+                         // ),
+                        
 
 
 
@@ -95,10 +101,10 @@ class _HomePageState extends State<HomePage> {
                           child: Container( // white color container
                             color: Colors.white,
                             width: constraints.maxWidth,
-                            height: constraints.maxHeight,
+                            //height: constraints.maxHeight,
                             
 
-                            child: SingleChildScrollView(
+                          //  child: SingleChildScrollView(
                             
                             child:Column(
                               
@@ -106,6 +112,8 @@ class _HomePageState extends State<HomePage> {
 
                               children: <Widget>[
                                 Container(
+                                  height: 30,
+                                 // color: Colors.red,
                                   margin: EdgeInsets.only(top: 20),
                                   child: Text('Get Started',
                                     style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
@@ -278,13 +286,15 @@ class _HomePageState extends State<HomePage> {
                         ),
 
 
+                       
+
 
                               ],
                             ),
                             )
                           )
                           
-                        ),
+                        //),
 
                       ]
                       )
@@ -317,10 +327,14 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.blue,
               ),
             ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {},
-            ),
+            
+            Container(
+              color: Colors.red,
+              child: ElevatedButton(onPressed: (){
+                final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                provider.logOut();
+              }, child: Text('Iteam 1')),
+            )
           ],
         ),
       ),

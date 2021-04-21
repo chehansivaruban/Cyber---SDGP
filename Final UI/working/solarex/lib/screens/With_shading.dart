@@ -226,7 +226,7 @@ class _WithShadingState extends State<WithShading> {
    
     
   
-  Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
+   Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
   var shadingMarkerJson = jsonEncode(shadingMarker);
   print(shadingMarkerJson);
 

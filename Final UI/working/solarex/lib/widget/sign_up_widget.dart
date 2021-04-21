@@ -11,7 +11,51 @@ class SignUpWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => buildSignUp();
 
-  Widget buildSignUp() => Column(
+   Widget buildSignUp() => 
+  //  Scaffold(
+  //    // appBar: AppBar(),
+  //     body: Material(
+  //       type: MaterialType.transparency,
+  //       child:
+  //         Container(
+  //           decoration: BoxDecoration(
+  //             gradient: LinearGradient(
+  //               begin: Alignment.topCenter,
+  //               end: Alignment.bottomCenter,
+  //               colors: [Color.fromARGB(255, 0, 148, 255), Color.fromARGB(255, 0, 255, 163)] //top bottom color
+  //             )
+  //           ),
+  //           child:Column(
+  //             children: <Widget>[
+  //               Flexible(
+  //               child:FractionallySizedBox(
+  //                 heightFactor: 1.0,
+  //                 widthFactor: 1.0,
+  //                 child: Container(
+  //                   child: LayoutBuilder(
+  //                     builder: (context, constraints){
+  //                     bool resultbool = false;
+  //                     final width = constraints.maxWidth;
+
+  //                     return 
+                    
+  //                       Column(
+  //                         children: <Widget>[]
+  //                       );
+                
+  //                 }
+  //               )
+  //             )
+  //           )
+  //         )
+  //       ]
+  //     )
+  //       )
+  //     )
+  //     );
+
+
+   Column(
     children: [
        Container(
               margin: const EdgeInsets.fromLTRB(20, 100, 20, 20),
