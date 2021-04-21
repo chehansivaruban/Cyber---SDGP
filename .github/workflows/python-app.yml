@@ -40,5 +40,5 @@ jobs:
        # HEROKU_APP_NAME: ${{ cybersolarex }}
       if: github.ref == 'refs/heads/backend_host' && job.status == 'success'
       run: |
-        git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/cybersolarex.git
+        git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/solarex-final.git
         git push heroku HEAD:master -f
