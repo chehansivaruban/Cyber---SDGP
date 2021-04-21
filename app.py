@@ -45,9 +45,6 @@ class Api2(Resource):
         except:
             return "error"
 
-
-
-
 api.add_resource(Api2,"/shade")
 
 
