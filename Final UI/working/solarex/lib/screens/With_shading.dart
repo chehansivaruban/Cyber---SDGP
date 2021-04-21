@@ -33,8 +33,7 @@ class _WithShadingState extends State<WithShading> {
 
   DateTime _chosenDateTime = DateTime.now();
   final capacityTxtField = TextEditingController();
-  final hightTxtField = TextEditingController();
-  final widthTxtField = TextEditingController();
+  
   final pannelAreaTxtField = TextEditingController();
   //final pannelAreaTxtField = TextEditingController();
 
@@ -57,8 +56,12 @@ class _WithShadingState extends State<WithShading> {
   List<Marker> solarpanelLatLanList = [];
   List<Marker> objectList = [];
   List<Marker> allMarkers = [];
+  List<List> pointHeightWidth = [];
   List<ObjectMarker> objectMarkeListWithDetails = [];
+  List<TextField> textFieldHW =[];
   bool solarPanelButton = true ;
+
+  TextField textFieldHeight = new TextField();
 
 
   Completer<GoogleMapController> _controller = Completer();
@@ -108,7 +111,7 @@ class _WithShadingState extends State<WithShading> {
   //       print('Removed location');
   //     }
   //   }
-  // }
+  // } 
 
   onTapMapFalse(LatLng onTapLatLang){
     print(onTapLatLang);
@@ -218,16 +221,25 @@ class _WithShadingState extends State<WithShading> {
 
 //////////////////////////////////////////////////////////////API
  Future<http.Response> calculate() {
+   // ignore: non_constant_identifier_names
+  
+   Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
+  var shadingMarkerJson = jsonEncode(shadingMarker);
+  print(shadingMarkerJson);
+
+   //print(shadingMarker);
   return http.post(
     Uri.https('cybersolarex.herokuapp.com','//api'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
+    body: jsonEncode(<String, dynamic>{
+      
        "date": formattedDate,
        "startTime": formattedStartTime,
        'endTime': formattedEndTime,
-       'capacity': capacityTxtField.text.toString()
+       'capacity': capacityTxtField.value,
+       'shadingMarkerHW' : shadingMarkerJson
     }),
   );
 }
@@ -637,6 +649,9 @@ class _WithShadingState extends State<WithShading> {
                                   ? ListView.separated(
                                       itemCount: objectList.length,
                                       itemBuilder: (context, index) {
+                                        final hightTxtField = TextEditingController();
+                                        final widthTxtField = TextEditingController();
+
                                         return Container(
                                           color: Colors.blue,
                                           height: 40,
@@ -655,7 +670,9 @@ class _WithShadingState extends State<WithShading> {
                                                     controller: hightTxtField,
                                                     decoration: InputDecoration(
                                                       border: OutlineInputBorder(),
-                                                      hintText: 'Height',
+                                                      hintText: 
+                                                      
+                                                      pointHeightWidth.isEmpty  ?'hight': pointHeightWidth.asMap()[index] != null  ?  pointHeightWidth.elementAt(index).elementAt(0).toString(): "hight"
                                                       
                                                       // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
                                                     ),
@@ -677,7 +694,7 @@ class _WithShadingState extends State<WithShading> {
                                                     controller: widthTxtField,
                                                     decoration: InputDecoration(
                                                       border: OutlineInputBorder(),
-                                                      hintText: 'width',
+                                                      hintText: pointHeightWidth.isEmpty   ?'width': pointHeightWidth.asMap()[index] != null  ?  pointHeightWidth.elementAt(index).elementAt(1).toString(): "width"
                                                       // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
                                                     ),
                                                      keyboardType: TextInputType.number,
@@ -687,17 +704,45 @@ class _WithShadingState extends State<WithShading> {
                                                   ),
                                               ),
                                               Container(
-                                                width: width*0.123,
+                                                width:constraints.maxWidth*0.15,
                                                 alignment: Alignment.center,
                                                 
-                                                child:ElevatedButton(onPressed: null, 
+                                                child:ElevatedButton(onPressed: (){
+                                                  setState(() {
+
+                                                    List heightWidth = [];
+
+                                                    //pointHeightWidth
+                                                    
+                                                    double height = double.parse(hightTxtField.text);
+                                                    double width = double.parse(widthTxtField.text);
+                                                    print('h');
+                                                    print(height);
+                                                    print('w');
+                                                    print(width);
+                                                    heightWidth.add(height);
+                                                    heightWidth.add(width);
+
+                                                    pointHeightWidth.add(heightWidth);
+
+
+
+                                                    objectMarkeListWithDetails.elementAt(index).height = height; 
+                                                    objectMarkeListWithDetails.elementAt(index).width = width;  
+                                                     print('done');                                          
+                                                  });
+                                                }, 
                                               child: Icon(Icons.beenhere_sharp,color: Colors.grey,))
                                               )
 
 
                                             ] ),
-
                                             
+
+                                            Container(
+                                              width: constraints.maxWidth*0.0999,
+                                              color: Colors.white,
+                                              child:
                                             
                                             IconButton(
                                                 icon: Icon(Icons.delete),
@@ -705,6 +750,7 @@ class _WithShadingState extends State<WithShading> {
                                                   setState(() {
                                                     objectList.removeAt(index);
                                                     objectMarkeListWithDetails.removeAt(index);
+                                                    pointHeightWidth.removeAt(index);
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
 
@@ -717,7 +763,9 @@ class _WithShadingState extends State<WithShading> {
                                                     }
                                                   });
                                                 }),
+                                            )
                                           ]),
+                                          
                                           
                                         );
                                       },
