@@ -29,7 +29,26 @@ class Api(Resource):
         pro = e1.getUnits()
         print("Productivity : ",pro)
         return round(pro,2)
-api.add_resource(Api,"/api")
+api.add_resource(Api,"/wshade")
+
+class Api2(Resource):
+    def post(self):
+        try:
+            request_data = request.data
+            request_data = json.loads(request_data.decode('utf-8'))
+            date = request_data['date']
+            startTime = request_data['startTime']
+            endTime = request_data['endTime']
+            capacity = request_data['capacity']
+            shadingMarkerHW = request_data['shadingMarkerHW']
+            return date,startTime,endTime,capacity,shadingMarkerHW
+        except:
+            return "error"
+
+
+
+
+api.add_resource(Api2,"/shade")
 
 
 if __name__ == "__main__":
