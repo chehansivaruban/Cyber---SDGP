@@ -60,6 +60,7 @@ class _WithShadingState extends State<WithShading> {
   List<ObjectMarker> objectMarkeListWithDetails = [];
   List<TextField> textFieldHW =[];
   bool solarPanelButton = true ;
+  late bool withOrWithoutShadingBtn;
 
   TextField textFieldHeight = new TextField();
 
@@ -220,29 +221,65 @@ class _WithShadingState extends State<WithShading> {
   // }
 
 //////////////////////////////////////////////////////////////API
- Future<http.Response> calculate() {
-   // ignore: non_constant_identifier_names
+
+ Future<http.Response> calculateWithShading() {
+   
+    
   
-   Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
+  Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
   var shadingMarkerJson = jsonEncode(shadingMarker);
   print(shadingMarkerJson);
 
    //print(shadingMarker);
   return http.post(
-    Uri.https('cybersolarex.herokuapp.com','//api'),
+    Uri.https('solarex-final.herokuapp.com','/shade'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, dynamic>{
+    body: jsonEncode(<String, String>{
       
-       "date": formattedDate,
-       "startTime": formattedStartTime,
+       'date': formattedDate,
+       'startTime': formattedStartTime,
        'endTime': formattedEndTime,
-       'capacity': capacityTxtField.value,
+       'capacity': capacityTxtField.text,
        'shadingMarkerHW' : shadingMarkerJson
     }),
   );
 }
+
+
+ Future<http.Response> calculateWithOutShading() {
+   
+    
+  
+  // Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
+  //var shadingMarkerJson = jsonEncode(shadingMarker);
+  //print(shadingMarkerJson);
+
+   //print(shadingMarker);
+  return http.post(
+    Uri.https('solarex-final.herokuapp.com','/wshade'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      
+       'date': formattedDate,
+       'startTime': formattedStartTime,
+       'endTime': formattedEndTime,
+       'capacity': capacityTxtField.text,
+      // 'shadingMarkerHW' : shadingMarkerJson
+    }),
+  );
+}
+Future<http.Response> calculate(){
+  print(withOrWithoutShadingBtn);
+  return //calculateWithOutShading();
+
+      !withOrWithoutShadingBtn? calculateWithOutShading():calculateWithShading();
+
+}
+
 
 //////////////////////////////////////////////////////////////
 
@@ -252,7 +289,7 @@ class _WithShadingState extends State<WithShading> {
   Widget build(BuildContext context) {
       _controller = Completer();
 
-    bool withOrWithoutShadingBtn = widget.withShading; // from home page true or false
+    withOrWithoutShadingBtn = widget.withShading; // from home page true or false
     //final TextEditingController _textEditingController = TextEditingController();
     
 
@@ -900,6 +937,7 @@ class _WithShadingState extends State<WithShading> {
                                   });
                                   
                                   resultbool = true;
+                                  print( capacityTxtField.text);
                                   // _showTimePicker(context,constraints,endTime);
                                   http.Response response = await calculate();
                                   if (response.statusCode == 200) {
@@ -910,10 +948,10 @@ class _WithShadingState extends State<WithShading> {
                                     print("SUCCESS: " + finalResult);
                                   } else {
                                     
-                                     // finalResult = response.statusCode.toString();  
+                                      finalResult = response.statusCode.toString();  
                                     
                                     
-                                    print("REQUEST FAILED" + "STARTUS_CODE: " + finalResult);
+                                    print("REQUEST FAILED " + "STARTUS_CODE: " + finalResult);
                                   }
                                   setState(() {
                                      calculatiOnReady = true;                                             
