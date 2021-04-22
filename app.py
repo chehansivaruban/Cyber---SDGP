@@ -31,7 +31,7 @@ class Api(Resource):
         capacity = request_data['capacity']
         sLonArray = [] #Array with solar panel longitudes
         m = 0
-        for doc in request_data['roofMarkerHW']: #insert longitudes to array
+        for doc in request_data['solarPanel']: #insert longitudes to array
             sLon = doc['lngS']
             sLonArray.insert(m, sLon)
             m = m + 1
