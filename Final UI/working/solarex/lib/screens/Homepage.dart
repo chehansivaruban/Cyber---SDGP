@@ -313,7 +313,16 @@ class _HomePageState extends State<HomePage> {
       )
       ),
       drawer: Drawer(
-        child: Column(
+        child: LayoutBuilder(
+                  builder: (context, constraints){
+                   
+                   
+                    return
+        
+        
+        
+        
+        Column(
           children: <Widget>[
           Expanded(
         
@@ -326,15 +335,37 @@ class _HomePageState extends State<HomePage> {
             //     height: kToolbarHeight,
             //   )
             // ),
-            
-             DrawerHeader(
+            Container(
+              //color: Colors.blue,
+              child:
+            DrawerHeader(
                child: provider.getProfileImage()
+            ),
          
               // child: Text('Drawer Header'),
               // decoration: BoxDecoration(
               //   color: Colors.blue,
               // ),
-             )
+             ),
+            Container(
+              //color: Colors.red,
+              height: 50,
+              child: Column(
+                children: <Widget>[
+            
+             
+             Container(
+               child: Text(provider.getCurrentUName().toString()),
+             ),
+             SizedBox(height: 10),
+             Container(
+               child: Text(provider.getCurrentUEmail().toString()),
+             ),
+             
+
+                ]
+              )
+            )
             
           
             
@@ -371,7 +402,9 @@ class _HomePageState extends State<HomePage> {
         )
         ]
         
-        ),
+        );
+                  }
+                  )
       ),
     );  
   }

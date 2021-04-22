@@ -27,12 +27,21 @@ class WithShading extends StatefulWidget {
 
 class _WithShadingState extends State<WithShading> {
 
+
+  int selectedRadioTile = 0;
+
   bool solarPannelViewOn = true;
   bool mapViewisOn = false;
   bool calculatiOnReady = false;
+  bool withCapacity = true;
 
   DateTime _chosenDateTime = DateTime.now();
   final capacityTxtField = TextEditingController();
+  final hPointTxtField = TextEditingController();
+  final lPointTxtField = TextEditingController();
+  final distanceTxtField = TextEditingController();
+  final oPanelCapacityTxtField = TextEditingController();
+  final oPAreaTxtField = TextEditingController();
   
   final pannelAreaTxtField = TextEditingController();
   //final pannelAreaTxtField = TextEditingController();
@@ -61,6 +70,8 @@ class _WithShadingState extends State<WithShading> {
   List<TextField> textFieldHW =[];
   bool solarPanelButton = true ;
   late bool withOrWithoutShadingBtn;
+
+  
 
   TextField textFieldHeight = new TextField();
 
@@ -248,7 +259,9 @@ class _WithShadingState extends State<WithShading> {
 }
 
 
- Future<http.Response> calculateWithOutShading() {
+
+
+Future<http.Response> calculateWithOutShading() {
    
     
   
@@ -282,6 +295,35 @@ Future<http.Response> calculate(){
 
 
 //////////////////////////////////////////////////////////////
+@override
+void initState() {
+  super.initState();
+
+
+
+  selectedRadioTile = 0;
+}
+
+void withCapacityBool(){
+  withCapacity = true;
+  oPAreaTxtField.clear();
+  oPanelCapacityTxtField.clear();
+  
+
+}
+
+void withOutCapacityBool(){
+   withCapacity = false;
+   capacityTxtField.clear();
+
+}
+ 
+setSelectedRadioTile(int val) {
+  setState(() {
+    selectedRadioTile = val;
+    val ==1 ? withCapacityBool():withOutCapacityBool() ;
+  });
+}
 
 
 
@@ -303,7 +345,7 @@ Future<http.Response> calculate(){
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color.fromARGB(255, 0, 148, 255), Color.fromARGB(255, 0, 255, 163)] //top bottom color
+              colors:  [Color.fromARGB(255, 0, 148, 255), Color.fromARGB(255, 0, 255, 163)] //top bottom color
           )
       ),
       child:Column(
@@ -563,10 +605,12 @@ Future<http.Response> calculate(){
                           ),
                           ),
                        
-                          
-                          
+                          Visibility(
+                          visible: mapViewisOn,
+                          child: Column(
+                            children: <Widget>[
 
-                          Container(
+                              Container(
                              margin: EdgeInsets.only(top: 20),
                             child: Text('Location point table',
                             style: TextStyle(fontSize: 20,
@@ -604,7 +648,6 @@ Future<http.Response> calculate(){
                             ),
                           ),
 
-                          // solar pannel location in tabel
                           Visibility(
                             visible: solarPannelViewOn,
                             child:
@@ -627,6 +670,7 @@ Future<http.Response> calculate(){
                                       itemCount: solarpanelLatLanList.length,
                                       itemBuilder: (context, index) {
                                         return Container(
+                                          color: Colors.blue,
                                           height: 40,
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Row(children: [
@@ -652,7 +696,7 @@ Future<http.Response> calculate(){
                                                   });
                                                 }),
                                           ]),
-                                          color: Colors.white,
+                                          // color: Colors.white,
                                         );
                                       },
                                       separatorBuilder: (context, index) {
@@ -665,7 +709,8 @@ Future<http.Response> calculate(){
                           ),
 
 
-                          // object list view
+
+
                           Visibility(
                             visible: !solarPannelViewOn,
                             
@@ -706,7 +751,15 @@ Future<http.Response> calculate(){
                                                     
                                                     controller: hightTxtField,
                                                     decoration: InputDecoration(
-                                                      border: OutlineInputBorder(),
+                                                      filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
                                                       hintText: 
                                                       
                                                       pointHeightWidth.isEmpty  ?'hight': pointHeightWidth.asMap()[index] != null  ?  pointHeightWidth.elementAt(index).elementAt(0).toString(): "hight"
@@ -730,7 +783,15 @@ Future<http.Response> calculate(){
                                                   TextField(
                                                     controller: widthTxtField,
                                                     decoration: InputDecoration(
-                                                      border: OutlineInputBorder(),
+                                                      filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
                                                       hintText: pointHeightWidth.isEmpty   ?'width': pointHeightWidth.asMap()[index] != null  ?  pointHeightWidth.elementAt(index).elementAt(1).toString(): "width"
                                                       // suffixIconConstraints: BoxConstraints( maxWidth: width*0.9*0.02)
                                                     ),
@@ -778,7 +839,7 @@ Future<http.Response> calculate(){
 
                                             Container(
                                               width: constraints.maxWidth*0.0999,
-                                              color: Colors.white,
+                                              color: Colors.blue,
                                               child:
                                             
                                             IconButton(
@@ -814,6 +875,26 @@ Future<http.Response> calculate(){
                               ), 
                           ),
                           ),
+
+
+
+
+                            ],
+
+
+                          ),
+                          ),
+
+                          
+
+                          
+
+                          // solar pannel location in tabel
+                          
+
+
+                          // object list view
+                          
 
                           //add date and time gap 
                           Container(
@@ -879,33 +960,240 @@ Future<http.Response> calculate(){
 
 
                                 ),
+                                Center(
+                                  
+                                  child: Container(
+                                    alignment: Alignment.center,
+            
+                                 child: 
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                   children: <Widget>[
+                                
+
+                                      RadioListTile(
+                                          value: 1,
+                                          groupValue: selectedRadioTile,
+                                          title: Text("Calculate with Capacity"),
+                                          onChanged: (val) {
+                                            print("Radio Tile pressed $val");
+                                            setSelectedRadioTile(int.parse(val.toString()));
+                                          },
+                                          activeColor: selectedRadioTile == 1? Colors.red:Colors.black,
+ 
+                                          selected: true,
+                                      ),
+                         
+
+                                      RadioListTile(
+                                        value: 2,
+                                        groupValue: selectedRadioTile,
+                                        title: Text("Calculate without Capacity"),
+ 
+                                        onChanged: (val) {
+                                          print("Radio Tile pressed $val");
+                                          setSelectedRadioTile(int.parse(val.toString()));
+                                        },
+                                        activeColor: selectedRadioTile == 2? Colors.red:Colors.black,
+  
+                                        selected: true,
+                                      ),
+
+                                   ]
+                                   ),
+                                  ),
+                                  ),
+                                // Row(
+                                //   children: <Widget>[
+                                //     ListTile(  
+                                //       title: const Text('www.javatpoint.com'),  
+                                //       leading: Radio(  
+                                //         value: 1,  
+                                //         groupValue: group,  
+                                //         onChanged:(T){
+                                //           print(T);
+                                //           setState(() {
+                                                                                      
+                                //           });
+                                //         },  
+                                //       ),  
+                                //     ),  
+                                //   ],
+                                // ),
 
                                 Container(
                                   width: width*0.9,
                                   alignment: Alignment.center,
 
-                                  child: Column(
+                                  child: withCapacity  ? Column(
                                     children: <Widget>[
-                                      SizedBox(height: 20,),
+                                      SizedBox(height: 15,),
                                       Text('Total Solar pannel Capacity',
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04),
                                     ),
                                     TextField(
+                                      
                   
                                       controller: capacityTxtField,
                                       decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
                                         hintText: 'Enter Solar Panel Capacity in Kilo watt'
                                       ),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
-                                    )
-
-
+                                    ),
+                                   
                                     ]
+                                  ): Column(
+                                    children: <Widget>[
+
+
+                                      SizedBox(height: 15,),
+                                    Text('One panel Capacity',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04, color: Colors.white),
+                                    
+                                    ),
+                                    TextField(
+                  
+                                      controller: oPanelCapacityTxtField,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        hintText: 'Enter capacity in (wh)'
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                    ),
+                                    SizedBox(height: 15,),
+                                    Text('One Pannel Area',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04, color: Colors.white),
+                                    ),
+                                    TextField(
+                  
+                                      controller: oPAreaTxtField,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        hintText: 'Enter the value in square meter (m)'
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                    ),
+                                      
+                                    
+                                    ],
                                   )
+                                ),
+                                Container(
+                                  width: width*0.9,
+                                  child:
+                                Column(
+                                  children: <Widget>[
+                                    SizedBox(height: 15,),
+                                    Text('Highest point of solar pannel',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04),
+                                    ),
+                                    TextField(
+                  
+                                      controller: hPointTxtField,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        hintText: 'Enter the value in meter (m)'
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                    ),
+                                    SizedBox(height: 15,),
+                                    Text('Lowest point of solar pannel',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04),
+                                    ),
+                                    TextField(
+                  
+                                      controller: lPointTxtField,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        hintText: 'Enter the value in meter (m)'
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                    ),
+                                    SizedBox(height: 15,),
+                                    Text('Perpendiculer distance between ',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04),
+                                    ),
+                                    Text('Highes point and Lowest point of Solar panel ',
+                                    style: TextStyle(fontSize: constraints.maxWidth*0.04),
+                                    ),
+                                    TextField(
+                  
+                                      controller: distanceTxtField,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                          
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        hintText: 'Enter the value in meter (m)'
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                    )
+                                  ],
+                                ),
                                 ),
 
 
@@ -1006,11 +1294,6 @@ Future<http.Response> calculate(){
                                   ),
                                 ),
                                 )
-
-
-                                
-                                
-                                 
                               ],
                             )
                           ),
