@@ -915,6 +915,7 @@ setSelectedRadioTile(int val) {
                                                   setState(() {
                                                     objectList.removeAt(index);
                                                     objectMarkeListWithDetails.removeAt(index);
+                                                    
                                                    
                                                     pointHeightWidth.removeAt(index);
                                                     print("Removed Marker " + index.toString());
