@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                             //child:  SingleChildScrollView(
                               child: Container(
-                                margin: EdgeInsets.only(bottom: 39),
+                                margin: EdgeInsets.only(bottom: 100),
 
                                 height: constraints.maxHeight*0.2,
                                 child: Container(
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Column(
                                     children: <Widget>[
                                       Text('Find the power output of your solar energy system',
-                                        style: TextStyle(fontSize: constraints.maxHeight*0.05, fontWeight: FontWeight.bold, color: Colors.white),
+                                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
                               
                                       ),
                                       SizedBox(height: constraints.maxHeight*0.01,),
