@@ -38,7 +38,7 @@ class Api(Resource):
 
         sLatArray = [] #Array with solar panel latitudes
         n = 0
-        for doc in request_data['roofMarkerHW']:#insert lattitudes to array
+        for doc in request_data['solarPanel']:#insert lattitudes to array
             sLat = doc['latS']
             sLatArray.insert(n, sLat)
             n = n + 1
@@ -97,14 +97,14 @@ class Api2(Resource):
 
         sLonArray = [] #Array with solar panel longitudes
         m = 0
-        for doc in request_data['roofMarkerHW']:
+        for doc in request_data['solarPanel']:
             sLon = doc['lngS']
             sLonArray.insert(m, sLon)
             m = m + 1
 
         sLatArray = [] #Array with solar panel latitudes
         n = 0
-        for doc in request_data['roofMarkerHW']:
+        for doc in request_data['solarPanel']:
             sLat = doc['latS']
             sLatArray.insert(n, sLat)
             n = n + 1
