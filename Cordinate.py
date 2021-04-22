@@ -19,11 +19,13 @@ print(utm_conversion2)
 print(utm_conversion3)
 print(utm_conversion4)
 
-# print("lat",utm.to_latlon(utm_conversion))
 
 midx = (utm_conversion[0]+utm_conversion2[0]+utm_conversion3[0]+utm_conversion4[0])/4
 midy = (utm_conversion[1]+utm_conversion2[1]+utm_conversion3[1]+utm_conversion4[1])/4
 print("mid point :(",midx,",",midy,")")
+midPointLonLat=utm.to_latlon(midx,midy,44,'N')#convert to longitude lattitude
+
+print("Lat:",midPointLonLat)
 def PolygonArea(corners):
     n = len(corners) # of corners
     area = 0.0
@@ -77,5 +79,5 @@ def calculate_initial_compass_bearing(pointA, pointB):
     compass_bearing = (initial_bearing + 360) % 360
 
     return compass_bearing
-value = calculate_initial_compass_bearing(coordinate_1,coordinate_4)
+value = calculate_initial_compass_bearing(midPointLonLat,coordinate_1)
 print(value)
