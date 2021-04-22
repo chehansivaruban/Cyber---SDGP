@@ -17,8 +17,8 @@ class GoogleSignUpButtonWidget extends StatelessWidget {
                 final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                 provider.login();
               },
-            ),
+            ),  
 
-  );
+    );
   
 }
