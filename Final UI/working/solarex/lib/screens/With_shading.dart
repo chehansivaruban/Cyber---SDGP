@@ -72,7 +72,7 @@ class _WithShadingState extends State<WithShading> {
   List<ObjectMarker> objectMarkeListWithDetails = [];
   List<TextField> textFieldHW =[];
   bool solarPanelButton = true ;
-  late bool withOrWithoutShadingBtn;
+  late bool withOrWithoutShadeHome;
 
   
 
@@ -241,6 +241,10 @@ class _WithShadingState extends State<WithShading> {
   var shadingMarkerJson = jsonEncode(shadingMarker);
   print(shadingMarkerJson);
 
+  Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
+  var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
+  print(withOutShadingMarkerJson);
+
    //print(shadingMarker);
   return http.post(
     Uri.https('solarex-final.herokuapp.com','/shade'),
@@ -253,7 +257,13 @@ class _WithShadingState extends State<WithShading> {
        'startTime': formattedStartTime,
        'endTime': formattedEndTime,
        'capacity': capacityTxtField.text,
-       'shadingMarkerHW' : shadingMarkerJson
+       'oCapacity': oPanelCapacityTxtField.text,
+       'oArea': oPAreaTxtField.text,
+       'shadingMarkerHW' : shadingMarkerJson,
+       'solarPanel' : withOutShadingMarkerJson,
+       'hLow' : hPointTxtField.text,
+       'hHigh' : lPointTxtField.text,
+       'd' : distanceTxtField.text,
     }),
   );
 }
@@ -287,10 +297,10 @@ Future<http.Response> calculateWithOutShading() {
   );
 }
 Future<http.Response> calculate(){
-  print(withOrWithoutShadingBtn);
+  print(withOrWithoutShadeHome);
   return //calculateWithOutShading();
 
-      !withOrWithoutShadingBtn? calculateWithOutShading():calculateWithShading();
+      !withOrWithoutShadeHome? calculateWithOutShading():calculateWithShading();
 
 }
 
@@ -332,7 +342,7 @@ setSelectedRadioTile(int val) {
   Widget build(BuildContext context) {
       _controller = Completer();
 
-    withOrWithoutShadingBtn = widget.withShading; // from home page true or false
+    withOrWithoutShadeHome = widget.withShading; // from home page true or false
     //final TextEditingController _textEditingController = TextEditingController();
     
 
@@ -610,7 +620,7 @@ setSelectedRadioTile(int val) {
                           visible: !mapViewisOn,
 
                           child:Container(
-                            margin: EdgeInsets.only(top: kToolbarHeight),
+                            margin: EdgeInsets.only(top: kToolbarHeight + 10),
                             child: ElevatedButton(
                               onPressed: (){
                                 setState(() {                                 
@@ -669,7 +679,7 @@ setSelectedRadioTile(int val) {
                                 ),
                                 SizedBox(width: constraints.maxWidth*0.01,),
                                 Visibility(
-                                  visible: withOrWithoutShadingBtn,
+                                  visible: withOrWithoutShadeHome,
                                   child: 
                                 ElevatedButton(onPressed: (){
                                   setState(() {
@@ -1058,7 +1068,7 @@ setSelectedRadioTile(int val) {
                                           groupValue: selectedRadioTile,
                                           title: Text("Calculate with Capacity"),
                                           onChanged: (val) {
-                                            print("Radio Tile pressed $val");
+                                           
                                             setSelectedRadioTile(int.parse(val.toString()));
                                           },
                                           activeColor: selectedRadioTile == 1? Colors.red:Colors.black,
@@ -1073,7 +1083,7 @@ setSelectedRadioTile(int val) {
                                         title: Text("Calculate without Capacity"),
  
                                         onChanged: (val) {
-                                          print("Radio Tile pressed $val");
+                                       
                                           setSelectedRadioTile(int.parse(val.toString()));
                                         },
                                         activeColor: selectedRadioTile == 2? Colors.red:Colors.black,
@@ -1113,6 +1123,7 @@ setSelectedRadioTile(int val) {
                                       Text('Total Solar pannel Capacity',
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04),
                                     ),
+                                    SizedBox(height: 10,),
                                     TextField(
                                       
                   
@@ -1145,6 +1156,7 @@ setSelectedRadioTile(int val) {
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04, color: Colors.white),
                                     
                                     ),
+                                    SizedBox(height: 10,),
                                     TextField(
                   
                                       controller: oPanelCapacityTxtField,
@@ -1169,6 +1181,7 @@ setSelectedRadioTile(int val) {
                                     Text('One Pannel Area',
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04, color: Colors.white),
                                     ),
+                                    SizedBox(height: 10,),
                                     TextField(
                   
                                       controller: oPAreaTxtField,
@@ -1198,13 +1211,14 @@ setSelectedRadioTile(int val) {
                                 ),
                                 Container(
                                   width: width*0.9,
-                                  child:
+                                  child: withOrWithoutShadeHome ? 
                                 Column(
                                   children: <Widget>[
                                     SizedBox(height: 15,),
                                     Text('Highest point of solar pannel',
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04),
                                     ),
+                                    SizedBox(height: 10,),
                                     TextField(
                   
                                       controller: hPointTxtField,
@@ -1229,6 +1243,7 @@ setSelectedRadioTile(int val) {
                                     Text('Lowest point of solar pannel',
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04),
                                     ),
+                                    SizedBox(height: 10,),
                                     TextField(
                   
                                       controller: lPointTxtField,
@@ -1256,6 +1271,7 @@ setSelectedRadioTile(int val) {
                                     Text('Highes point and Lowest point of Solar panel ',
                                     style: TextStyle(fontSize: constraints.maxWidth*0.04),
                                     ),
+                                    SizedBox(height: 10,),
                                     TextField(
                   
                                       controller: distanceTxtField,
@@ -1277,7 +1293,7 @@ setSelectedRadioTile(int val) {
                                       ],
                                     )
                                   ],
-                                ),
+                                ):null,
                                 ),
 
 
