@@ -41,7 +41,7 @@ class Api2(Resource):
             endTime = request_data['endTime']
             capacity = request_data['capacity']
             shadingMarkerHW = request_data['shadingMarkerHW']
-            return date,startTime,endTime,capacity,shadingMarkerHW
+            return "awa bn"
         except:
             return "error"
 
