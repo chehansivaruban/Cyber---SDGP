@@ -21,6 +21,15 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   }
 
+  // GET UID
+  String? getCurrentUEmail() {
+    return FirebaseAuth.instance.currentUser!.email;
+  }
+
+  String? getCurrentUName() {
+    return FirebaseAuth.instance.currentUser!.displayName;
+  }
+
    getProfileImage(){
      
     if(FirebaseAuth.instance.currentUser != null) {
@@ -35,24 +44,23 @@ class GoogleSignInProvider extends ChangeNotifier {
 	                ),
                 ),
               );
-      
-      
-      
-      
-      // CircleAvatar(
-        
-      //   radius: 10,
-      //   child: Image.network(user!.photoURL.toString(),
-      //     fit: BoxFit.fitWidth,width: 100.0,),
-          
-        
-      // );
-      
-      
-      
-      //Image.network(user!.photoURL.toString(), height: 100, width: 100);
     } else {
-      return Icon(Icons.account_circle, size: 100);
+      return 
+      Container(
+                
+                decoration: BoxDecoration(
+	                shape: BoxShape.circle,
+                  
+	              
+                ),
+                child: Icon(Icons.account_circle, size: 150,
+              
+                ),
+              );
+      
+      
+      
+      
     }
   }
 
