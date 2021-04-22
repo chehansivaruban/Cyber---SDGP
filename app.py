@@ -47,7 +47,7 @@ class Api2(Resource):
 
             return "awa bn"
         except:
-            return "error"
+            return "error : Not found"
 
 api.add_resource(Api2,"/shade")
 
