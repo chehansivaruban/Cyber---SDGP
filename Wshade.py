@@ -4,18 +4,15 @@ import Prediction
 
 
 class Wshade:
-    def __init__(self, irradiance, clientCapacity, inputCapacity,inputTotalArea,inputOnePanelArea,inputOnePanelCapacity,date, time,endTime,oLat,oLon):
+    def __init__(self, irradiance, clientCapacity, inputCapacity,inputTotalArea,inputOnePanelArea,inputOnePanelCapacity):
         self.irradiance=irradiance
-        self.clientCapacity=True
+        self.clientCapacity=clientCapacity
         self.inputCapacity=inputCapacity
         self.inputTotalArea=inputTotalArea
         self.inputOnePanelArea=inputOnePanelArea
         self.inputOnePanelCapacity=inputOnePanelCapacity
-        self.date = date
-        self.time = time
-        self.endTime = endTime
-        self.oLat = oLat
-        self.oLon = oLon
+
+
 
     def getUnits(self):
         if self.clientCapacity:
@@ -36,6 +33,7 @@ class Wshade:
         print(efficiencyArray)
         totalEnergy = 0
         for i in efficiencyArray:
+            capacity = int(capacity)
             energy = round(capacity * i / 100, 2)
             totalEnergy = totalEnergy+energy
 
@@ -44,7 +42,7 @@ class Wshade:
 
         return totalEnergy
 
-    def getUnitsShade(self,sArea):
+    def getUnitsShade(self,sArea,objs):
         if self.clientCapacity:
             capacity = self.inputCapacity
         else:
@@ -64,15 +62,22 @@ class Wshade:
         print(efficiencyArray)
         totalEnergy = 0
         for i in efficiencyArray:
+            capacity = int(capacity)
             energy = round(capacity * i / 100, 2)
             totalEnergy = totalEnergy+energy
 
         print('Produced energy without shading ', f"{totalEnergy}kWh")
         # sArea=ShadeArea( self.date, self.time,self.oLat,self.oLon)
-        areaEffect = (self.inputTotalArea - sArea) / self.inputTotalArea * 100
-        for q in range(len(efficiencyArray)):
-            for d in range(len(shadeAreaArray[q])):
-                productivity = totalEnergy * shadeAreaArray[q][d]
+        totalProductivity=0
+        print("eff :",efficiencyArray)
+        print("shadearr :",shadeAreaArray)
+
+
+        for q in range(objs-1):
+            shadeArealen = len(shadeAreaArray[q])-1
+            for d in range(shadeArealen):
+                areaEffect = (self.inputTotalArea - shadeAreaArray[q][d]) / self.inputTotalArea * 100
+                productivity = totalEnergy * areaEffect
                 totalProductivity = totalProductivity + productivity
         return totalProductivity
 #

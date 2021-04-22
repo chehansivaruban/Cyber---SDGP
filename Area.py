@@ -24,7 +24,7 @@ class Area:
 
         Area = float(0)
 
-        for i in range(len(self.cordinates) - 2):
+        for i in range(len(self.latCordinates) - 2):
             print(i + 1)
             R = float(6371e3)  # metres
             a1 = lat[0]

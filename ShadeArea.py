@@ -1,5 +1,5 @@
+from datetime import datetime
 from pysolar.solar import *
-import datetime
 import math
 import utm
 
@@ -11,8 +11,7 @@ class ShadeArea:
         self.oLat=oLat
         self.oLon=oLon
         self.hours=hours
-        # self.startDateTime = datetime.datetime(, 4, 21, 4, 1, 00, 0, tzinfo=datetime.timezone.utc)  # convert into utc timezone when entering
-    #
+
     # H = 40  # height of object
     # D = 20  # distance between object and roof
     # hLow = 10.0  # short height of roof
@@ -21,8 +20,11 @@ class ShadeArea:
     # W = 5  # Width of object
 
     def getShadeArea(self,oHieght,oDistance,hLow,hHigh,d,oWidth):
-        date_time_obj = datetime.strptime(self.time, '%H:%M:%S')
+        from datetime import datetime
+        print(self.time)
+        date_time_obj = datetime.strptime(self.time,'%H:%M:%S')
         hour = date_time_obj.hour
+
         changetime = "05:30:00"
         change_date_time_obj = datetime.strptime(changetime, '%H:%M:%S')
         hour = hour - change_date_time_obj.hour
@@ -34,6 +36,7 @@ class ShadeArea:
         year = date_obj.year
         shadingArray=[]
         for i in range(self.hours):
+            import datetime
             date = datetime.datetime(year, month, day_of_month, hour, 00, 00, 0, tzinfo=datetime.timezone.utc)
             theta = math.radians(round(get_altitude(self.oLat, self.oLon, date), 4))
 
