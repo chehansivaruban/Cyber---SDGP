@@ -205,6 +205,11 @@ print(PolygonArea(corners))
 
 # LICENSE: public domain
 
+
+
+
+
+
 def calculate_initial_compass_bearing(pointA, pointB):
     """
     Calculates the bearing between two points.

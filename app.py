@@ -1,11 +1,12 @@
 from datetime import datetime
 
+import utm
 from flask import Flask
 from flask import Flask, request, jsonify
 import json
 from flask_restful import Resource,Api
 
-
+import bearing
 from Area import Area
 from Prediction import Prediction
 from ShadeArea import ShadeArea
@@ -54,7 +55,6 @@ api.add_resource(Api,"/wshade")
 
 class Api2(Resource):
     def post(self):
-        # try:
         request_data = request.data
         request_data = json.loads(request_data.decode('utf-8'))
         date = request_data['date']
@@ -63,52 +63,53 @@ class Api2(Resource):
         capacity = request_data['capacity']
         hLow = request_data['hLow']
         hHigh = request_data['hHigh']
-        d =request_data['d']
-        heightArray=[]
+
+
+        heightArray=[] #hieght of objects
         oLenArray=[]
         i=0
         for doc in request_data['shadingMarkerHW']:
             height = doc['height']
             heightArray.insert(i,height)
-            oLenArray.insert(i,3)
+            oLenArray.insert(i,7)
             i=i+1
 
-        widthArray = []
+        widthArray = []#width of objects
         j = 0
         for doc in request_data['shadingMarkerHW']:
             width = doc['width']
             widthArray.insert(j, width)
             j = j + 1
 
-        oLatArray = []
+        oLatArray = []#object latitude
         k = 0
         for doc in request_data['shadingMarkerHW']:
             oLat = doc['lat']
             oLatArray.insert(k, oLat)
             k = k + 1
 
-        oLanArray = []
+        oLonArray = [] #objects logitude
         l = 0
         for doc in request_data['shadingMarkerHW']:
-            oLan = doc['lng']
-            oLanArray.insert(l, oLan)
+            oLon = doc['lng']
+            oLonArray.insert(l, oLon)
             l = l + 1
 
-        sLonArray = []
+        sLonArray = [] #Array with solar panel longitudes
         m = 0
         for doc in request_data['roofMarkerHW']:
             sLon = doc['lngS']
             sLonArray.insert(m, sLon)
             m = m + 1
 
-        sLatArray = []
+        sLatArray = [] #Array with solar panel latitudes
         n = 0
         for doc in request_data['roofMarkerHW']:
             sLat = doc['latS']
             sLatArray.insert(n, sLat)
             n = n + 1
 
-        # process data into needed format for the data science component
+
         date_time_obj = datetime.strptime(startTime, '%H:%M:%S')
         hour = date_time_obj.hour
         # change of timezone
@@ -123,27 +124,37 @@ class Api2(Resource):
         endHour = endHour - change_date_time_obj.hour
         if endHour < 0:
             endHour = 0
-        date_obj = datetime.strptime(date, '%Y-%m-%d')
         numHour = endHour - hour
 
+        utm_conversion = utm.from_latlon(round(sLatArray[0],15), round(sLatArray[0],15))
+        utm_conversion2 = utm.from_latlon(sLatArray[1], round(sLatArray[1],15))
+        utm_conversion3 = utm.from_latlon(sLatArray[2], round(sLatArray[2],15))
+        utm_conversion4 = utm.from_latlon(sLatArray[3], round(sLatArray[3],15))
+        midx = (utm_conversion[0] + utm_conversion2[0] + utm_conversion3[0] + utm_conversion4[0]) / 4
+        midy = (utm_conversion[1] + utm_conversion2[1] + utm_conversion3[1] + utm_conversion4[1]) / 4
+        midPointLonLat = utm.to_latlon(midx, midy, 44, 'N')  # convert to longitude lattitude
+
+
         totalShading=[]
-        for a in range(len(oLatArray)):
-            shadeArea = ShadeArea(date,startTime,oLatArray[a],oLanArray[a],numHour)
+        for a in range(len(oLatArray)-1):
+
+            objCor = (oLatArray[a],oLonArray[a])
+            d = bearing.getDistance(objCor,midPointLonLat)
+            shadeArea = ShadeArea(date,startTime,oLatArray[a],oLonArray[a],numHour,midPointLonLat,objCor)
             shadingFromObject=shadeArea.getShadeArea(heightArray[a],oLenArray[a],hLow,hHigh,d,widthArray[a])
             totalShading.insert(a,shadingFromObject)
-
+        print("sacsacsacascascascasccheck:",totalShading)
         p2 = Prediction(date, startTime, endTime)
         irr = p2.getIrradiance()
         area = Area(sLatArray, sLonArray)
         theArea = area.getArea()
         numObjs = len(oLatArray)
         pro = Wshade(irr, capacity, capacity, theArea, 0, 0)
-        productivity = pro.getUnitsShade(totalShading,numObjs)
+        productivity = pro.getUnitsShade(totalShading,len(totalShading))
 
 
         return productivity
-        # except:
-        #     return "error : Not found"
+
 
 api.add_resource(Api2,"/shade")
 

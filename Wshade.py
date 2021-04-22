@@ -73,13 +73,15 @@ class Wshade:
         print("shadearr :",shadeAreaArray)
 
 
-        for q in range(objs-1):
-            shadeArealen = len(shadeAreaArray[q])-1
-            for d in range(shadeArealen):
-                areaEffect = (self.inputTotalArea - shadeAreaArray[q][d]) / self.inputTotalArea * 100
-                productivity = totalEnergy * areaEffect
-                totalProductivity = totalProductivity + productivity
-        return totalProductivity
+        for q in range(objs):
+            areaEffect = ((self.inputTotalArea - shadeAreaArray[q]) / (self.inputTotalArea ))* 100
+            productivity = totalEnergy * areaEffect/100
+            totalProductivity = totalProductivity
+
+        print("areaEffect :",areaEffect)
+
+
+        return productivity
 #
 # date = "2020-11-06"
 # startTime = "1:30:00"
