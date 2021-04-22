@@ -44,44 +44,13 @@ print(f"L {L}m")
 LMax = d / math.cos(gamma)
 
 if L > LMax:
-    L = LMax    
+    L = LMax
 
 shadingArea = L * W
 print(f"Shading Area {shadingArea}m^2")
 
 
-#---------------------------------------------------------
-#d1 = D*hLow / (H - hLow) # minimum shade length
-#d2 = H/math.tan(theta) # calculated shade length
-
-
-
-
-
-
-
-#alpha = math.atan((H - hLow) / D)
-#beta = math.atan((H - hHigh) / D+d)
-
-
-#if theta < alpha:
-    #print("0%")
-    #percentage = 0
-#else:
-    #percentage = math.tan((alpha - theta) / (alpha - beta)) * 100
-
-
-#print("percentage", f"{percentage}%")
-#coveragePercentage =  ((H - hLow - (D * math.tan(alpha))) * math.tan(beta))/ ((math.tan(alpha) + math.tan(beta)) * (hHigh - hLow))
-#print(f"{coveragePercentage*100}%")
-#print(theta)
-#print(math.tan(theta))
-#print(H/math.tan(theta))
-
-
-
 coordinate_1 = (6.79209275297253, 79.9256652994810)
-
 coordinate_2 = (6.79208875788135, 79.9257357074906)
 coordinate_3 = (6.79197556399928, 79.9257310135914)
 coordinate_4 = (6.79198688341041, 79.9256626172544)
