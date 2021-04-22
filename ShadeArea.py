@@ -5,11 +5,12 @@ import utm
 
 
 class ShadeArea:
-    def __init__(self, date, time,oLat,oLon):
+    def __init__(self, date, time,oLat,oLon,hours):
         self.date = date
         self.time = time
         self.oLat=oLat
         self.oLon=oLon
+        self.hours=hours
         # self.startDateTime = datetime.datetime(, 4, 21, 4, 1, 00, 0, tzinfo=datetime.timezone.utc)  # convert into utc timezone when entering
     #
     # H = 40  # height of object
@@ -31,31 +32,36 @@ class ShadeArea:
         day_of_month = date_obj.day
         month = date_obj.month
         year = date_obj.year
-        date = datetime.datetime(year, month, day_of_month, 00, 00, 00, 0, tzinfo=datetime.timezone.utc)
-        theta = math.radians(round(get_altitude(self.oLat, self.oLon, date), 4))
+        shadingArray=[]
+        for i in range(self.hours):
+            date = datetime.datetime(year, month, day_of_month, hour, 00, 00, 0, tzinfo=datetime.timezone.utc)
+            theta = math.radians(round(get_altitude(self.oLat, self.oLon, date), 4))
 
-        alpha = math.atan((oHieght - hLow) / oDistance)
-        d1 = oHieght / math.tan(alpha)
+            alpha = math.atan((oHieght - hLow) / oDistance)
+            d1 = oHieght / math.tan(alpha)
 
-        beta = math.atan((oHieght - hHigh) / (oDistance + d))
-        d2 = oHieght / math.tan(beta)
+            beta = math.atan((oHieght - hHigh) / (oDistance + d))
+            d2 = oHieght / math.tan(beta)
 
-        gamma = math.atan((hHigh - hLow) / d)
-        deltaD = d2 - d1
-        k = ((oHieght - hLow) / math.tan(beta)) - oDistance
+            gamma = math.atan((hHigh - hLow) / d)
+            deltaD = d2 - d1
+            k = ((oHieght - hLow) / math.tan(beta)) - oDistance
 
-        x = oHieght / math.tan(theta)
-        y = (k * (x - d1)) / deltaD
-        z = y * math.tan(gamma) / (math.tan(theta) + math.tan(gamma))
+            x = oHieght / math.tan(theta)
+            y = (k * (x - d1)) / deltaD
+            z = y * math.tan(gamma) / (math.tan(theta) + math.tan(gamma))
 
-        L = round(((y - z) / math.cos(gamma)), 3)  # Shadow length
-        print(f"L {L}m")
+            L = round(((y - z) / math.cos(gamma)), 3)  # Shadow length
+            print(f"L {L}m")
 
-        LMax = d / math.cos(gamma)
+            LMax = d / math.cos(gamma)
 
-        if L > LMax:
-            L = LMax
+            if L > LMax:
+                L = LMax
 
-        shadingArea = L * oWidth
-        print(f"Shading Area {shadingArea}m^2")
-        return shadingArea
+            shadingArea = L * oWidth
+            print(f"Shading Area {shadingArea}m^2")
+            hour=hour + 1
+            shadingArray.insert(i,shadingArea)
+
+        return shadingArray

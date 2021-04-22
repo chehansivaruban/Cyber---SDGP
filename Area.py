@@ -2,18 +2,22 @@ import math
 from math import radians
 
 class Area:
-    def __init__(self, cordinates):
-        self.cordinates=cordinates
+    def __init__(self, latCordinates,lonCordinates):
+        self.latCordinates=latCordinates
+        self.lonCordinates=lonCordinates
 
     def getArea(self):
-        lat1 = radians(abs(self.cordinates[0][0]))
-        lat2 = radians(abs(self.cordinates[1][0]))
-        lat3 = radians(abs(self.cordinates[2][0]))
-        lat4 = radians(abs(self.cordinates[3][0]))
-        lon1 = radians(abs(self.cordinates[0][1]))
-        lon2 = radians(abs(self.cordinates[1][1]))
-        lon3 = radians(abs(self.cordinates[2][1]))
-        lon4 = radians(abs(self.cordinates[3][1]))
+        lat = self.latCordinates
+        lon = self.lonCordinates
+        lat1 = radians(abs(lat[0]))
+        lat2 = radians(abs(lat[1]))
+        lat3 = radians(abs(lat[2]))
+        lat4 = radians(abs(lat[3]))
+
+        lon1 = radians(abs(lon[0]))
+        lon2 = radians(abs(lon[1]))
+        lon3 = radians(abs(lon[2]))
+        lon4 = radians(abs(lon[3]))
 
         lat = [lat1, lat2, lat3, lat4]
         lon = [lon1, lon2, lon3, lon4]
