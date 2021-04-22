@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                             //child:  SingleChildScrollView(
                               child: Container(
-                                margin: EdgeInsets.only(bottom: 50),
+                                margin: EdgeInsets.only(bottom: 70),
 
                                 height: constraints.maxHeight*0.2,
                                 child: Container(
@@ -90,6 +90,15 @@ class _HomePageState extends State<HomePage> {
                               
                             ),
                          // ),
+                         // 
+                         Container(
+         // color: Colors.white, 
+          child: Align(
+             alignment: FractionalOffset.bottomCenter,
+
+            child:
+                         
+                         
                         
 
 
@@ -298,7 +307,8 @@ class _HomePageState extends State<HomePage> {
                           )
                           
                         //),
-
+          )
+                         )
                       ]
                       )
                       

@@ -4,20 +4,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class ObjectMarker{
   late double height;
   late double width;
-  late double distance;
   late double lat;
   late double lng;
 
  
   ObjectMarker(){}
-
-  double getDistance() {
-    return distance;
-  }
-
-void setDistance(double distance) {
-  this.distance = distance;
-}
 
 
 double getHeight() {
@@ -59,11 +50,10 @@ Marker marker(LatLng onTapLatLang){
   ObjectMarker.fromJson(Map<String, dynamic> json)
       : height = json['height'],
         width = json['width'],
-        distance = json['distance'],
         lat = json['lat'],
         lng = json['lng'];
 Map<String, dynamic> toJson() =>{
-  'height': height,'width':width,'distance':distance,'lat': lat,'lng':lng
+  'height': height,'width':width,'lat': lat,'lng':lng
 
 };
       

@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:solarex/widget/Marker.dart';
+import 'package:solarex/widget/withOutMarker.dart';
 
 
 
@@ -67,6 +68,7 @@ class _WithShadingState extends State<WithShading> {
   List<Marker> objectList = [];
   List<Marker> allMarkers = [];
   List<List> pointHeightWidth = [];
+  List<PanelMarker> opaneltMarkeListWithDetails = [];
   List<ObjectMarker> objectMarkeListWithDetails = [];
   List<TextField> textFieldHW =[];
   bool solarPanelButton = true ;
@@ -75,6 +77,7 @@ class _WithShadingState extends State<WithShading> {
   
 
   TextField textFieldHeight = new TextField();
+
 
 
   Completer<GoogleMapController> _controller = Completer();
@@ -89,19 +92,15 @@ class _WithShadingState extends State<WithShading> {
     setState(() {
      
      if(solarpanelLatLanList.length < 4){
+
+      PanelMarker marker = new PanelMarker(); 
+      Marker newMarker = marker.marker(onTapLatLang);
        
-       solarpanelLatLanList.add(
-        Marker(
-          markerId: MarkerId(onTapLatLang.toString()),
-          position: onTapLatLang,
-          draggable: true,
-          onDragEnd: (dragEndPoint){
-            print(dragEndPoint);
-          }
-        )
-      );
+       solarpanelLatLanList.add(newMarker);
+       opaneltMarkeListWithDetails.add(marker);
 
      }
+     
      
 
     allMarkers.clear();
@@ -259,16 +258,17 @@ class _WithShadingState extends State<WithShading> {
   );
 }
 
-
+//solarpanelLatLanList
+//
+//
 
 
 Future<http.Response> calculateWithOutShading() {
    
     
-  
-  // Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
-  //var shadingMarkerJson = jsonEncode(shadingMarker);
-  //print(shadingMarkerJson);
+ Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
+  var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
+  print(withOutShadingMarkerJson);
 
    //print(shadingMarker);
   return http.post(
@@ -282,7 +282,7 @@ Future<http.Response> calculateWithOutShading() {
        'startTime': formattedStartTime,
        'endTime': formattedEndTime,
        'capacity': capacityTxtField.text,
-      // 'shadingMarkerHW' : shadingMarkerJson
+       'solarPanel' : withOutShadingMarkerJson
     }),
   );
 }
@@ -441,7 +441,7 @@ setSelectedRadioTile(int val) {
                                             
                                           },
                                           onTap: checkLocationType(),
-                                          markers: Set.from(allMarkers ),
+                                          markers: Set.from(allMarkers),
                                         ),
                                         )
                                       ),
@@ -726,6 +726,7 @@ setSelectedRadioTile(int val) {
                                                 onPressed: () {
                                                   setState(() {
                                                     solarpanelLatLanList.removeAt(index);
+                                                    opaneltMarkeListWithDetails.removeAt(index);
                                                    
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
@@ -904,6 +905,7 @@ setSelectedRadioTile(int val) {
                                                   setState(() {
                                                     objectList.removeAt(index);
                                                     objectMarkeListWithDetails.removeAt(index);
+                                                   
                                                     pointHeightWidth.removeAt(index);
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
