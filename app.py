@@ -41,6 +41,10 @@ class Api2(Resource):
             endTime = request_data['endTime']
             capacity = request_data['capacity']
             shadingMarkerHW = request_data['shadingMarkerHW']
+            shadingMarkerHW = request_data['roofMarkerHW']
+            p2 = Prediction(date, startTime, endTime)
+            irr = p2.getIrradiance()
+
             return "awa bn"
         except:
             return "error"
