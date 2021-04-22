@@ -13,6 +13,7 @@ import 'package:solarex/widget/Marker.dart';
 
 
 
+
 import 'package:intl/intl.dart';
 
 
@@ -508,6 +509,14 @@ setSelectedRadioTile(int val) {
                                       ),
                                       
                                     ],
+                                  ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
                                   )
                                 ),
                                 ),
@@ -551,7 +560,15 @@ setSelectedRadioTile(int val) {
                                       alignment: Alignment.center,
                                       width: width*0.8,
                                       child: Text('Done'),
+                                    ),
+                                    style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
                                     )
+                                  )
                                   ),  
 
                           
@@ -601,7 +618,16 @@ setSelectedRadioTile(int val) {
                                 });
                                 
                               },
-                             child: Text("Select Solar panel Location")),
+                             child: Text("Select Solar panel Location"),
+                             style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
+                                  ),
                           ),
                           ),
                        
@@ -631,7 +657,16 @@ setSelectedRadioTile(int val) {
                                   });
                                   //print(solarPannelViewOn);
                                  
-                                }, child: Text("Solar Pannel")),
+                                }, child: Text("Solar Pannel"),
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
+                                ),
                                 SizedBox(width: constraints.maxWidth*0.01,),
                                 Visibility(
                                   visible: withOrWithoutShadingBtn,
@@ -642,7 +677,16 @@ setSelectedRadioTile(int val) {
                                   });
                                  // print(solarPannelViewOn);
                                  
-                                  }, child: Text("Shading Objects")),
+                                  }, child: Text("Shading Objects"),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
+                                  ),
                                 )
                               ],
                             ),
@@ -830,7 +874,19 @@ setSelectedRadioTile(int val) {
                                                      print('done');                                          
                                                   });
                                                 }, 
-                                              child: Icon(Icons.beenhere_sharp,color: Colors.grey,))
+                                              child: Icon(Icons.beenhere_sharp,color: Colors.grey,),
+                                              style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
+                                              
+                                              
+                                              ),
+                                              
                                               )
 
 
@@ -914,6 +970,14 @@ setSelectedRadioTile(int val) {
                                     
                                     child: Text('Date'),
                                   ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
                                 ),
 
                                 Container(
@@ -934,6 +998,14 @@ setSelectedRadioTile(int val) {
                                     
                                     child: Text('Start Time'),
                                   ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
                                 ),
                                 SizedBox(width: constraints.maxWidth*0.12,),
 
@@ -952,6 +1024,14 @@ setSelectedRadioTile(int val) {
                                     
                                     child: Text('End Time'),
                                   ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
                                   
                                 ),
 
@@ -1100,7 +1180,9 @@ setSelectedRadioTile(int val) {
                                           borderSide: BorderSide(color: Colors.white),
                                             borderRadius: BorderRadius.circular(50),
                                         ),
-                                        hintText: 'Enter the value in square meter (m)'
+                                        hintText: 
+                                        
+                                        'Enter the value in square meter (m\u00B2)'
                                       ),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
@@ -1252,6 +1334,14 @@ setSelectedRadioTile(int val) {
                                     
                                     child: Text('Calculate'),
                                   ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
+                                    )
+                                  )
                                 ),
                                 
 
@@ -1408,6 +1498,7 @@ setSelectedRadioTile(int val) {
                   color: Colors.red,
                   child: Text('Select',
                   style: TextStyle(fontSize: ((constraints.maxHeight < 150) ? constraints.minHeight*0.1:14)),
+                  
                   ),                
                     onPressed: () {
                                   
