@@ -53,8 +53,8 @@ class Api(Resource):
         return "round(productivity,2)"
 api.add_resource(Api,"/wshade")
 
-class Api2(Resource):
-    def post(self):
+# class Api2(Resource):
+#     def post(self):
         # request_data = request.data
         # request_data = json.loads(request_data.decode('utf-8'))
         # date = request_data['date']
@@ -153,10 +153,10 @@ class Api2(Resource):
         # productivity = pro.getUnitsShade(totalShading,len(totalShading))
 
 
-        return "productivity"
-
-
-api.add_resource(Api2,"/shade")
+#         return "productivity"
+#
+#
+# api.add_resource(Api2,"/shade")
 
 
 if __name__ == "__main__":
