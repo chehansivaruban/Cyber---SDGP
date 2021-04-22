@@ -13,6 +13,7 @@ import 'package:solarex/widget/Marker.dart';
 
 
 
+
 import 'package:intl/intl.dart';
 
 
@@ -1179,7 +1180,9 @@ setSelectedRadioTile(int val) {
                                           borderSide: BorderSide(color: Colors.white),
                                             borderRadius: BorderRadius.circular(50),
                                         ),
-                                        hintText: 'Enter the value in square meter (m)'
+                                        hintText: 
+                                        
+                                        'Enter the value in square meter (m\u00B2)'
                                       ),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
