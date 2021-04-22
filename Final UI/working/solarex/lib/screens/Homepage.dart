@@ -15,10 +15,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   
+  
 
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
 
     return Scaffold(
       
@@ -64,6 +66,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
+                        
                         Container(
                             //child:  SingleChildScrollView(
                               child: Container(
@@ -310,6 +313,9 @@ class _HomePageState extends State<HomePage> {
       )
       ),
       drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+          Expanded(
         
         child: ListView(
           padding: EdgeInsets.zero,
@@ -320,22 +326,51 @@ class _HomePageState extends State<HomePage> {
             //     height: kToolbarHeight,
             //   )
             // ),
-             DrawerHeader(
-         
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
             
-            Container(
-              color: Colors.red,
-              child: ElevatedButton(onPressed: (){
-                final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.logOut();
-              }, child: Text('Iteam 1')),
-            )
+             DrawerHeader(
+               child: provider.getProfileImage()
+         
+              // child: Text('Drawer Header'),
+              // decoration: BoxDecoration(
+              //   color: Colors.blue,
+              // ),
+             )
+            
+          
+            
+            
+            
           ],
+        ),
+        ),
+        Container(
+          color: Colors.white, 
+          child: Align(
+             alignment: FractionalOffset.bottomCenter,
+
+            child:
+            Container(    
+              
+              alignment: FractionalOffset.bottomCenter,      
+             // color: Colors.red,
+              child: ElevatedButton(onPressed: (){
+                
+                provider.logOut();
+              }, child: Row(
+                children: <Widget>[
+                  Icon(Icons.logout),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child:Text('Sign Out')
+                  )
+                  
+                ],
+              )),
+            )
+          ),
+        )
+        ]
+        
         ),
       ),
     );  
