@@ -552,7 +552,15 @@ setSelectedRadioTile(int val) {
                                           SizedBox(height: 6)
                                         ],
                                       )
+                                    ),
+                                    style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.red)
+                                      )
                                     )
+                                  )
                                   ),
                                 )
                               ],
@@ -913,11 +921,13 @@ setSelectedRadioTile(int val) {
                                                 icon: Icon(Icons.delete),
                                                 onPressed: () {
                                                   setState(() {
+                                                   // pointHeightWidth.removeAt(index).removeAt(0);
+                                                   // pointHeightWidth.removeAt(index).removeAt(1);
                                                     objectList.removeAt(index);
                                                     objectMarkeListWithDetails.removeAt(index);
                                                     
                                                    
-                                                    pointHeightWidth.removeAt(index);
+                                                   
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
 
