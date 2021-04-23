@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUp> {
             title: Text('ERROR'),
             content: Text(errormessage),
             actions: <Widget>[
-              FlatButton(
+              ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -71,7 +71,33 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+     // appBar: AppBar(),
+      body: Material(
+        type: MaterialType.transparency,
+        child:
+        Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors:  [Color.fromARGB(255, 0, 148, 255), Color.fromARGB(255, 0, 255, 163)] //top bottom color
+          )
+      ),
+      child:Column(
+        children: <Widget>[
+          Flexible(
+            child:FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 1.0,
+              child: Container(
+                //color: Colors.amber,
+                child: LayoutBuilder(
+                  builder: (context, constraints){
+                    //final height = constraints.maxHeight - kToolbarHeight;
+                    bool resultbool = false;
+                    final width = constraints.maxWidth;
+                    return
+                    SingleChildScrollView(
       child: Container(
         child: Column(
           children: <Widget>[
@@ -87,6 +113,7 @@ class _SignUpState extends State<SignUp> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 100),
                     Container(
                       child: TextFormField(
                           validator: (input) {
@@ -95,9 +122,14 @@ class _SignUpState extends State<SignUp> {
                           decoration: InputDecoration(
                             labelText: 'Name',
                             prefixIcon: Icon(Icons.person),
+                            border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                            )
                           ),
                           onSaved: (input) => _name = input!),
                     ),
+                    SizedBox(height: 20),
                     Container(
                       child: TextFormField(
                           validator: (input) {
@@ -105,9 +137,14 @@ class _SignUpState extends State<SignUp> {
                           },
                           decoration: InputDecoration(
                               labelText: 'Email',
-                              prefixIcon: Icon(Icons.email)),
+                              prefixIcon: Icon(Icons.email),
+                              border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                            )),
                           onSaved: (input) => _email = input!),
                     ),
+                    SizedBox(height: 20),
                     Container(
                       child: TextFormField(
                           validator: (input) {
@@ -117,6 +154,10 @@ class _SignUpState extends State<SignUp> {
                           decoration: InputDecoration(
                             labelText: 'Password',
                             prefixIcon: Icon(Icons.lock),
+                            border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(50),
+                            ),
                           ),
                           obscureText: true,
                           onSaved: (input) => _password = input!),
@@ -142,7 +183,64 @@ class _SignUpState extends State<SignUp> {
           ],
         ),
       ),
-    )
     );
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  }
+                )
+              )
+            )
+          )
+        ]
+      )
+      )
+      )
+      );
   }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
+    
+    
+    
+    
+//     Scaffold(
+//         body: 
+//     );
+//   }
+// }

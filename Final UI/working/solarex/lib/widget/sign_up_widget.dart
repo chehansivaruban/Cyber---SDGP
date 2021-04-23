@@ -58,14 +58,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       bool resultbool = false;
                       final width = constraints.maxWidth;
 
-                      return 
+                      return  SingleChildScrollView(
+      child: Container(
+        child: 
                     
                         Column(
                            
     children: <Widget>[
-       Padding(
-         padding: const EdgeInsets.all(8.0),
-         child: Container(
+       //Padding(
+        // padding: const EdgeInsets.all(8.0),
+         Container(
           
                 margin: const EdgeInsets.fromLTRB(20, 35, 20,5),
                 height: constraints.maxHeight*0.15,
@@ -75,7 +77,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     width: 400,
                     fit: BoxFit.contain,),
               ),
-       ),
+      // ),
             Text('Continue With'),
 
             GoogleSignUpButtonWidget(),
@@ -142,9 +144,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 alignment: Alignment.center,
                 width: constraints.maxWidth*0.8,
                 child: 
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: ElevatedButton(
+                    //  Padding(
+                     //   padding: const EdgeInsets.all(12.0),
+                     //   child: 
+                     ElevatedButton(
 
 
                           onPressed: () async {
@@ -183,10 +186,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
 
                         ),
-                      )
+                      ),
                 
                 
-              ),
+           //   ),
           //  ),
             SizedBox(height: 20.0),
 
@@ -215,16 +218,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   
             
 
-             Expanded(
-          child: Align(
+          //   Expanded(
+         // child: 
+          SizedBox(height: 100,),
+          Align(
             alignment: FractionalOffset.bottomCenter,
             child: Text("A Project by Team Cyber", style: TextStyle(color: Colors.black,fontSize: 15.0 ),)
           ),
-        ),
+        //),
 
            
      
     ],
+                        )
+      )
      
 
   );
