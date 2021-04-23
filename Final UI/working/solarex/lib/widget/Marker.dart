@@ -1,57 +1,51 @@
-
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-class ObjectMarker{
+
+class ObjectMarker {
   late double height;
   late double width;
   late double lat;
   late double lng;
 
- 
-  ObjectMarker(){}
+  ObjectMarker() {}
 
-
-double getHeight() {
+  double getHeight() {
     return height;
   }
 
-void setheight(double height) {
-  this.height = height;
-}
+  void setheight(double height) {
+    this.height = height;
+  }
 
-double getWidth() {
+  double getWidth() {
     return width;
   }
 
-void setWidth(double height) {
-  this.width = width;
-}
+  void setWidth(double height) {
+    this.width = width;
+  }
 
-Marker marker(LatLng onTapLatLang){
-  Marker marker  = new Marker(
-          markerId: MarkerId(onTapLatLang.toString()),
-          position: onTapLatLang,
-          draggable: true,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          //     onDragEnd: (dragEndPoint){
-          onDragEnd: (dragEndPoint){
-            print(dragEndPoint);
-          }
-  );
- 
+  Marker marker(LatLng onTapLatLang) {
+    Marker marker = new Marker(
+        markerId: MarkerId(onTapLatLang.toString()),
+        position: onTapLatLang,
+        draggable: true,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        //     onDragEnd: (dragEndPoint){
+        onDragEnd: (dragEndPoint) {
+          print(dragEndPoint);
+        });
 
-  this.lat = onTapLatLang.latitude;
-  this.lng = onTapLatLang.latitude;
-  return marker;
-
-
-}
+    this.lat = onTapLatLang.latitude;
+    this.lng = onTapLatLang.latitude;
+    return marker;
+  }
 
   ObjectMarker.fromJson(Map<String, dynamic> json)
       : height = json['height'],
         width = json['width'],
         lat = json['lat'],
         lng = json['lng'];
+<<<<<<< HEAD
 Map<String, dynamic> toJson() =>{
   'height': height,'width':width,'lat': lat.toString(),'lng':lng.toString()
 
@@ -59,3 +53,8 @@ Map<String, dynamic> toJson() =>{
       
 
 }
+=======
+  Map<String, dynamic> toJson() =>
+      {'height': height, 'width': width, 'lat': lat, 'lng': lng};
+}
+>>>>>>> 607c5a047e4fe282e93a72299ca4ad41252c2cb0
