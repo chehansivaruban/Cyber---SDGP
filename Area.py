@@ -9,15 +9,15 @@ class Area:
     def getArea(self):
         lat = self.latCordinates
         lon = self.lonCordinates
-        lat1 = radians(abs(lat[0]))
-        lat2 = radians(abs(lat[1]))
-        lat3 = radians(abs(lat[2]))
-        lat4 = radians(abs(lat[3]))
+        lat1 = radians(abs(float(lat[0])))
+        lat2 = radians(abs(float(lat[1])))
+        lat3 = radians(abs(float(lat[2])))
+        lat4 = radians(abs(float(lat[3])))
 
-        lon1 = radians(abs(lon[0]))
-        lon2 = radians(abs(lon[1]))
-        lon3 = radians(abs(lon[2]))
-        lon4 = radians(abs(lon[3]))
+        lon1 = radians(abs(float(lon[0])))
+        lon2 = radians(abs(float(lon[1])))
+        lon3 = radians(abs(float(lon[2])))
+        lon4 = radians(abs(float(lon[3])))
 
         lat = [lat1, lat2, lat3, lat4]
         lon = [lon1, lon2, lon3, lon4]
