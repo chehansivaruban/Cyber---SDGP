@@ -143,7 +143,7 @@ class Api2(Resource):
             shadeArea = ShadeArea(date,startTime,oLatArray[a],oLonArray[a],numHour,midPointLonLat,objCor)
             shadingFromObject=shadeArea.getShadeArea(heightArray[a],oLenArray[a],hLow,hHigh,d,widthArray[a])
             totalShading.insert(a,shadingFromObject)
-        print("sacsacsacascascascasccheck:",totalShading)
+        
         p2 = Prediction(date, startTime, endTime)
         irr = p2.getIrradiance()
         area = Area(sLatArray, sLonArray)
