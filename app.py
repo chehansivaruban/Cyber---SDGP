@@ -23,35 +23,35 @@ class Api(Resource):
         return request_data
     #post request to get the data from front end to do processing
     def post(self):
-        # request_data = request.data
-        # request_data = json.loads(request_data.decode('utf-8'))
-        # date = request_data['date']
-        # startTime = request_data['startTime']
-        # endTime = request_data['endTime']
-        # capacity = request_data['capacity']
-        # sLonArray = [] #Array with solar panel longitudes
-        # m = 0
-        # for doc in request_data['solarPanel']: #insert longitudes to array
-        #     sLon = doc['lngS']
-        #     sLonArray.insert(m, sLon)
-        #     m = m + 1
-        #
-        # sLatArray = [] #Array with solar panel latitudes
-        # n = 0
-        # for doc in request_data['solarPanel']:#insert lattitudes to array
-        #     print("Indices :",doc)
-        #     sLat = doc['latS']
-        #     sLatArray.insert(n, sLat)
-        #     n = n + 1
-        # p1 = Prediction(date, startTime,endTime)# make an object of prediction
-        # irr = p1.getIrradiance() #get predicted irradiance
-        # area= Area(sLatArray,sLonArray) #make an area object
-        # theArea = area.getArea() #calculate area of the solar module
-        # pro = Wshade(irr, True, capacity, theArea, 0,0)
-        # productivity = pro.getUnits() # produce the productivity
+        request_data = request.data
+        request_data = json.loads(request_data.decode('utf-8'))
+        date = request_data['date']
+        startTime = request_data['startTime']
+        endTime = request_data['endTime']
+        capacity = request_data['capacity']
+        sLonArray = [] #Array with solar panel longitudes
+        m = 0
+        for doc in request_data['solarPanel']: #insert longitudes to array
+            sLon = doc['lngS']
+            sLonArray.insert(m, sLon)
+            m = m + 1
 
-        # print("Productivity : ",productivity)
-        return "round(productivity,2)"
+        sLatArray = [] #Array with solar panel latitudes
+        n = 0
+        for doc in request_data['solarPanel']:#insert lattitudes to array
+            print("Indices :",doc)
+            sLat = doc['latS']
+            sLatArray.insert(n, sLat)
+            n = n + 1
+        p1 = Prediction(date, startTime,endTime)# make an object of prediction
+        irr = p1.getIrradiance() #get predicted irradiance
+        area= Area(sLatArray,sLonArray) #make an area object
+        theArea = area.getArea() #calculate area of the solar module
+        pro = Wshade(irr, True, capacity, theArea, 0,0)
+        productivity = pro.getUnits() # produce the productivity
+
+        print("Productivity : ",productivity)
+        return round(productivity,2)
 api.add_resource(Api,"/wshade")
 
 class Api2(Resource):
