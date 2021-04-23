@@ -98,6 +98,11 @@ flutter:
     - images/Withshading.jpg
     - images/Withoutshading.jpg
     - images/icon.png
+    - images/h1.png
+    - images/h2.png
+    - images/h3.png
+    - images/h4.png
+    - images/h5.png
 
   #   - images/a_dot_ham.jpeg
 

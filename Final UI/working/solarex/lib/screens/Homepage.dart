@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 
 import 'package:solarex/screens/With_shading.dart';
+import 'package:solarex/screens/help.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -383,6 +384,33 @@ class _HomePageState extends State<HomePage> {
             
           ],
         ),
+        ),
+        Container(
+          color: Colors.white, 
+          child: Align(
+             alignment: FractionalOffset.bottomCenter,
+
+            child:
+            Container(    
+              
+              alignment: FractionalOffset.bottomCenter,      
+             // color: Colors.red,
+              child: ElevatedButton(onPressed: (){
+                //Navigator.pop(context);
+                
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HelpView()));
+              }, child: Row(
+                children: <Widget>[
+                  Icon(Icons.help),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child:Text('Help')
+                  )
+                  
+                ],
+              )),
+            )
+          ),
         ),
         Container(
           color: Colors.white, 

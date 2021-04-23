@@ -53,7 +53,7 @@ Marker marker(LatLng onTapLatLang){
         lat = json['lat'],
         lng = json['lng'];
 Map<String, dynamic> toJson() =>{
-  'height': height,'width':width,'lat': lat,'lng':lng
+  'height': height,'width':width,'lat': lat.toString(),'lng':lng.toString()
 
 };
       
