@@ -31,18 +31,18 @@ class Api(Resource):
         capacity = request_data['capacity']
         sLonArray = [] #Array with solar panel longitudes
         m = 0
-        for doc in request_data['solarPanel']: #insert longitudes to array
-            sLon = doc['lngS']
-            sLonArray.insert(m, sLon)
-            m = m + 1
-
+        # for doc in request_data['solarPanel']: #insert longitudes to array
+        #     sLon = doc['lngS']
+        #     sLonArray.insert(m, sLon)
+        #     m = m + 1
+        #
         sLatArray = [] #Array with solar panel latitudes
-        n = 0
-        for doc in request_data['solarPanel']:#insert lattitudes to array
-            print("Indices :",doc)
-            sLat = doc['latS']
-            sLatArray.insert(n, sLat)
-            n = n + 1
+        # n = 0
+        # for doc in request_data['solarPanel']:#insert lattitudes to array
+        #     print("Indices :",doc)
+        #     sLat = doc['latS']
+        #     sLatArray.insert(n, sLat)
+        #     n = n + 1
         p1 = Prediction(date, startTime,endTime)# make an object of prediction
         irr = p1.getIrradiance() #get predicted irradiance
         area= Area(sLatArray,sLonArray) #make an area object
