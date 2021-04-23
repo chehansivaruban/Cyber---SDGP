@@ -39,6 +39,7 @@ class Api(Resource):
         sLatArray = [] #Array with solar panel latitudes
         n = 0
         for doc in request_data['solarPanel']:#insert lattitudes to array
+            print("Indices :",doc)
             sLat = doc['latS']
             sLatArray.insert(n, sLat)
             n = n + 1
