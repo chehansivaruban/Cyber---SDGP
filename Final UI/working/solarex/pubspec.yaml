@@ -39,7 +39,9 @@ dependencies:
   cloud_firestore: 
   firebase_storage:
   http:
-  json_annotation: 
+  json_annotation:
+  shared_preferences:
+  provider: 
 
   font_awesome_flutter: 
   
@@ -50,7 +52,7 @@ dependencies:
   geolocator: 
   
 
-  provider: 
+   
   flutter_datetime_picker:
   date_format:
   auto_size_text: ^3.0.0-nullsafety.0

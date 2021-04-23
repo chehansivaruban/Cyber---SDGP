@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 //import 'package:solarex/provider/google_sign_in.dart';
 //import 'package:provider/provider.dart';
 import 'package:solarex/widget/google_sign_up_button.dart';
+import 'package:solarex/widget/SignUp.dart';
 
 
 class SignUpWidget extends StatelessWidget {
@@ -134,7 +135,7 @@ class SignUpWidget extends StatelessWidget {
               style: TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  print('Terms of Service"');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                 }),
 
 
