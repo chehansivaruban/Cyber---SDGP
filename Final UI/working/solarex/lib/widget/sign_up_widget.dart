@@ -67,6 +67,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     children: <Widget>[
        //Padding(
         // padding: const EdgeInsets.all(8.0),
+        SizedBox(height: kToolbarHeight,),
          Container(
           
                 margin: const EdgeInsets.fromLTRB(20, 35, 20,5),
@@ -220,7 +221,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
           //   Expanded(
          // child: 
-          SizedBox(height: 100,),
+          SizedBox(height: 250,),
           Align(
             alignment: FractionalOffset.bottomCenter,
             child: Text("A Project by Team Cyber", style: TextStyle(color: Colors.black,fontSize: 15.0 ),)

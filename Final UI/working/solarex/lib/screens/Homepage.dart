@@ -360,93 +360,31 @@ class _HomePageState extends State<HomePage> {
                     ]))
               ],
             ),
-<<<<<<< HEAD
-         
-              // child: Text('Drawer Header'),
-              // decoration: BoxDecoration(
-              //   color: Colors.blue,
-              // ),
-             ),
-            Container(
-              //color: Colors.red,
-              height: 50,
-              child: Column(
-                children: <Widget>[
-            
-             
-             Container(
-               child: Text(provider.getCurrentUName().toString()),
-             ),
-             SizedBox(height: 10),
-             Container(
-               child: Text(provider.getCurrentUEmail().toString()),
-             ),
-             
-
-                ]
-              )
-            )
-            
-          
-            
-            
-            
-          ],
-        ),
-        ),
-        Container(
-          color: Colors.white, 
-          child: Align(
-             alignment: FractionalOffset.bottomCenter,
-
-            child:
-            Container(    
-              
-              alignment: FractionalOffset.bottomCenter,      
-             // color: Colors.red,
-              child: ElevatedButton(onPressed: (){
-                //Navigator.pop(context);
-                
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HelpView()));
-              }, child: Row(
-                children: <Widget>[
-                  Icon(Icons.help),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child:Text('Help')
-                  )
-                  
-                ],
-              )),
-            )
           ),
-        ),
-        Container(
-          color: Colors.white, 
-          child: Align(
-             alignment: FractionalOffset.bottomCenter,
-
-            child:
-            Container(    
-              
-              alignment: FractionalOffset.bottomCenter,      
-             // color: Colors.red,
-              child: ElevatedButton(onPressed: (){
-                
-                provider.logOut();
-              }, child: Row(
-                children: <Widget>[
-                  Icon(Icons.logout),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child:Text('Sign Out')
-                  )
-                  
-                ],
-              )),
-            )
-=======
->>>>>>> 607c5a047e4fe282e93a72299ca4ad41252c2cb0
+          Container(
+            color: Colors.white,
+            child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Container(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              HelpView()));
+                       
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.help),
+                          Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text('Help'))
+                        ],
+                      )),
+                )),
           ),
           Container(
             color: Colors.white,

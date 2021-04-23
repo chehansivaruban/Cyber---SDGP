@@ -45,7 +45,6 @@ class ObjectMarker {
         width = json['width'],
         lat = json['lat'],
         lng = json['lng'];
-<<<<<<< HEAD
 Map<String, dynamic> toJson() =>{
   'height': height,'width':width,'lat': lat.toString(),'lng':lng.toString()
 
@@ -53,8 +52,3 @@ Map<String, dynamic> toJson() =>{
       
 
 }
-=======
-  Map<String, dynamic> toJson() =>
-      {'height': height, 'width': width, 'lat': lat, 'lng': lng};
-}
->>>>>>> 607c5a047e4fe282e93a72299ca4ad41252c2cb0
