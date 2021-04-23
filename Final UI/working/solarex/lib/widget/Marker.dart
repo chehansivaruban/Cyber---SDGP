@@ -36,7 +36,7 @@ class ObjectMarker {
         });
 
     this.lat = onTapLatLang.latitude;
-    this.lng = onTapLatLang.latitude;
+    this.lng = onTapLatLang.longitude;
     return marker;
   }
 

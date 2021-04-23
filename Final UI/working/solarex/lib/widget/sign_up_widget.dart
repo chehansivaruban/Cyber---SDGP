@@ -221,7 +221,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
           //   Expanded(
          // child: 
-          SizedBox(height: 250,),
+          SizedBox(height: 200,),
           Align(
             alignment: FractionalOffset.bottomCenter,
             child: Text("A Project by Team Cyber", style: TextStyle(color: Colors.black,fontSize: 15.0 ),)
