@@ -55,8 +55,8 @@ api.add_resource(Api,"/wshade")
 
 class Api2(Resource):
     def post(self):
-        request_data = request.data
-        request_data = json.loads(request_data.decode('utf-8'))
+        request_data1 = request.data
+        request_data = json.loads(request_data1.decode('utf-8'))
         date = request_data['date']
         startTime = request_data['startTime']
         endTime = request_data['endTime']
@@ -143,7 +143,7 @@ class Api2(Resource):
             shadeArea = ShadeArea(date,startTime,oLatArray[a],oLonArray[a],numHour,midPointLonLat,objCor)
             shadingFromObject=shadeArea.getShadeArea(heightArray[a],oLenArray[a],hLow,hHigh,d,widthArray[a])
             totalShading.insert(a,shadingFromObject)
-        
+
         p2 = Prediction(date, startTime, endTime)
         irr = p2.getIrradiance()
         area = Area(sLatArray, sLonArray)
