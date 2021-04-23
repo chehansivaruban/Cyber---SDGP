@@ -277,8 +277,8 @@ class _WithShadingState extends State<WithShading> {
 Future<http.Response> calculateWithOutShading() {
    
     
- Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
-  var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
+ //Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
+  var withOutShadingMarkerJson = jsonEncode(opaneltMarkeListWithDetails);
   String data = withOutShadingMarkerJson.replaceAll("\"", "");
   print(data);
   print('this');
@@ -288,7 +288,7 @@ Future<http.Response> calculateWithOutShading() {
        'startTime': formattedStartTime,
        'endTime': formattedEndTime,
        'capacity': capacityTxtField.text,
-       'solarPanel' : data
+       'solarPanel' : jsonEncode(opaneltMarkeListWithDetails).replaceAll("\"", "")
     }),);
 
    //print(shadingMarker);
