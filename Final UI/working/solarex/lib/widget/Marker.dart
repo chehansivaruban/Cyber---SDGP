@@ -1,28 +1,28 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ObjectMarker {
-  late double height;
-  late double width;
-  late double lat;
-  late double lng;
+  late String height;
+  late String width;
+  late String lat;
+  late String lng;
 
   ObjectMarker() {}
 
-  double getHeight() {
-    return height;
-  }
+  // double getHeight() {
+  //   return height;
+  // }
 
-  void setheight(double height) {
-    this.height = height;
-  }
+  // void setheight(double height) {
+  //   this.height = height;
+  // }
 
-  double getWidth() {
-    return width;
-  }
+  // double getWidth() {
+  //   return width;
+  // }
 
-  void setWidth(double height) {
-    this.width = width;
-  }
+  // void setWidth(double height) {
+  //   this.width = width;
+  // }
 
   Marker marker(LatLng onTapLatLang) {
     Marker marker = new Marker(
@@ -35,8 +35,8 @@ class ObjectMarker {
           print(dragEndPoint);
         });
 
-    this.lat = onTapLatLang.latitude;
-    this.lng = onTapLatLang.longitude;
+    this.lat = onTapLatLang.latitude.toString();
+    this.lng = onTapLatLang.longitude.toString();
     return marker;
   }
 
@@ -45,8 +45,8 @@ class ObjectMarker {
         width = json['width'],
         lat = json['lat'],
         lng = json['lng'];
-Map<String, dynamic> toJson() =>{
-  'height': height,'width':width,'lat': lat.toString(),'lng':lng.toString()
+Map<String, String> toJson() =>{
+  'height': height.toString(),'width':width.toString(),'lat': lat,'lng':lng
 
 };
       

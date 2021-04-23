@@ -243,6 +243,7 @@ class _WithShadingState extends State<WithShading> {
 
   Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
   var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
+  print("with Shading");
   print(withOutShadingMarkerJson);
 
    //print(shadingMarker);
@@ -278,7 +279,17 @@ Future<http.Response> calculateWithOutShading() {
     
  Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
   var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
-  print(withOutShadingMarkerJson);
+  String data = withOutShadingMarkerJson.replaceAll("\"", "");
+  print(data);
+  print('this');
+  print(jsonEncode(<String, dynamic>{
+      
+       'date': formattedDate,
+       'startTime': formattedStartTime,
+       'endTime': formattedEndTime,
+       'capacity': capacityTxtField.text,
+       'solarPanel' : data
+    }),);
 
    //print(shadingMarker);
   return http.post(
@@ -286,13 +297,13 @@ Future<http.Response> calculateWithOutShading() {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
+    body: jsonEncode(<String, dynamic>{
       
        'date': formattedDate,
        'startTime': formattedStartTime,
        'endTime': formattedEndTime,
        'capacity': capacityTxtField.text,
-       'solarPanel' : withOutShadingMarkerJson
+       'solarPanel' : data
     }),
   );
 }
@@ -888,8 +899,8 @@ setSelectedRadioTile(int val) {
 
 
 
-                                                    objectMarkeListWithDetails.elementAt(index).height = height; 
-                                                    objectMarkeListWithDetails.elementAt(index).width = width;  
+                                                   // objectMarkeListWithDetails.elementAt(index).height = height; 
+                                                    //objectMarkeListWithDetails.elementAt(index).width = width;  
                                                      print('done');                                          
                                                   });
                                                 }, 
