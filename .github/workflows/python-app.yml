@@ -36,7 +36,7 @@ jobs:
 #         pytest
     - name: Deploy to Heroku
       env:
-        HEROKU_API_TOKEN: ${{ b63dff64-a7f3-44d9-b6f9-8bdbbc30a70b }}
+        HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
        # HEROKU_APP_NAME: ${{ cybersolarex }}
       if: github.ref == 'refs/heads/backend_host' && job.status == 'success'
       run: |
