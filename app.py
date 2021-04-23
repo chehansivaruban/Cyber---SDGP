@@ -55,8 +55,8 @@ api.add_resource(Api,"/wshade")
 
 class Api2(Resource):
     def post(self):
-        request_data1 = request.data
-        request_data = json.loads(request_data1.decode('utf-8'))
+        request_data = request.data
+        request_data = json.loads(request_data.decode('utf-8'))
         date = request_data['date']
         startTime = request_data['startTime']
         endTime = request_data['endTime']
