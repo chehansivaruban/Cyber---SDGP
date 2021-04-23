@@ -64,7 +64,6 @@ class GoogleSignInProvider extends ChangeNotifier {
     }
   }
 
-  
 
   Future login() async {
     isSigningIn = true;
@@ -89,9 +88,14 @@ class GoogleSignInProvider extends ChangeNotifier {
 
 
   void logOut() async{
+
+    bool isSignIn =await googleSignIn.isSignedIn();
     
     FirebaseAuth.instance.signOut();
-    await googleSignIn.disconnect();
+    if(isSignIn){
+      await googleSignIn.disconnect();
+    }
+    
   }
 
 }
