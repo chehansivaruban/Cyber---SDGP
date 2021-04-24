@@ -220,7 +220,7 @@ class Api2(Resource):
         productivity = pro.getUnitsShade(totalShading,len(totalShading))
 
 
-        return productivity
+        return round(productivity,2)
 
 
 api.add_resource(Api2,"/shade")
