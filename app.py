@@ -29,28 +29,59 @@ class Api(Resource):
         startTime = request_data['startTime']
         endTime = request_data['endTime']
         capacity = request_data['capacity']
+        oneCapacity = request_data['oneCapacity']
+        onepanelArea = request_data['onepanelArea']
+        cordinate = request_data['solarPanel']
+        print(cordinate)
         sLonArray = [] #Array with solar panel longitudes
-        m = 0
+        # m = 0
+        # for doc in request_data['solarPanel']: #insert longitudes to array
+        #     sLon = doc['lngS']
+        #     sLonArray.insert(m, sLon)
+        #     m = m + 1
 
-        for doc in request_data['solarPanel']: #insert longitudes to array
-            for doc1 in request_data['solarPanel']:  # insert longitudes to array
-                sLon = doc1['lngS']
-                sLonArray.insert(m, sLon)
-                m = m + 1
+        sLatArray = []
+        index1=0
+        identify = 1 #1=lat
+        for i in cordinate:
+            print(i)
+            identify = 1
+            for j in i:
+                print(j)
+                if identify==1:
+                    sLatArray.insert(index1,j)
+                else:
+                    sLonArray.insert(index1,j)
+                identify = 0
+            index1 = index1+1
+
+        print("sLatArray",sLatArray)
+        print("sLonArray:",sLonArray)
+        print("clientcap",capacity)
+        if capacity == "":
+            capacity = 0
+            clientCapacity = False
+        else:
+            onepanelArea = 0
+            oneCapacity = 0
+            clientCapacity = True
+        print("client:", clientCapacity)
 
 
-        sLatArray = [] #Array with solar panel latitudes
-        n = 0
-        for doc in request_data['solarPanel']:#insert lattitudes to array
-            print("Indices :",doc)
-            sLat = doc['latS']
-            sLatArray.insert(n, sLat)
-            n = n + 1
+
+
+
+        # n = 0
+        # for doc in request_data['solarPanel']:#insert lattitudes to array
+        #     sLat = doc['latS']
+        #     sLatArray.insert(n, sLat)
+        #     n = n + 1
         p1 = Prediction(date, startTime,endTime)# make an object of prediction
         irr = p1.getIrradiance() #get predicted irradiance
+        print('app',irr)
         area= Area(sLatArray,sLonArray) #make an area object
-        theArea = area.getArea() #calculate area of the solar module
-        pro = Wshade(irr, True, capacity, theArea, 0,0)
+        thatArea = area.getArea()
+        pro = Wshade(irr, clientCapacity, capacity, thatArea, onepanelArea,oneCapacity)
         productivity = pro.getUnits() # produce the productivity
 
         print("Productivity : ",productivity)
@@ -67,52 +98,81 @@ class Api2(Resource):
         capacity = request_data['capacity']
         hLow = request_data['hLow']
         hHigh = request_data['hHigh']
+        d = request_data['d']
+        oneCapacity = request_data['oCapacity']
+        onepanelArea = request_data['oArea']
+        cordinate = request_data['solarPanelMarker']
+        shadingMarkerHW = request_data['shadingMarkerHW']
+        objectHw = request_data['objectHw']
+
+        if capacity == "":
+            capacity = 0
+            oneCapacity = float(oneCapacity)
+            onepanelArea = float(onepanelArea)
+            clientCapacity = False
+        else:
+            onepanelArea = 0
+            oneCapacity = 0
+            capacity = float(capacity)
+            clientCapacity = True
+        print("client:", clientCapacity)
+
+        sLonArray = []  # Array with solar panel longitudes
+        sLatArray = []
+        index1 = 0
+        identify = 1  # 1=lat
+        for i in cordinate:
+            print(i)
+            identify = 1
+            for j in i:
+                print(j)
+                if identify == 1:
+                    sLatArray.insert(index1, j)
+                else:
+                    sLonArray.insert(index1, j)
+                identify = 0
+            index1 = index1 + 1
+
+        oLonArray = []  # Array with solar panel longitudes
+        oLatArray = []
+        oLenArray = []
+        index1 = 0
+        identify = 1  # 1=lat
+        z = 0
+        for i in shadingMarkerHW:
+            print(i)
+            identify = 1
+            for j in i:
+                print(j)
+                if identify == 1:
+                    oLatArray.insert(index1, j)
+                else:
+                    oLonArray.insert(index1, j)
+                identify = 0
+            index1 = index1 + 1
+            oLenArray.insert(z, 7)
+            z = z + 1
+        print('olen :',oLenArray)
 
 
         heightArray=[] #hieght of objects
-        oLenArray=[]
-        i=0
-        for doc in request_data['shadingMarkerHW']:
-            height = doc['height']
-            heightArray.insert(i,height)
-            oLenArray.insert(i,7)
-            i=i+1
-
         widthArray = []#width of objects
-        j = 0
-        for doc in request_data['shadingMarkerHW']:
-            width = doc['width']
-            widthArray.insert(j, width)
-            j = j + 1
-
-        oLatArray = []#object latitude
-        k = 0
-        for doc in request_data['shadingMarkerHW']:
-            oLat = doc['lat']
-            oLatArray.insert(k, oLat)
-            k = k + 1
-
-        oLonArray = [] #objects logitude
-        l = 0
-        for doc in request_data['shadingMarkerHW']:
-            oLon = doc['lng']
-            oLonArray.insert(l, oLon)
-            l = l + 1
-
-        sLonArray = [] #Array with solar panel longitudes
-        m = 0
-        for doc in request_data['solarPanel']:
-            sLon = doc['lngS']
-            sLonArray.insert(m, sLon)
-            m = m + 1
-
-        sLatArray = [] #Array with solar panel latitudes
-        n = 0
-        for doc in request_data['solarPanel']:
-            sLat = doc['latS']
-            sLatArray.insert(n, sLat)
-            n = n + 1
-
+        for i in objectHw:
+            print(i)
+            identify = 1
+            for j in i:
+                print(j)
+                if identify == 1:
+                    heightArray.insert(index1, j)
+                else:
+                    widthArray.insert(index1, j)
+                identify = 0
+            index1 = index1 + 1
+        print("ola :",oLatArray)
+        print("olo :",oLonArray)
+        print("ole :",oLenArray)
+        print("h :",heightArray)
+        print("w :",widthArray)
 
         date_time_obj = datetime.strptime(startTime, '%H:%M:%S')
         hour = date_time_obj.hour
@@ -137,6 +197,9 @@ class Api2(Resource):
         midx = (utm_conversion[0] + utm_conversion2[0] + utm_conversion3[0] + utm_conversion4[0]) / 4
         midy = (utm_conversion[1] + utm_conversion2[1] + utm_conversion3[1] + utm_conversion4[1]) / 4
         midPointLonLat = utm.to_latlon(midx, midy, 44, 'N')  # convert to longitude lattitude
+        hLow = float(hLow)
+        hHigh = float(hHigh)
+
 
 
         totalShading=[]
@@ -153,7 +216,7 @@ class Api2(Resource):
         area = Area(sLatArray, sLonArray)
         theArea = area.getArea()
         numObjs = len(oLatArray)
-        pro = Wshade(irr, capacity, capacity, theArea, 0, 0)
+        pro = Wshade(irr, capacity, capacity, theArea, oneCapacity, onepanelArea)
         productivity = pro.getUnitsShade(totalShading,len(totalShading))
 
 

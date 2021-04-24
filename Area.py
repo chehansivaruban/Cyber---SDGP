@@ -5,10 +5,12 @@ class Area:
     def __init__(self, latCordinates,lonCordinates):
         self.latCordinates=latCordinates
         self.lonCordinates=lonCordinates
+        print(latCordinates)
 
     def getArea(self):
         lat = self.latCordinates
         lon = self.lonCordinates
+        print('get area',lat)
         lat1 = radians(abs(float(lat[0])))
         lat2 = radians(abs(float(lat[1])))
         lat3 = radians(abs(float(lat[2])))

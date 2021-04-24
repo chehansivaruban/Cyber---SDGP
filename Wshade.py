@@ -7,20 +7,23 @@ class Wshade:
     def __init__(self, irradiance, clientCapacity, inputCapacity,inputTotalArea,inputOnePanelArea,inputOnePanelCapacity):
         self.irradiance=irradiance
         self.clientCapacity=clientCapacity
-        self.inputCapacity=inputCapacity
-        self.inputTotalArea=inputTotalArea
-        self.inputOnePanelArea=inputOnePanelArea
-        self.inputOnePanelCapacity=inputOnePanelCapacity
+        self.inputCapacity=float(inputCapacity)
+        self.inputTotalArea=float(inputTotalArea)
+        self.inputOnePanelArea=float(inputOnePanelArea)
+        self.inputOnePanelCapacity=float(inputOnePanelCapacity)
 
 
 
     def getUnits(self):
         if self.clientCapacity:
+            print("if")
             capacity = self.inputCapacity
         else:
-            capacity = (self.inputTotalArea / self.inputOnePanelArea) * self.inputOnePanelCapacity / 1000
+            print("else")
+            capacity = (self.inputTotalArea / self.inputOnePanelArea)*self.inputOnePanelCapacity / 1000
 
         efficiencyArray = []
+        print(capacity)
         j=0
         print("irradiance :",self.irradiance)
         for i in self.irradiance:
