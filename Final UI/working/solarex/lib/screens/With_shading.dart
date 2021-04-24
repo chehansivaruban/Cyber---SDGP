@@ -65,11 +65,17 @@ class _WithShadingState extends State<WithShading> {
 
 
   List<Marker> solarpanelLatLanList = [];
+  List<List> solarpanelLatLangDouble =[];
+
+  List<List> objectlatlangDouble =[];
   List<Marker> objectList = [];
-  List<Marker> allMarkers = [];
   List<List> pointHeightWidth = [];
+
+  List<Marker> allMarkers = [];
+ 
   List<PanelMarker> opaneltMarkeListWithDetails = [];
   List<ObjectMarker> objectMarkeListWithDetails = [];
+
   List<TextField> textFieldHW =[];
   bool solarPanelButton = true ;
   late bool withOrWithoutShadeHome;
@@ -93,11 +99,33 @@ class _WithShadingState extends State<WithShading> {
      
      if(solarpanelLatLanList.length < 4){
 
-      PanelMarker marker = new PanelMarker(); 
-      Marker newMarker = marker.marker(onTapLatLang);
+      //PanelMarker marker = new PanelMarker(); 
+      Marker newMarker = new Marker(
+          markerId: MarkerId(onTapLatLang.toString()),
+          position: onTapLatLang,
+          draggable: true,
+          //icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          //     onDragEnd: (dragEndPoint){
+          onDragEnd: (dragEndPoint){
+            print(dragEndPoint);
+          }
+
+
+          );
+      
+      
+      List latlangList = [];
+      latlangList.add(onTapLatLang.latitude);
+      latlangList.add(onTapLatLang.longitude);
+      
+      
+      //marker.marker(onTapLatLang);
        
        solarpanelLatLanList.add(newMarker);
-       opaneltMarkeListWithDetails.add(marker);
+
+
+       solarpanelLatLangDouble.add(latlangList);
+      // opaneltMarkeListWithDetails.add(marker);
 
      }
      
@@ -128,23 +156,30 @@ class _WithShadingState extends State<WithShading> {
   onTapMapFalse(LatLng onTapLatLang){
     print(onTapLatLang);
     setState(() {
-      ObjectMarker marker = new ObjectMarker(); 
-      Marker newMarker = marker.marker(onTapLatLang);
+      //ObjectMarker marker = new ObjectMarker(); 
+      //Marker newMarker = marker.marker(onTapLatLang);
       // with_shading_solarpanel_list = [];
       objectList.add(
-        newMarker
-          // Marker(
-          //     markerId: MarkerId(onTapLatLang.toString()),
-          //     position: onTapLatLang,
-          //     draggable: true,
-          //     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          //     onDragEnd: (dragEndPoint){
-          //       print(dragEndPoint);
-          //     }
-          // )
+        //newMarker
+          Marker(
+              markerId: MarkerId(onTapLatLang.toString()),
+              position: onTapLatLang,
+              draggable: true,
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+              onDragEnd: (dragEndPoint){
+                print(dragEndPoint);
+              }
+          )
       );
 
-      objectMarkeListWithDetails.add(marker);
+      //objectMarkeListWithDetails.add(marker);
+
+      List latLangList = [];
+      latLangList.add(onTapLatLang.latitude);
+      latLangList.add(onTapLatLang.longitude);
+
+
+      objectlatlangDouble.add(latLangList);
 
       allMarkers.clear();
 
@@ -237,22 +272,15 @@ class _WithShadingState extends State<WithShading> {
    
     
   
-   Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
-  var shadingMarkerJson = jsonEncode(shadingMarker);
-  print(shadingMarkerJson);
+  //  Map<String, dynamic> shadingMarker = {"shadingMarkerHW": objectMarkeListWithDetails};
+  // var shadingMarkerJson = jsonEncode(shadingMarker);
+  // print(shadingMarkerJson);
 
-  Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
-  var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
-  print("with Shading");
-  print(withOutShadingMarkerJson);
-
-   //print(shadingMarker);
-  return http.post(
-    Uri.https('solarex-final.herokuapp.com','/shade'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
+  // Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
+  // var withOutShadingMarkerJson = jsonEncode(withOutShadingMarker);
+  // print("with Shading");
+  // print(withOutShadingMarkerJson);
+  print(jsonEncode(<String, dynamic>{
       
        'date': formattedDate,
        'startTime': formattedStartTime,
@@ -260,8 +288,34 @@ class _WithShadingState extends State<WithShading> {
        'capacity': capacityTxtField.text,
        'oCapacity': oPanelCapacityTxtField.text,
        'oArea': oPAreaTxtField.text,
-       'shadingMarkerHW' : shadingMarkerJson,
-       'solarPanel' : withOutShadingMarkerJson,
+      //  'shadingMarkerHW' : shadingMarkerJson,
+       'solarPanelMarker' : solarpanelLatLangDouble,
+       'shadingMarkerHW': objectlatlangDouble,
+       'objectHw': pointHeightWidth,
+       'hLow' : hPointTxtField.text,
+       'hHigh' : lPointTxtField.text,
+       'd' : distanceTxtField.text,
+    }),
+    );
+
+   //print(shadingMarker);
+  return http.post(
+    Uri.https('solarex-final.herokuapp.com','/shade'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      
+       'date': formattedDate,
+       'startTime': formattedStartTime,
+       'endTime': formattedEndTime,
+       'capacity': capacityTxtField.text,
+       'oCapacity': oPanelCapacityTxtField.text,
+       'oArea': oPAreaTxtField.text,
+      //  'shadingMarkerHW' : shadingMarkerJson,
+       'solarPanelMarker' : solarpanelLatLangDouble,
+       'shadingMarkerHW': objectlatlangDouble,
+       'objectHw': pointHeightWidth,
        'hLow' : hPointTxtField.text,
        'hHigh' : lPointTxtField.text,
        'd' : distanceTxtField.text,
@@ -277,18 +331,24 @@ class _WithShadingState extends State<WithShading> {
 Future<http.Response> calculateWithOutShading() {
    
     
- //Map<String, dynamic> withOutShadingMarker = {"solarPanel": opaneltMarkeListWithDetails};
-  var withOutShadingMarkerJson = jsonEncode(opaneltMarkeListWithDetails);
-  String data = withOutShadingMarkerJson.replaceAll("\"", "");
-  print(data);
+// Map<dynamic,dynamic> withOutShadingMarker = {opaneltMarkeListWithDetails} as Map;
+ // var withOutShadingMarkerJson = jsonEncode(solarpanelLatLanList);
+ // String data = withOutShadingMarkerJson.replaceAll("\"", "");
+  //print(data);
+  
+ 
+  
   print('this');
   print(jsonEncode(<String, dynamic>{
       
-       'date': formattedDate,
+        'date': formattedDate,
        'startTime': formattedStartTime,
        'endTime': formattedEndTime,
        'capacity': capacityTxtField.text,
-       'solarPanel' : jsonEncode(opaneltMarkeListWithDetails).replaceAll("\"", "")
+       'oneCapacity' :  oPanelCapacityTxtField.text,
+       'onepanelArea' : oPAreaTxtField.text,
+       'solarPanel' :solarpanelLatLangDouble//jsonEncode(opaneltMarkeListWithDetails).replaceAll("\"", "")
+  //'l1': solarpanelLatLanList.elementAt(0).
     }),);
 
    //print(shadingMarker);
@@ -303,7 +363,10 @@ Future<http.Response> calculateWithOutShading() {
        'startTime': formattedStartTime,
        'endTime': formattedEndTime,
        'capacity': capacityTxtField.text,
-       'solarPanel' : data
+       'oneCapacity' :  oPanelCapacityTxtField.text,
+       'onepanelArea' : oPAreaTxtField.text,
+       'solarPanel' : solarpanelLatLangDouble//jsonEncode(opaneltMarkeListWithDetails).replaceAll("\"", "")
+       //'l1': solarpanelLatLanList
     }),
   );
 }
@@ -754,8 +817,11 @@ setSelectedRadioTile(int val) {
                                                 icon: Icon(Icons.delete),
                                                 onPressed: () {
                                                   setState(() {
-                                                    solarpanelLatLanList.removeAt(index);
-                                                    opaneltMarkeListWithDetails.removeAt(index);
+                                                    solarpanelLatLanList.removeAt(index);// removing marker
+//opaneltMarkeListWithDetails.removeAt(index);
+                                                   // print(solarpanelLatLangDouble);
+                                                    solarpanelLatLangDouble.removeAt(index);//removing panel lang
+                                                  
                                                    
                                                     print("Removed Marker " + index.toString());
                                                     allMarkers.clear();
@@ -935,7 +1001,9 @@ setSelectedRadioTile(int val) {
                                                    // pointHeightWidth.removeAt(index).removeAt(0);
                                                    // pointHeightWidth.removeAt(index).removeAt(1);
                                                     objectList.removeAt(index);
-                                                    objectMarkeListWithDetails.removeAt(index);
+                                                   // objectMarkeListWithDetails.removeAt(index);
+                                                    objectlatlangDouble.removeAt(index);//removing lat lang
+                                                    pointHeightWidth.removeAt(index);//removing the hight
                                                     
                                                    
                                                    
