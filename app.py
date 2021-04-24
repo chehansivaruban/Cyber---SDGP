@@ -98,7 +98,7 @@ class Api2(Resource):
         capacity = request_data['capacity']
         hLow = request_data['hLow']
         hHigh = request_data['hHigh']
-        d = request_data['d']
+        D = request_data['d']
         oneCapacity = request_data['oCapacity']
         onepanelArea = request_data['oArea']
         cordinate = request_data['solarPanelMarker']
@@ -201,14 +201,14 @@ class Api2(Resource):
         hHigh = float(hHigh)
 
 
-
+        D = float(D)
         totalShading=[]
         for a in range(len(oLatArray)-1):
 
             objCor = (oLatArray[a],oLonArray[a])
             d = bearing.getDistance(objCor,midPointLonLat)
             shadeArea = ShadeArea(date,startTime,oLatArray[a],oLonArray[a],numHour,midPointLonLat,objCor)
-            shadingFromObject=shadeArea.getShadeArea(heightArray[a],oLenArray[a],hLow,hHigh,d,widthArray[a])
+            shadingFromObject=shadeArea.getShadeArea(heightArray[a],D,hLow,hHigh,d,widthArray[a])
             totalShading.insert(a,shadingFromObject)
 
         p2 = Prediction(date, startTime, endTime)

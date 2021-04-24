@@ -69,7 +69,12 @@ class ShadeArea:
         theta = math.radians(round(get_altitude(self.objCor[0], self.objCor[1], date), 4))
 
         alpha = math.atan((H - hLow) / D)
-        d1 = H / math.tan(alpha)
+        print(H,alpha)
+        if alpha==0:
+            d1 = 0
+        else:
+            d1 = H / math.tan(alpha)
+
         # print("alpha",alpha, d1)
 
         beta = math.atan((H - hHigh) / (D + d))

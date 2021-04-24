@@ -61,10 +61,14 @@ class Wshade:
         shadeAreaArray = sArea
         j=0
         for i in self.irradiance:
-            # Equation of solar panel efficiency vs irradiance graph is y = 11.092*ln(x) + 23.38
-            eff = round((11.092 * math.log(i)) + 23.38, 2)
-            efficiencyArray.insert(j,eff)
-            j=j+1
+            if i == 0:
+                efficiencyArray.insert(j, 0)
+            else:
+                eff = round((11.092 * math.log(i)) + 23.38, 2)
+                print("done")
+                efficiencyArray.insert(j, eff)
+
+            j = j + 1
             # print('Efficiency of solar panel ', f"{eff}%")
 
             # Energy = Capacity x hours x efficiency (kWh)
