@@ -34,12 +34,6 @@ class Api(Resource):
         cordinate = request_data['solarPanel']
         print(cordinate)
         sLonArray = [] #Array with solar panel longitudes
-        # m = 0
-        # for doc in request_data['solarPanel']: #insert longitudes to array
-        #     sLon = doc['lngS']
-        #     sLonArray.insert(m, sLon)
-        #     m = m + 1
-
         sLatArray = []
         index1=0
         identify = 1 #1=lat
@@ -67,15 +61,6 @@ class Api(Resource):
             clientCapacity = True
         print("client:", clientCapacity)
 
-
-
-
-
-        # n = 0
-        # for doc in request_data['solarPanel']:#insert lattitudes to array
-        #     sLat = doc['latS']
-        #     sLatArray.insert(n, sLat)
-        #     n = n + 1
         p1 = Prediction(date, startTime,endTime)# make an object of prediction
         irr = p1.getIrradiance() #get predicted irradiance
         print('app',irr)
