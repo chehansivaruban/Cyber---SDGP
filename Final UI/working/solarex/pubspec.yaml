@@ -56,6 +56,7 @@ dependencies:
   flutter_datetime_picker:
   date_format:
   auto_size_text: ^3.0.0-nullsafety.0
+  get: ^4.1.4
 
 
 
